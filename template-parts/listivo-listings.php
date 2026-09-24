@@ -16,6 +16,8 @@ $firma_query = new WP_Query(array(
     'post_type'      => 'firma',
     'posts_per_page' => 12,
     'post_status'    => 'publish',
+    'orderby'        => 'date',
+    'order'          => 'ASC',
 ));
 
 $listings = array();

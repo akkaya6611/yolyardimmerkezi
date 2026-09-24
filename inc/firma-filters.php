@@ -50,6 +50,9 @@ function mis360_category_options($selected = '') {
 function mis360_filter_firma_archive_query($query) {
     if (is_admin() || !$query->is_main_query() || !($query->is_post_type_archive('firma') || $query->is_tax(array('firma_kategori','firma_sehir')))) return;
     $query->set('posts_per_page',12);
+    // İlk eklenen firmaların en başta görünmesi için (ASC sıralama)
+    $query->set('orderby', 'date');
+    $query->set('order', 'ASC');
     $keyword = mis360_filter_value('keyword');
     $category = mis360_filter_value('category');
     $location = mis360_filter_value('location');
@@ -162,7 +165,7 @@ add_filter('the_posts', function($posts, $query) {
             if ($vip_a !== $vip_b) {
                 return $vip_b - $vip_a;
             }
-            return strtotime($b->post_date) - strtotime($a->post_date);
+            return strtotime($a->post_date) - strtotime($b->post_date);
         });
     }
     return $posts;

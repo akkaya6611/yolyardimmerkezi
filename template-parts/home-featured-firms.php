@@ -14,6 +14,8 @@ $args = array(
     'post_type'      => 'firma',
     'posts_per_page' => 6,
     'post_status'    => 'publish',
+    'orderby'        => 'date',
+    'order'          => 'ASC',
 );
 $firms_query = new WP_Query($args);
 

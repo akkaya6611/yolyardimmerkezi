@@ -297,6 +297,8 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 body,
@@ -306,6 +308,7 @@ body.yym-live-body {
     color: var(--yym-text-body);
     background-color: #ffffff;
     line-height: 1.6;
+    max-width: 100%;
     overflow-x: hidden;
 }
 
@@ -335,6 +338,7 @@ button, input, select, textarea {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .text-center {
@@ -4397,13 +4401,32 @@ button, input, select, textarea {
 .yym-single-blog-wrap {
     padding: 40px 0 80px;
     background-color: #F8FAFC;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    box-sizing: border-box;
 }
 
 .yym-blog-layout-grid {
     display: grid;
-    grid-template-columns: 2.2fr 1fr;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
     gap: 36px;
     align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.yym-blog-main-col {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.yym-blog-sidebar-col {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .yym-single-blog-article {
@@ -4412,16 +4435,22 @@ button, input, select, textarea {
     border-radius: 20px;
     padding: 36px;
     box-shadow: 0 4px 20px rgba(11, 31, 58, 0.04);
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
 .yym-blog-featured-img-box {
     border-radius: 14px;
     overflow: hidden;
     margin-bottom: 28px;
+    max-width: 100%;
 }
 
 .yym-blog-feat-img {
     width: 100% !important;
+    max-width: 100% !important;
     height: 380px !important;
     object-fit: cover !important;
     display: block !important;
@@ -4431,6 +4460,43 @@ button, input, select, textarea {
     color: #334155;
     font-size: 16px;
     line-height: 1.8;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    box-sizing: border-box !important;
+}
+
+.yym-blog-entry-content img,
+.yym-blog-entry-content video,
+.yym-blog-entry-content iframe,
+.yym-blog-entry-content object,
+.yym-blog-entry-content embed {
+    max-width: 100% !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+}
+
+.yym-blog-entry-content figure {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.yym-blog-entry-content table {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.yym-blog-entry-content pre,
+.yym-blog-entry-content code {
+    max-width: 100% !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
 }
 
 .yym-blog-entry-content p {
@@ -4443,6 +4509,7 @@ button, input, select, textarea {
     font-weight: 800;
     margin: 32px 0 16px;
     line-height: 1.35;
+    overflow-wrap: break-word;
 }
 
 /* Makale Sonu Acil Çekici Çağrı Kartı */

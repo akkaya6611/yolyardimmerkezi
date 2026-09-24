@@ -12,6 +12,10 @@
     box-sizing: border-box;
     position: relative;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
 
 .yym-fslider-header {
@@ -115,15 +119,19 @@
 
 .yym-fslider-track-container {
     position: relative;
-    overflow: hidden;
+    overflow: hidden !important;
     margin: 0 -4px;
     padding: 4px;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
 }
 
 .yym-fslider-track {
     display: flex;
     gap: 18px;
-    overflow-x: auto;
+    overflow-x: auto !important;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -131,6 +139,10 @@
     margin-bottom: -4px;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
 }
 
 .yym-fslider-track::-webkit-scrollbar {

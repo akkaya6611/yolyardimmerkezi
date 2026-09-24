@@ -5,6 +5,9 @@
  * Makaleler, blog yazıları ve sayfalarda il / ilçe bazlı nöbetçi çekici ve yol yardım
  * firmalarını kaydırılabilir şık bir carousel/slider formatında listeler.
  * 
+ * SADECE Yol Yardım ve Oto Kurtarma (Çekici) firmalarını çeker; lastikçi, çilingir,
+ * şarj istasyonu veya alakasız kategorileri filtre dışı bırakır.
+ * 
  * Kullanım Örnekleri:
  * [yym_firma_slider sehir="banaz" limit="12" show_phone="1" show_whatsapp="1"]
  * [firma_slider il="Ankara" ilce="Güdül"]
@@ -53,26 +56,26 @@ function mis360_resolve_slider_location($input_city, $input_district) {
         return array('il' => '', 'ilce' => '', 'is_ilce' => false, 'parent_city' => '');
     }
 
-    // Türkçe karakter normalizasyonu (harf eşleşmesi için)
-    $norm_fn = function ($s) {
-        $s = trim((string)$s);
-        $tr = array(
-            'I' => 'i', 'İ' => 'i', 'ı' => 'i', 'i' => 'i',
-            'Ç' => 'c', 'ç' => 'c', 'Ş' => 's', 'ş' => 's',
-            'Ğ' => 'g', 'ğ' => 'g', 'Ü' => 'u', 'ü' => 'u',
-            'Ö' => 'o', 'ö' => 'o'
-        );
-        return strtolower(strtr($s, $tr));
+    // Türkçe karakter normalizasyonu (büyük/küçük harf bağımsız arama için)
+    $norm_fn = function($str) {
+        $str = mb_strtolower(trim((string)$str), 'UTF-8');
+        $tr_chars = array('ı' => 'i', 'ğ' => 'g', 'ü' => 'u', 'ş' => 's', 'ö' => 'o', 'ç' => 'c');
+        return strtr($str, $tr_chars);
     };
 
     $norm_target = $norm_fn($target);
 
-    // 81 il ve 922 ilçe verisini yükle
-    $json_file = get_template_directory() . '/assets/data/turkiye-locations.json';
-    $locations = file_exists($json_file) ? json_decode(file_get_contents($json_file), true) : array();
+    // JSON dosyasından il/ilçe verisini çek
+    $json_path = get_template_directory() . '/assets/data/turkiye-locations.json';
+    if (file_exists($json_path)) {
+        $raw = file_get_contents($json_path);
+        $locations = json_decode($raw, true);
+    } else {
+        $locations = array();
+    }
 
-    if (is_array($locations) && !empty($locations)) {
-        // 1. İl mi diye kontrol et (Örn: Ankara, Uşak, İstanbul)
+    if (is_array($locations)) {
+        // 1. İl mi diye kontrol et
         foreach ($locations as $prov => $districts) {
             if ($norm_fn($prov) === $norm_target) {
                 return array(
@@ -107,6 +110,90 @@ function mis360_resolve_slider_location($input_city, $input_district) {
         'ilce'        => $target,
         'is_ilce'     => false,
         'parent_city' => '',
+    );
+}
+
+/**
+ * Yol Yardım ve Oto Kurtarma (Çekici) kategorilerine ait taksonomi slug listesini döner.
+ * Veritabanındaki 'firma_kategori' taksonomisini de dinamik olarak kontrol eder.
+ */
+function mis360_get_rescue_category_slugs() {
+    $base_slugs = array(
+        'yol-yardim',
+        'oto-kurtarma',
+        'cekici',
+        'oto-cekici',
+        'kurtarma',
+        'oto-kurtarici',
+        'kurtarici',
+        'oto-cekiciler',
+        'cekiciler',
+        'yol-yardimi',
+        'oto-cekici-kurtarici',
+        'oto-cekici-yol-yardim',
+    );
+
+    if (function_exists('mis360_category_slugs')) {
+        $base_slugs = array_merge($base_slugs, (array)mis360_category_slugs('yol-yardim'));
+        $base_slugs = array_merge($base_slugs, (array)mis360_category_slugs('cekici'));
+        $base_slugs = array_merge($base_slugs, (array)mis360_category_slugs('kurtarma'));
+    }
+
+    // Dinamik olarak taksonomideki terimleri kontrol et
+    $terms = get_terms(array(
+        'taxonomy'   => 'firma_kategori',
+        'hide_empty' => false,
+    ));
+
+    if (!is_wp_error($terms) && !empty($terms)) {
+        foreach ($terms as $term) {
+            $t_slug = strtolower($term->slug);
+            $t_name = mb_strtolower($term->name, 'UTF-8');
+            if (
+                strpos($t_slug, 'kurtar') !== false ||
+                strpos($t_slug, 'cekici') !== false ||
+                strpos($t_slug, 'yardim') !== false ||
+                strpos($t_name, 'kurtar') !== false ||
+                strpos($t_name, 'çekici') !== false ||
+                strpos($t_name, 'cekici') !== false ||
+                strpos($t_name, 'yardım') !== false ||
+                strpos($t_name, 'yardim') !== false
+            ) {
+                if (!in_array($term->slug, $base_slugs, true)) {
+                    $base_slugs[] = $term->slug;
+                }
+            }
+        }
+    }
+
+    return array_values(array_unique(array_filter($base_slugs)));
+}
+
+/**
+ * Verilen kategori parametresine göre veya varsayılan olarak Yol Yardım & Oto Kurtarma için tax_query üretir.
+ */
+function mis360_build_slider_tax_query($requested_cat = '') {
+    if (!empty($requested_cat)) {
+        $cat_slugs = function_exists('mis360_category_slugs') ? mis360_category_slugs($requested_cat) : array($requested_cat);
+        return array(
+            array(
+                'taxonomy' => 'firma_kategori',
+                'field'    => 'slug',
+                'terms'    => $cat_slugs,
+                'operator' => 'IN',
+            ),
+        );
+    }
+
+    // Kısa kodlarda SADECE Yol Yardım ve Oto Kurtarma firmalarını çek
+    $rescue_slugs = mis360_get_rescue_category_slugs();
+    return array(
+        array(
+            'taxonomy' => 'firma_kategori',
+            'field'    => 'slug',
+            'terms'    => $rescue_slugs,
+            'operator' => 'IN',
+        ),
     );
 }
 
@@ -168,7 +255,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         $show_whatsapp = false;
     }
 
-    // Kategori
+    // Kategori parametresi
     $category = '';
     foreach (array('kategori', 'category', 'hizmet') as $k) {
         if (!empty($cleaned_atts[$k])) {
@@ -195,7 +282,10 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         }
     }
 
-    // 1. AŞAMA: İlçe ve İl Sorgusu
+    // SADECE Yol Yardım ve Oto Kurtarma firmalarını getirecek tax_query
+    $tax_query = mis360_build_slider_tax_query($category);
+
+    // 1. AŞAMA: İlçe ve İl Sorgusu (Yol Yardım & Oto Kurtarma Filtreli)
     $meta_query = array('relation' => 'AND');
     if (!empty($ilce) && $is_ilce) {
         $meta_query[] = array(
@@ -217,26 +307,18 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         'posts_per_page' => $limit,
         'orderby'        => 'date',
         'order'          => 'DESC',
+        'tax_query'      => $tax_query,
     );
 
     if (count($meta_query) > 1) {
         $query_args['meta_query'] = $meta_query;
     }
 
-    if (!empty($category)) {
-        $query_args['tax_query'] = array(
-            array(
-                'taxonomy' => 'firma_kategori',
-                'field'    => 'slug',
-                'terms'    => $category,
-            ),
-        );
-    }
-
     $firma_query = new WP_Query($query_args);
     $is_fallback = false;
 
     // 2. AŞAMA: İlçede (örn: Banaz) doğrudan firma bulunamazsa bağlı olduğu İl (Uşak) firmalarını getir
+    // (Yine SADECE Yol Yardım & Oto Kurtarma firmaları!)
     if (!$firma_query->have_posts() && !empty($ilce) && !empty($il)) {
         $fallback_args = array(
             'post_type'      => 'firma',
@@ -244,6 +326,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
             'posts_per_page' => $limit,
             'orderby'        => 'date',
             'order'          => 'DESC',
+            'tax_query'      => $tax_query,
             'meta_query'     => array(
                 array(
                     'key'     => '_firma_city',
@@ -256,7 +339,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         $is_fallback = true;
     }
 
-    // 3. AŞAMA: İlde de firma bulunamazsa son eklenen onaylı nöbetçi firmaları getir (Asla boş kutu çıkmaz)
+    // 3. AŞAMA: İlde de firma bulunamazsa son eklenen onaylı nöbetçi Yol Yardım & Oto Kurtarma firmalarını getir
     if (!$firma_query->have_posts()) {
         $fallback_all = array(
             'post_type'      => 'firma',
@@ -264,9 +347,60 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
             'posts_per_page' => $limit,
             'orderby'        => 'date',
             'order'          => 'DESC',
+            'tax_query'      => $tax_query,
         );
         $firma_query = new WP_Query($fallback_all);
         $is_fallback = true;
+    }
+
+    // 4. AŞAMA: Eski meta tabanlı kayıtlar için yedek kontrol (Eğer taksonomide hiç kayıt yoksa)
+    if (!$firma_query->have_posts()) {
+        $rescue_meta_names = array('yol-yardim', 'oto-kurtarma', 'cekici', 'kurtarma', 'Yol Yardım', 'Oto Kurtarma', 'Oto Çekici', 'Çekici');
+        $meta_base = array(
+            'relation' => 'AND',
+            array(
+                'key'     => '_firma_category',
+                'value'   => $rescue_meta_names,
+                'compare' => 'IN',
+            ),
+        );
+
+        if (!empty($ilce) && $is_ilce) {
+            $m_args = $meta_base;
+            $m_args[] = array('key' => '_firma_district', 'value' => $ilce, 'compare' => 'LIKE');
+            $firma_query = new WP_Query(array(
+                'post_type'      => 'firma',
+                'post_status'    => 'publish',
+                'posts_per_page' => $limit,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'meta_query'     => $m_args,
+            ));
+        }
+
+        if (!$firma_query->have_posts() && !empty($il)) {
+            $m_args = $meta_base;
+            $m_args[] = array('key' => '_firma_city', 'value' => $il, 'compare' => 'LIKE');
+            $firma_query = new WP_Query(array(
+                'post_type'      => 'firma',
+                'post_status'    => 'publish',
+                'posts_per_page' => $limit,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'meta_query'     => $m_args,
+            ));
+        }
+
+        if (!$firma_query->have_posts()) {
+            $firma_query = new WP_Query(array(
+                'post_type'      => 'firma',
+                'post_status'    => 'publish',
+                'posts_per_page' => $limit,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'meta_query'     => $meta_base,
+            ));
+        }
     }
 
     // Başlık ve Alt Başlık belirleme
@@ -290,12 +424,12 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         $slider_subtitle = 'Doğrulanmış ve en yakın konumdaki profesyonel oto kurtarma ekipleri';
     }
 
-    // "Tümünü Gör" Linki
-    $view_all_url = home_url('/firmalar/');
+    // "Tümünü Gör" Linki - Doğrudan Yol Yardım & Oto Kurtarma arşivine yönlendirir
+    $view_all_url = add_query_arg(array('category' => 'yol-yardim'), home_url('/firmalar/'));
     if (!empty($il) && !empty($ilce) && $is_ilce) {
-        $view_all_url = add_query_arg(array('city' => $il, 'district' => $ilce), home_url('/firmalar/'));
+        $view_all_url = add_query_arg(array('city' => $il, 'district' => $ilce, 'category' => 'yol-yardim'), home_url('/firmalar/'));
     } elseif (!empty($il)) {
-        $view_all_url = add_query_arg(array('city' => $il), home_url('/firmalar/'));
+        $view_all_url = add_query_arg(array('city' => $il, 'category' => 'yol-yardim'), home_url('/firmalar/'));
     }
 
     // Gerekli CSS & JS dosyalarını yükle
@@ -358,9 +492,9 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
                 <a href="<?php echo esc_url($view_all_url); ?>" class="yym-fslider-view-all">
                     <?php
                     if (!empty($ilce) && $is_ilce) {
-                        echo esc_html(sprintf('%s Çevresindeki Tüm Firmaları Gör →', $ilce));
+                        echo esc_html(sprintf('%s Çevresindeki Tüm Çekicileri Gör →', $ilce));
                     } elseif (!empty($il)) {
-                        echo esc_html(sprintf('%s Genelindeki Tüm Firmaları Gör →', $il));
+                        echo esc_html(sprintf('%s Genelindeki Tüm Çekicileri Gör →', $il));
                     } else {
                         echo 'Tüm Yol Yardım Firmalarını Gör →';
                     }
@@ -369,8 +503,8 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
             </div>
         <?php else : ?>
             <div class="yym-fslider-empty">
-                <p>Bu bölge için henüz kayıtlı firma bulunamadı.</p>
-                <a href="<?php echo esc_url(home_url('/firmalar/')); ?>" class="yym-fslider-view-all">Tüm Firmaları İncele →</a>
+                <p>Bu bölge için henüz nöbetçi yol yardım veya oto kurtarma firması bulunamadı.</p>
+                <a href="<?php echo esc_url(add_query_arg(array('category' => 'yol-yardim'), home_url('/firmalar/'))); ?>" class="yym-fslider-view-all">Tüm Yol Yardım Firmalarını İncele →</a>
             </div>
         <?php endif; ?>
     </section>

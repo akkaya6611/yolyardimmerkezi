@@ -30,8 +30,11 @@ $address = yym_get_address();
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.png'); ?>">
-    <link rel="apple-touch-icon" href="<?php echo esc_url(get_template_directory_uri() . '/assets/images/favicon.png'); ?>">
-    
+    <!-- Sayfa Başlığı (Browser Tab Title) -->
+    <?php if (!current_theme_supports('title-tag')) : ?>
+        <title><?php echo esc_html(function_exists('wp_get_document_title') ? wp_get_document_title() : get_bloginfo('name')); ?></title>
+    <?php endif; ?>
+
     <?php wp_head(); ?>
 </head>
 <body <?php body_class('yym-theme-body'); ?>>

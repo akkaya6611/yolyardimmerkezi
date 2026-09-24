@@ -113,6 +113,61 @@ function yym_theme_setup() {
     ));
 
 }
+add_action('after_setup_theme', 'yym_theme_setup');
+
+/**
+ * SEO Uyumlu ve Zengin Sayfa Başlıkları (Tarayıcı Sekmesi Başlığı)
+ */
+function yym_custom_document_title($title) {
+    if (is_front_page()) {
+        $site_name = get_bloginfo('name') ?: 'Yol Yardım Merkezi';
+        $site_desc = get_bloginfo('description') ?: '7/24 Oto Kurtarma & Çekici Rehberi';
+        return $site_name . ' – ' . $site_desc;
+    }
+    if (is_singular('firma')) {
+        $firm_name = get_the_title();
+        $city = get_post_meta(get_the_ID(), '_firma_sehir', true) ?: get_post_meta(get_the_ID(), 'firma_sehir', true);
+        $district = get_post_meta(get_the_ID(), '_firma_ilce', true) ?: get_post_meta(get_the_ID(), 'firma_ilce', true);
+        $loc_text = '';
+        if ($city && $district) {
+            $loc_text = " ({$city} / {$district})";
+        } elseif ($city) {
+            $loc_text = " ({$city})";
+        }
+        return $firm_name . $loc_text . ' – 7/24 Çekici & Yol Yardım';
+    }
+    if (is_singular('bolge')) {
+        return get_the_title() . ' – 7/24 Nöbetçi Çekici & Yol Yardım | Yol Yardım Merkezi';
+    }
+    if (is_singular('post')) {
+        return get_the_title() . ' | Yol Yardım Merkezi';
+    }
+    if (is_singular('page')) {
+        return get_the_title() . ' | Yol Yardım Merkezi';
+    }
+    if (is_post_type_archive('firma') || is_page('firmalar')) {
+        return '81 İl 7/24 Nöbetçi Çekici & Oto Kurtarma Firmaları | Yol Yardım Merkezi';
+    }
+    if (is_page('sehirler')) {
+        return '81 İl Oto Çekici ve Kurtarıcı Rehberi | Yol Yardım Merkezi';
+    }
+    if (is_tax('firma_sehir')) {
+        $term = get_queried_object();
+        $name = $term ? $term->name : '';
+        return ucfirst($name) . ' Çekici & Oto Kurtarma – 7/24 En Yakın Ekipler | Yol Yardım Merkezi';
+    }
+    if (is_tax('firma_kategori')) {
+        $term = get_queried_object();
+        $name = $term ? $term->name : '';
+        return ucfirst($name) . ' Hizmeti Veren 7/24 Firmalar | Yol Yardım Merkezi';
+    }
+    if (is_404()) {
+        return 'Sayfa Bulunamadı (404) | Yol Yardım Merkezi';
+    }
+
+    return $title;
+}
+add_filter('pre_get_document_title', 'yym_custom_document_title', 20);
 
 add_action('send_headers', function () {
     if (is_admin()) {

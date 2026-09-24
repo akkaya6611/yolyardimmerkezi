@@ -33,6 +33,7 @@ require_once get_template_directory() . '/inc/schema.php';
 require_once get_template_directory() . '/inc/icon-helpers.php';
 
 require_once get_template_directory() . '/inc/admin-tools.php';
+require_once get_template_directory() . '/inc/theme-updater.php';
 
 
 

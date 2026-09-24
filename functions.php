@@ -110,7 +110,10 @@ function yym_theme_setup() {
 }
 
 add_action('send_headers', function () {
-    header("Content-Security-Policy: default-src 'self'; script-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:;");
+    if (is_admin()) {
+        return;
+    }
+    header("Content-Security-Policy: default-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: blob:; font-src 'self' data: https:;");
 });
 
 // SEO & Geo meta tags
@@ -123,7 +126,16 @@ function yym_output_seo_and_geo_meta() {
     }
     $title = wp_get_document_title();
     $url   = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    $image = get_theme_mod('yym_og_image', get_template_directory_uri() . '/assets/images/og-default.jpg');
+    
+    // Featured image on single post, or Customizer setting, or og-default.jpg
+    $image = get_theme_mod('yym_og_image');
+    if (empty($image)) {
+        if (is_singular() && has_post_thumbnail()) {
+            $image = get_the_post_thumbnail_url(null, 'large');
+        } else {
+            $image = get_template_directory_uri() . '/assets/images/og-default.jpg';
+        }
+    }
 
     // Geo defaults (Istanbul)
     $lat = get_theme_mod('yym_geo_lat', '41.0082');

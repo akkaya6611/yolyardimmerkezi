@@ -21,7 +21,7 @@ $address = yym_get_address();
     
     <!-- Google Fonts -->
     <!-- Preload main stylesheet for faster rendering -->
-<link rel="preload" href="<?php echo esc_url(get_template_directory_uri() . '/assets/css/main.css'); ?>" as="style" integrity="" crossorigin="anonymous" />
+    <link rel="preload" href="<?php echo esc_url(get_template_directory_uri() . '/assets/css/main.css'); ?>" as="style">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     

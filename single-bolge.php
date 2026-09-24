@@ -15,57 +15,113 @@ $region_id      = get_the_ID();
 $region_name    = get_the_title();
 $phone_display  = yym_get_phone();
 $phone_raw      = yym_get_phone_raw();
-$whatsapp_url   = yym_get_whatsapp_url(sprintf(__('Merhaba, %s güzergahında yolda kaldım, acil çekici ve yol yardımına ihtiyacım var.', 'yol-yardim-merkezi'), $region_name));
 $eta            = yym_get_eta();
 $is_transit     = get_post_meta($region_id, '_is_transit_highway', true);
 $bolge_city     = get_post_meta($region_id, '_bolge_city', true);
 $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
+
+// Başlıktan kısa ve akıcı isim çıkarma (Örn: "TAG Otoyolu (Tarsus - Adana - Gaziantep) Acil Çekici Hizmeti" -> "TAG Otoyolu")
+$clean_name = trim(preg_replace('/\s*(\(.*?\)|Acil\s*Çekici.*|Oto\s*Kurtarma.*|Hizmeti.*)/iu', '', $region_name));
+if (empty($clean_name) || mb_strlen($clean_name) < 3) {
+    $clean_name = $region_name;
+}
+
+// Telefon boşsa, bu bölgeye/şehre kayıtlı nöbetçi kurtarıcı firmasının telefonunu dinamik al
+if (empty($phone_display)) {
+    $fallback_query_args = array(
+        'post_type'      => 'firma',
+        'post_status'    => 'publish',
+        'posts_per_page' => 1,
+        'meta_key'       => '_firma_phone',
+        'meta_value'     => '',
+        'meta_compare'   => '!=',
+    );
+    if (!empty($bolge_city)) {
+        $fallback_query_args['tax_query'] = array(
+            array(
+                'taxonomy' => 'firma_sehir',
+                'field'    => 'name',
+                'terms'    => $bolge_city,
+            )
+        );
+    }
+    $fallback_query = new WP_Query($fallback_query_args);
+    if ($fallback_query->have_posts()) {
+        $first_firm = $fallback_query->posts[0];
+        $fallback_num = get_post_meta($first_firm->ID, '_firma_phone', true);
+        if (!empty($fallback_num)) {
+            $phone_display = $fallback_num;
+            $phone_clean   = preg_replace('/[^0-9]/', '', $fallback_num);
+            if (substr($phone_clean, 0, 1) === '0') {
+                $phone_clean = '90' . substr($phone_clean, 1);
+            }
+            $phone_raw = '+' . $phone_clean;
+        }
+    }
+    wp_reset_postdata();
+}
+
+$whatsapp_url = yym_get_whatsapp_url(sprintf(__('Merhaba, %s güzergahında yolda kaldım, acil çekici ve yol yardımına ihtiyacım var.', 'yol-yardim-merkezi'), $clean_name));
 ?>
 
-<div class="yym-page-header">
+<div class="yym-page-header google-auto-ads-ignore" style="padding: 48px 0 36px; background: linear-gradient(180deg, #071527 0%, #0d233e 100%);">
     <div class="yym-container">
-        <span class="yym-breadcrumb">
-            <a href="<?php echo esc_url(home_url('/')); ?>"><?php _e('Ana Sayfa', 'yol-yardim-merkezi'); ?></a> / 
-            <a href="<?php echo esc_url(home_url('/#bolgeler')); ?>"><?php _e('Bölgeler', 'yol-yardim-merkezi'); ?></a> / 
-            <span><?php echo esc_html($region_name); ?></span>
+        <span class="yym-breadcrumb" style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+            <a href="<?php echo esc_url(home_url('/')); ?>" style="color: #cbd5e1; text-decoration: none;"><?php _e('Ana Sayfa', 'yol-yardim-merkezi'); ?></a> / 
+            <a href="<?php echo esc_url(home_url('/#bolgeler')); ?>" style="color: #cbd5e1; text-decoration: none;"><?php _e('Bölgeler', 'yol-yardim-merkezi'); ?></a> / 
+            <span style="color: #f8fafc; font-weight: 500;"><?php echo esc_html($clean_name); ?></span>
         </span>
-        <h1 class="yym-page-title">
+        <h1 class="yym-page-title" style="color: #ffffff; font-size: 2.1rem; font-weight: 800; line-height: 1.25; margin: 0 0 10px 0;">
             <?php if ($is_transit) : ?>
-                <span style="color: #f59e0b; display: block; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">🛣️ <?php _e('7/24 Kesintisiz Otoyol Nöbetçi Hattı', 'yol-yardim-merkezi'); ?></span>
+                <span style="color: #f59e0b; display: block; font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">🛣️ <?php _e('7/24 Kesintisiz Otoyol Nöbetçi Hattı', 'yol-yardim-merkezi'); ?></span>
             <?php endif; ?>
             <?php echo esc_html($region_name); ?>
         </h1>
-        <p class="yym-page-subtitle">
+        <p class="yym-page-subtitle" style="color: #94a3b8; font-size: 1.05rem; max-width: 720px; margin: 0 auto; line-height: 1.5;">
             <?php if ($is_transit && !empty($bolge_highways)) : ?>
-                <?php printf(__('%s bağlantı noktalarında hazır bekleyen devriye kurtarma ekiplerimizle ortalama %s içinde yanınızdayız!', 'yol-yardim-merkezi'), esc_html($bolge_highways), esc_html($eta)); ?>
+                <?php printf(__('%s güzergahında hazır bekleyen devriye kurtarma ekiplerimizle ortalama %s içinde yanınızdayız!', 'yol-yardim-merkezi'), esc_html($bolge_highways), esc_html($eta)); ?>
             <?php else : ?>
-                <?php printf(__('%s bölgesinde nöbetçi çekici araçlarımızla ortalama %s içinde yanınızdayız!', 'yol-yardim-merkezi'), esc_html($region_name), esc_html($eta)); ?>
+                <?php printf(__('%s bölgesinde nöbetçi çekici araçlarımızla ortalama %s içinde yanınızdayız!', 'yol-yardim-merkezi'), esc_html($clean_name), esc_html($eta)); ?>
             <?php endif; ?>
         </p>
     </div>
 </div>
 
-<div class="yym-container yym-page-container">
+<div class="yym-container yym-page-container" style="padding-top: 28px;">
     <div class="yym-page-layout">
         <main id="primary" class="yym-main-content">
             <article id="post-<?php the_ID(); ?>" <?php post_class('yym-article yym-region-detail'); ?>>
-                <!-- Bölgesel / Otoyol Acil Çağrı Kutusu -->
-                <div class="yym-in-post-cta yym-region-top-cta">
+                
+                <!-- Bölgesel / Otoyol Acil Çağrı Kutusu (Emergency Hero Box) -->
+                <div class="yym-in-post-cta yym-region-top-cta google-auto-ads-ignore" style="background: linear-gradient(135deg, #0b192c 0%, #172a46 100%); border: 1px solid rgba(255,255,255,0.1); border-left: 6px solid #22c55e; border-radius: 16px; padding: 26px 28px; margin: 0 0 26px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.12); color: #fff;">
                     <div class="yym-cta-banner">
-                        <div class="yym-live-badge">
-                            <span class="yym-pulse-dot"></span>
-                            <span class="yym-badge-txt"><?php printf(__('%s Nöbetçi Çekici Aktif', 'yol-yardim-merkezi'), esc_html($region_name)); ?></span>
+                        <div class="yym-live-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.18); border: 1px solid rgba(34, 197, 94, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; color: #4ade80; margin-bottom: 12px;">
+                            <span class="yym-pulse-dot" style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e;"></span>
+                            <span class="yym-badge-txt"><?php printf(__('%s Nöbetçi Çekici Aktif', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></span>
                         </div>
-                        <h3><?php printf(__('%s Güzergahında Yolda mı Kaldınız?', 'yol-yardim-merkezi'), esc_html($region_name)); ?></h3>
-                        <p><?php _e('Emniyet şeridinde veya gişelerde bekleyen kayar kasa ve vinçli kurtarıcı ekiplerimiz 15-25 dakikada yanınızda.', 'yol-yardim-merkezi'); ?></p>
-                        <div class="yym-cta-btns">
-                            <a href="tel:<?php echo esc_attr($phone_raw); ?>" class="yym-btn yym-btn-call" style="font-weight: 700;">
-                                📞 <?php echo esc_html($phone_display); ?> (<?php _e('Hemen Ara', 'yol-yardim-merkezi'); ?>)
-                            </a>
-                            <a href="<?php echo esc_url($whatsapp_url); ?>" target="_blank" rel="noopener noreferrer" class="yym-btn yym-btn-whatsapp">
+                        <h3 style="color: #ffffff; font-size: 1.4rem; font-weight: 800; margin: 0 0 8px 0; line-height: 1.3;">
+                            <?php printf(__('%s Güzergahında Yolda mı Kaldınız?', 'yol-yardim-merkezi'), esc_html($clean_name)); ?>
+                        </h3>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin: 0 0 20px 0;">
+                            <?php _e('Emniyet şeridinde veya gişelerde devriye gezen lisanslı kayar kasa ve vinçli kurtarıcı ekiplerimiz 15-25 dakikada yanınızda.', 'yol-yardim-merkezi'); ?>
+                        </p>
+                        
+                        <div class="yym-cta-btns" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                            <?php if (!empty($phone_display)) : ?>
+                                <a href="tel:<?php echo esc_attr($phone_raw); ?>" class="yym-btn yym-btn-call" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #ffffff !important; padding: 13px 24px; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4); border: none; transition: transform 0.15s ease;">
+                                    📞 <?php echo esc_html($phone_display); ?> (<?php _e('Hemen Ara', 'yol-yardim-merkezi'); ?>)
+                                </a>
+                            <?php else : ?>
+                                <a href="#nobetci-cekiciler" class="yym-btn yym-btn-call" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #ffffff !important; padding: 13px 24px; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4); border: none;">
+                                    📞 <?php _e('Nöbetçi Çekiciyi Seç & Ara', 'yol-yardim-merkezi'); ?>
+                                </a>
+                            <?php endif; ?>
+                            
+                            <a href="<?php echo esc_url($whatsapp_url); ?>" target="_blank" rel="noopener noreferrer" class="yym-btn yym-btn-whatsapp" style="background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: #ffffff !important; padding: 13px 22px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3); border: none;">
                                 💬 <?php _e('WhatsApp Konum İlet', 'yol-yardim-merkezi'); ?>
                             </a>
-                            <button type="button" class="yym-btn yym-btn-location js-share-location-btn" style="background: #0284c7; color: #fff; border: none; cursor: pointer; border-radius: 8px; font-weight: 600; padding: 12px 18px; display: inline-flex; align-items: center; gap: 6px;">
+                            
+                            <button type="button" class="yym-btn yym-btn-location js-share-location-btn" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff !important; padding: 13px 22px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);">
                                 📍 <?php _e('GPS Konumumu Gönder', 'yol-yardim-merkezi'); ?>
                             </button>
                         </div>
@@ -73,24 +129,24 @@ $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
                 </div>
 
                 <!-- Otoyol / Bölge Güvenlik Talimatı Uyarısı -->
-                <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 5px solid #f59e0b; padding: 16px 20px; border-radius: 10px; margin: 24px 0;">
+                <div class="google-auto-ads-ignore" style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 5px solid #f59e0b; padding: 16px 20px; border-radius: 12px; margin: 0 0 28px 0;">
                     <div style="display: flex; align-items: flex-start; gap: 12px;">
                         <span style="font-size: 1.5rem; line-height: 1;">⚠️</span>
                         <div>
                             <h4 style="margin: 0 0 6px 0; color: #92400e; font-size: 1rem; font-weight: 700;"><?php _e('Otoyol ve Kritik Geçiş Güvenlik Talimatı', 'yol-yardim-merkezi'); ?></h4>
-                            <p style="margin: 0; color: #78350f; font-size: 0.88rem; line-height: 1.5;">
-                                <?php _e('Can güvenliğiniz için aracınızı mümkünse emniyet şeridine alın, 4\'lü flaşörlerinizi yakın, üçgen reflektörünüzü aracın 150m gerisine yerleştirin ve kesinlikle araç içinde beklemeyip <strong>çelik bariyerlerin arkasına</strong> geçin.', 'yol-yardim-merkezi'); ?>
+                            <p style="margin: 0; color: #78350f; font-size: 0.88rem; line-height: 1.55;">
+                                <?php _e('Can güvenliğiniz için aracınızı mümkünse emniyet şeridine alın, 4\'lü flaşörlerinizi yakın, üçgen reflektörünüzü aracın 150 metre gerisine yerleştirin ve kesinlikle araç içinde beklemeyip <strong>çelik bariyerlerin arkasına</strong> geçerek ekibimize konum iletin.', 'yol-yardim-merkezi'); ?>
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Bölge / Otoyol Nöbetçi Çekici Ekipleri Slider -->
-                <div class="yym-region-slider-section" style="margin: 32px 0;">
-                    <div style="background: linear-gradient(135deg, #0f172a, #1e293b); padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #2563eb; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                <div id="nobetci-cekiciler" class="yym-region-slider-section google-auto-ads-ignore" style="margin: 0 0 34px 0; scroll-margin-top: 100px;">
+                    <div style="background: linear-gradient(135deg, #0f172a, #1e293b); padding: 16px 22px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #2563eb; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                         <div>
                             <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin: 0 0 4px 0; display: flex; align-items: center; gap: 8px;">
-                                <span>🚨</span> <?php printf(__('%s Çevresi Nöbetçi Çekiciler', 'yol-yardim-merkezi'), esc_html($region_name)); ?>
+                                <span>🚨</span> <?php printf(__('%s Çevresi Nöbetçi Çekiciler', 'yol-yardim-merkezi'), esc_html($clean_name)); ?>
                             </h3>
                             <p style="color: #94a3b8; font-size: 0.85rem; margin: 0;"><?php _e('Bölgede hazır bekleyen K1/K2 lisanslı ve kaskolu kurtarıcı firmalarını inceleyin.', 'yol-yardim-merkezi'); ?></p>
                         </div>
@@ -100,7 +156,7 @@ $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
                         </span>
                     </div>
                     <?php
-                    $slider_target_city = !empty($bolge_city) ? $bolge_city : $region_name;
+                    $slider_target_city = !empty($bolge_city) ? $bolge_city : $clean_name;
                     echo do_shortcode('[yym_firma_slider sehir="' . esc_attr($slider_target_city) . '" limit="8" show_phone="1" show_whatsapp="1"]');
                     ?>
                 </div>
@@ -110,10 +166,10 @@ $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
                         <?php if (get_the_content()) : ?>
                             <?php the_content(); ?>
                         <?php else : ?>
-                            <h2><?php printf(__('%s En Yakın Oto Kurtarma ve Çekici Hizmeti', 'yol-yardim-merkezi'), esc_html($region_name)); ?></h2>
-                            <p><?php printf(__('%s ve çevre mahallelerinde aracınızla kaza yaptıysanız, akünüz bittiyse veya lastiğiniz patladıysa panik yapmanıza gerek yok. Yol Yardım Merkezi olarak %s genelinde hazır bekleyen nöbetçi çekici araçlarımızla 7/24 hizmet veriyoruz.', 'yol-yardim-merkezi'), esc_html($region_name), esc_html($region_name)); ?></p>
+                            <h2><?php printf(__('%s En Yakın Oto Kurtarma ve Çekici Hizmeti', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></h2>
+                            <p><?php printf(__('%s ve çevre mahallelerinde aracınızla kaza yaptıysanız, akünüz bittiyse veya lastiğiniz patladıysa panik yapmanıza gerek yok. Yol Yardım Merkezi olarak %s genelinde hazır bekleyen nöbetçi çekici araçlarımızla 7/24 hizmet veriyoruz.', 'yol-yardim-merkezi'), esc_html($clean_name), esc_html($clean_name)); ?></p>
                             
-                            <h3><?php printf(__('%s Bölgesinde Neler Yapıyoruz?', 'yol-yardim-merkezi'), esc_html($region_name)); ?></h3>
+                            <h3><?php printf(__('%s Bölgesinde Neler Yapıyoruz?', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></h3>
                             <ul>
                                 <li><strong><?php _e('Oto Çekici & Kurtarıcı:', 'yol-yardim-merkezi'); ?></strong> <?php _e('Kayar kasalı modern araçlarımızla binek ve hafif ticari araçlarınız kaskolu olarak istediğiniz servise nakledilir.', 'yol-yardim-merkezi'); ?></li>
                                 <li><strong><?php _e('Yerinde Akü Takviye:', 'yol-yardim-merkezi'); ?></strong> <?php _e('Aracınız marş basmıyorsa takviye cihazlarımızla dakikalar içinde çalıştırılır.', 'yol-yardim-merkezi'); ?></li>
@@ -125,14 +181,14 @@ $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
                 </div>
 
                 <!-- Bölge İçin Neden Biz? -->
-                <div class="yym-service-perks-box">
-                    <h3><?php printf(__('%s Çekici Hizmetinde Neden Biz?', 'yol-yardim-merkezi'), esc_html($region_name)); ?></h3>
+                <div class="yym-service-perks-box google-auto-ads-ignore" style="margin-top: 32px;">
+                    <h3><?php printf(__('%s Çekici Hizmetinde Neden Biz?', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></h3>
                     <div class="yym-perks-grid">
                         <div class="yym-perk-item">
                             <span class="yym-perk-icon">⚡</span>
                             <div>
                                 <strong><?php _e('En Hızlı Varış Garantisi', 'yol-yardim-merkezi'); ?></strong>
-                                <p><?php printf(__('%s güzergahına özel görevlendirilmiş nöbetçi çekici araçlarımızla 15-30 dakikada yanınızdayız.', 'yol-yardim-merkezi'), esc_html($region_name)); ?></p>
+                                <p><?php printf(__('%s güzergahına özel görevlendirilmiş nöbetçi çekici araçlarımızla 15-30 dakikada yanınızdayız.', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></p>
                             </div>
                         </div>
                         <div class="yym-perk-item">
@@ -162,27 +218,33 @@ $bolge_highways = get_post_meta($region_id, '_bolge_highways', true);
         </main>
 
         <aside class="yym-sidebar">
-            <div class="yym-sidebar-widget yym-widget-emergency">
+            <div class="yym-sidebar-widget yym-widget-emergency google-auto-ads-ignore" style="border-top: 4px solid #ef4444;">
                 <span class="yym-widget-icon">🚨</span>
-                <h3><?php printf(__('%s Acil Çekici', 'yol-yardim-merkezi'), esc_html($region_name)); ?></h3>
-                <p><?php _e('Ekibimiz yola çıkmaya hazır. Hemen arayın veya WhatsApp\'tan anlık konum iletin.', 'yol-yardim-merkezi'); ?></p>
-                <a href="tel:<?php echo esc_attr($phone_raw); ?>" class="yym-btn yym-btn-call yym-btn-block">
-                    📞 <?php echo esc_html($phone_display); ?>
-                </a>
-                <button type="button" class="yym-btn yym-btn-location yym-btn-block js-share-location-btn">
+                <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px;"><?php printf(__('%s Acil Çekici', 'yol-yardim-merkezi'), esc_html($clean_name)); ?></h3>
+                <p style="color: #64748b; font-size: 0.88rem; margin-bottom: 16px;"><?php _e('Ekibimiz yola çıkmaya hazır. Hemen arayın veya WhatsApp\'tan anlık konum iletin.', 'yol-yardim-merkezi'); ?></p>
+                <?php if (!empty($phone_display)) : ?>
+                    <a href="tel:<?php echo esc_attr($phone_raw); ?>" class="yym-btn yym-btn-call yym-btn-block" style="background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; font-weight: 700; border-radius: 8px; padding: 12px; margin-bottom: 8px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        📞 <?php echo esc_html($phone_display); ?>
+                    </a>
+                <?php else : ?>
+                    <a href="#nobetci-cekiciler" class="yym-btn yym-btn-call yym-btn-block" style="background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; font-weight: 700; border-radius: 8px; padding: 12px; margin-bottom: 8px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        📞 <?php _e('Nöbetçi Çekiciyi Ara', 'yol-yardim-merkezi'); ?>
+                    </a>
+                <?php endif; ?>
+                <button type="button" class="yym-btn yym-btn-location yym-btn-block js-share-location-btn" style="background: #0284c7; color: #fff; border: none; font-weight: 600; border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
                     📍 <?php _e('WhatsApp Konum Gönder', 'yol-yardim-merkezi'); ?>
                 </button>
             </div>
 
-            <div class="yym-sidebar-widget">
-                <h4>🛣️ <?php _e('Transit Otoyol Hatları', 'yol-yardim-merkezi'); ?></h4>
-                <ul class="yym-widget-links">
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/kuzey-marmara-otoyolu-cekici/')); ?>">Kuzey Marmara Otoyolu (KMO)</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/gebze-izmir-otoyolu-cekici/')); ?>">Gebze - İzmir Otoyolu (O-5)</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/bolu-dagi-cekici/')); ?>">Bolu Dağı & Tüneli Çekici</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/tag-otoyolu-cekici/')); ?>">TAG Otoyolu (Adana-Gaziantep)</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/ankara-nigde-otoyolu-cekici/')); ?>">Ankara - Niğde Otoyolu (O-21)</a></li>
-                    <li><a href="<?php echo esc_url(home_url('/bolgeler/tem-otoyolu-cekici/')); ?>">TEM Otoyolu (İstanbul-Edirne)</a></li>
+            <div class="yym-sidebar-widget google-auto-ads-ignore">
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: #0f172a;">🛣️ <?php _e('Transit Otoyol Hatları', 'yol-yardim-merkezi'); ?></h4>
+                <ul class="yym-widget-links" style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/kuzey-marmara-otoyolu-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">Kuzey Marmara Otoyolu (KMO)</a></li>
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/gebze-izmir-otoyolu-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">Gebze - İzmir Otoyolu (O-5)</a></li>
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/bolu-dagi-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">Bolu Dağı & Tüneli Çekici</a></li>
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/tag-otoyolu-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">TAG Otoyolu (Adana-Gaziantep)</a></li>
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/ankara-nigde-otoyolu-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">Ankara - Niğde Otoyolu (O-21)</a></li>
+                    <li style="margin-bottom: 8px;"><a href="<?php echo esc_url(home_url('/bolgeler/tem-otoyolu-cekici/')); ?>" style="color: #2563eb; text-decoration: none; font-size: 0.9rem;">TEM Otoyolu (İstanbul-Edirne)</a></li>
                 </ul>
             </div>
         </aside>

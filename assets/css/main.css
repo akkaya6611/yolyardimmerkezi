@@ -357,6 +357,22 @@ button, input, select, textarea {
     z-index: 1000;
     transition: all 0.2s ease;
 }
+.admin-bar .yym-main-header {
+    top: 32px;
+}
+@media screen and (max-width: 782px) {
+    .admin-bar .yym-main-header {
+        top: 46px;
+    }
+}
+.google-auto-ads-ignore {
+    position: relative;
+    z-index: 10;
+}
+.google-auto-ads-ignore ins.adsbygoogle,
+.google-auto-ads-ignore .google-auto-placed {
+    display: none !important;
+}
 
 .yym-header-inner {
     display: flex;

@@ -1,0 +1,4979 @@
+/* ===================================================
+   İKON SİSTEMİ DEĞİŞKENLERİ
+   =================================================== */
+:root {
+    --yym-navy: #0B1F3A;
+    --yym-navy-dark: #061224;
+    --yym-navy-light: #132B4F;
+    --yym-orange: #FF8A00;
+    --yym-orange-hover: #E67A00;
+    --yym-orange-light: #FFF4E6;
+    --yym-text-dark: #0F172A;
+    --yym-text-body: #475569;
+    --yym-text-muted: #64748B;
+    --yym-bg-light: #F8FAFC;
+    --yym-border: #E2E8F0;
+    --yym-white: #FFFFFF;
+    --font-body: 'Lexend Deca', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading: 'Red Hat Display', 'Lexend Deca', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-full: 999px;
+    --shadow-card: 0 6px 20px rgba(11, 31, 58, 0.05);
+    --shadow-hover: 0 16px 36px rgba(11, 31, 58, 0.12);
+    --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* İkon sistem değişkenleri */
+    --icon-color: #1E293B;
+    --icon-color-accent: #FF8A00;
+    --icon-color-muted: #94A3B8;
+    --icon-color-white: #ffffff;
+    --icon-stroke: 1.75;
+    --icon-size-sm: 16px;
+    --icon-size-md: 20px;
+    --icon-size-lg: 24px;
+    --icon-size-xl: 32px;
+    --icon-size-2xl: 48px;
+}
+
+/* ===================================================
+   İKON TEMEL STİL SİSTEMİ
+   =================================================== */
+
+/* Temel ikon */
+.yym-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+    color: var(--icon-color);
+    transition: color 0.2s ease;
+    vertical-align: middle;
+}
+
+.yym-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Boyut varyantları */
+.yym-icon-sm  { width: var(--icon-size-sm);  height: var(--icon-size-sm); }
+.yym-icon-md  { width: var(--icon-size-md);  height: var(--icon-size-md); }
+.yym-icon-lg  { width: var(--icon-size-lg);  height: var(--icon-size-lg); }
+.yym-icon-xl  { width: var(--icon-size-xl);  height: var(--icon-size-xl); }
+.yym-icon-2xl { width: var(--icon-size-2xl); height: var(--icon-size-2xl); }
+
+/* Renk durumları */
+.yym-icon-orange { color: var(--icon-color-accent); }
+.yym-icon-muted  { color: var(--icon-color-muted); }
+.yym-icon-white  { color: var(--icon-color-white); }
+.yym-icon-navy   { color: var(--yym-navy); }
+
+/* ===================================================
+   HİZMET KARTLARI — İKON HOVER SİSTEMİ
+   =================================================== */
+
+/* Hizmet kartı ikon sarmalayıcısı */
+.yym-service-cat-card .yym-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: #F1F5F9;
+    border-radius: 14px;
+    flex-shrink: 0;
+    transition: background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.yym-service-cat-card .yym-icon-wrap .yym-icon {
+    width: 26px;
+    height: 26px;
+    color: #1E293B;
+    transition: color 0.22s ease;
+}
+
+/* Hover: ikon turuncu, arka plan çok hafif turuncu */
+.yym-service-cat-card:hover .yym-icon-wrap {
+    background: rgba(255, 138, 0, 0.1);
+    box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.08);
+}
+
+.yym-service-cat-card:hover .yym-icon-wrap .yym-icon {
+    color: var(--yym-orange);
+}
+
+/* Güven adım kartı ikon sarmalayıcısı */
+.yym-tstep-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(11, 31, 58, 0.06);
+    margin-bottom: 16px;
+    transition: background 0.2s ease;
+}
+
+.yym-tstep-icon-wrap .yym-icon {
+    width: 24px;
+    height: 24px;
+    color: #0B1F3A;
+}
+
+.yym-trust-step-card:hover .yym-tstep-icon-wrap {
+    background: rgba(255, 138, 0, 0.12);
+}
+
+.yym-trust-step-card:hover .yym-tstep-icon-wrap .yym-icon {
+    color: var(--yym-orange);
+}
+
+/* Timeline adım ikonu */
+.yym-step-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background: #0B1F3A;
+    border-radius: 12px;
+}
+
+.yym-step-icon-box .yym-icon {
+    width: 24px;
+    height: 24px;
+    color: #ffffff; /* Siyah/lacivert arka planda görünsün diye */
+}
+
+/* Firma kart ikonları */
+.yym-firm-icon-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.yym-firm-icon-inline .yym-icon {
+    width: 14px;
+    height: 14px;
+    color: #64748B;
+}
+
+/* Aksiyon butonlarındaki ikonlar */
+.yym-btn-firm-call .yym-icon,
+.yym-btn-fb-call .yym-icon,
+.yym-btn-action .yym-icon,
+.yym-btn-act-icon .yym-icon {
+    width: 18px;
+    height: 18px;
+    color: currentColor;
+}
+
+.yym-btn-firm-whatsapp .yym-icon,
+.yym-btn-fb-whatsapp .yym-icon {
+    width: 18px;
+    height: 18px;
+    color: currentColor;
+}
+
+/* Hero arama formu ikonları */
+.yym-field-icon .yym-icon {
+    width: 18px;
+    height: 18px;
+    color: #94A3B8;
+}
+
+/* Firma profil meta ikonlar */
+.yym-fb-meta-item .yym-icon {
+    width: 15px;
+    height: 15px;
+    color: #64748B;
+    flex-shrink: 0;
+}
+
+/* Nöbetçi/aktif durum noktası (emoji 🟢 yerine) */
+.yym-live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #16A34A;
+}
+
+.yym-live-dot::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22C55E;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    animation: yymPulse 2s infinite;
+}
+
+@keyframes yymPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); }
+    50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.1); }
+}
+
+/* Araç türleri ikon-etiket kombinasyonu */
+.yym-vehicle-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+.yym-vehicle-chip .yym-icon {
+    width: 14px;
+    height: 14px;
+    color: #0B1F3A;
+}
+
+.yym-vehicle-chip:hover {
+    background: #E8F0FE;
+    color: #1D4ED8;
+}
+
+.yym-vehicles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+/* Perk checklist ikon (tick) */
+.yym-perk-check-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #DCFCE7;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.yym-perk-check-icon .yym-icon {
+    width: 11px;
+    height: 11px;
+    color: #16A34A;
+}
+
+/* Eksik ikon geliştirici uyarısı */
+.yym-icon-missing {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #FEE2E2;
+    color: #EF4444;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body,
+body.yym-theme-body,
+body.yym-live-body {
+    font-family: var(--font-body);
+    color: var(--yym-text-body);
+    background-color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.lst-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ===================================================
+   HEADER & NAVBAR (Minimal & Kurumsal)
+   =================================================== */
+.yym-main-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 12px rgba(11, 31, 58, 0.04);
+    border-bottom: 1px solid #edf2f7;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.2s ease;
+}
+
+.yym-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+.yym-logo-box {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.yym-brand-link {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.yym-header-logo-img {
+    height: 48px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.yym-brand-link:hover .yym-header-logo-img {
+    transform: scale(1.02);
+}
+
+.yym-footer-logo-img {
+    height: 52px;
+    width: auto;
+    max-width: 230px;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s ease;
+}
+
+.yym-footer-logo-img:hover {
+    opacity: 0.92;
+}
+
+.yym-drawer-logo-img {
+    height: 38px;
+    width: auto;
+    max-width: 190px;
+    object-fit: contain;
+    display: block;
+}
+
+.yym-brand-icon-wrap {
+    width: 42px;
+    height: 42px;
+    background: #0B1F3A;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FF8A00;
+    box-shadow: 0 4px 12px rgba(11, 31, 58, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.yym-brand-link:hover .yym-brand-icon-wrap {
+    transform: scale(1.04);
+}
+
+.yym-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.yym-brand-title {
+    font-family: var(--font-heading);
+    font-size: 1.22rem;
+    font-weight: 900;
+    color: #0B1F3A;
+    letter-spacing: -0.4px;
+}
+
+.yym-brand-subtitle {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #FF8A00;
+    letter-spacing: 2.2px;
+}
+
+.yym-nav-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.yym-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+}
+
+.yym-nav-item {
+    position: relative;
+}
+
+.yym-nav-item a {
+    display: inline-block;
+    padding: 6px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    position: relative;
+}
+
+.yym-nav-item a:hover {
+    color: #FF8A00;
+}
+
+.yym-nav-item.active a {
+    color: #0B1F3A !important;
+    font-weight: 700 !important;
+}
+
+.yym-nav-item.active a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background-color: #FF8A00;
+    border-radius: 2px;
+}
+
+.yym-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.yym-btn-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FF8A00;
+    color: #ffffff !important;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(255, 138, 0, 0.3);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.yym-btn-cta-primary:hover {
+    transform: translateY(-1px);
+    background: #E67A00;
+    box-shadow: 0 6px 18px rgba(255, 138, 0, 0.45);
+}
+
+.yym-btn-plus-icon {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.yym-mobile-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40px;
+    height: 40px;
+    padding: 10px 8px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.yym-mobile-hamburger span {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: #0B1F3A;
+    border-radius: 2px;
+}
+
+/* Off-canvas Drawer */
+.yym-mobile-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99999;
+}
+.yym-mobile-drawer.is-active { display: block; }
+.yym-drawer-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(11, 31, 58, 0.7);
+    backdrop-filter: blur(4px);
+}
+.yym-drawer-content {
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 85%; max-width: 340px;
+    background: #ffffff;
+    box-shadow: -8px 0 30px rgba(0,0,0,0.25);
+    display: flex; flex-direction: column;
+    overflow-y: auto; z-index: 10;
+}
+.yym-drawer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px; border-bottom: 1px solid #f1f5f9;
+}
+.yym-drawer-logo { font-size: 1.1rem; color: #0B1F3A; }
+.yym-drawer-close {
+    background: #f1f5f9; border: none; width: 32px; height: 32px;
+    border-radius: 50%; font-size: 1rem; cursor: pointer;
+}
+.yym-drawer-emergency-box {
+    margin: 16px 20px; padding: 14px;
+    background: #FFF4E6; border: 1.5px solid #fed7aa;
+    border-radius: 12px; text-align: center;
+}
+.yym-drawer-emergency-box p { font-size: 0.88rem; color: #c2410c; margin-bottom: 8px; }
+.yym-btn-action-mobile-call {
+    display: block; background: #FF8A00; color: #ffffff !important;
+    font-weight: 700; font-size: 0.9rem; padding: 11px; border-radius: 9px;
+}
+.yym-drawer-menu { padding: 8px 16px; flex: 1; }
+.yym-drawer-menu li a {
+    display: flex; align-items: center; padding: 11px 14px;
+    color: #1e293b; font-weight: 600; font-size: 0.92rem; border-radius: 8px;
+}
+.yym-drawer-menu li a:hover { background: #f8fafc; color: #FF8A00; }
+.yym-drawer-add-firm-li { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
+.yym-drawer-add-firm-btn {
+    background: #FFF4E6 !important; border: 1.5px solid #FF8A00;
+    color: #c2410c !important; font-weight: 700 !important; text-align: center; justify-content: center;
+}
+.yym-drawer-footer { padding: 18px; border-top: 1px solid #f1f5f9; text-align: center; background: #f8fafc; font-size: 0.8rem; }
+
+/* ===================================================
+   1. HERO BÖLÜMÜ (Gece Yol Manzarası & Arama)
+   =================================================== */
+.yym-hero-area {
+    position: relative;
+    background: #0B1F3A url('https://images.unsplash.com/photo-1509749837427-ac94a2553d0e?auto=format&fit=crop&w=1920&q=80') center center / cover no-repeat;
+    min-height: 580px;
+    display: flex;
+    align-items: center;
+    padding: 85px 20px 75px;
+    overflow: hidden;
+}
+
+.yym-hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 31, 58, 0.84) 0%, rgba(11, 31, 58, 0.92) 100%);
+    z-index: 1;
+}
+
+.yym-hero-container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 960px;
+}
+
+.yym-hero-emergency-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 138, 0, 0.16);
+    border: 1px solid rgba(255, 138, 0, 0.4);
+    color: #FF8A00;
+    padding: 7px 20px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    backdrop-filter: blur(8px);
+}
+
+.yym-badge-live-pulse {
+    width: 8px;
+    height: 8px;
+    background-color: #FF8A00;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.7);
+    animation: yymPulseOrange 2s infinite;
+}
+
+@keyframes yymPulseOrange {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 138, 0, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 138, 0, 0); }
+}
+
+.yym-hero-main-title {
+    font-family: var(--font-heading);
+    font-size: 3.1rem;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 16px;
+    letter-spacing: -0.6px;
+}
+
+.yym-highlight-orange {
+    color: #FF8A00;
+}
+
+.yym-hero-lead-text {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    max-width: 680px;
+    margin: 0 auto 34px;
+    line-height: 1.65;
+}
+
+/* Büyük Arama Kutusu */
+.yym-hero-search-wrapper {
+    max-width: 820px;
+    margin: 0 auto 32px;
+}
+
+.yym-hero-search-form {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
+}
+
+.yym-search-field-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+}
+
+.yym-field-icon {
+    font-size: 18px;
+}
+
+.yym-search-select {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F172A;
+    background: transparent;
+    cursor: pointer;
+    padding: 12px 0;
+}
+
+.yym-search-divider {
+    width: 1px;
+    height: 36px;
+    background: #E2E8F0;
+    flex-shrink: 0;
+}
+
+.yym-hero-submit-btn {
+    background: #FF8A00;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 28px;
+    font-size: 15.5px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 18px rgba(255, 138, 0, 0.4);
+}
+
+.yym-hero-submit-btn:hover {
+    background: #E67A00;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(255, 138, 0, 0.55);
+}
+
+/* Güven İkonları */
+.yym-hero-trust-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.yym-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.yym-trust-check {
+    color: #FF8A00;
+    font-weight: 900;
+    font-size: 16px;
+}
+
+/* ===================================================
+   GENEL BÖLÜM STİLLERİ
+   =================================================== */
+.yym-section {
+    padding: 85px 20px;
+}
+
+.yym-section-header {
+    max-width: 680px;
+    margin: 0 auto 50px;
+}
+
+.yym-section-tag {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #FF8A00;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.yym-section-title {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #0B1F3A;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.yym-section-subtitle {
+    font-size: 1.05rem;
+    color: #64748B;
+    line-height: 1.6;
+}
+
+.yym-section-header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 45px;
+    gap: 20px;
+}
+
+.yym-header-view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FF8A00;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.yym-header-view-all-link:hover {
+    color: #0B1F3A;
+    transform: translateX(3px);
+}
+
+/* ===================================================
+   2. HİZMET KATEGORİLERİ (8 Kart)
+   =================================================== */
+.yym-services-section {
+    background: #F8FAFC;
+}
+
+.yym-service-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.yym-service-cat-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(11, 31, 58, 0.03);
+}
+
+.yym-service-cat-card:hover {
+    border-color: #FF8A00;
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(255, 138, 0, 0.12);
+}
+
+.yym-service-cat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #FFF4E6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.yym-service-cat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.yym-service-cat-name {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    color: #0B1F3A;
+}
+
+.yym-service-cat-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #FF8A00;
+    background: #FFF4E6;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.yym-service-cat-desc {
+    font-size: 13.5px;
+    color: #64748B;
+    line-height: 1.55;
+    margin-bottom: 16px;
+}
+
+.yym-service-cat-arrow {
+    color: #0B1F3A;
+    align-self: flex-end;
+    transition: transform 0.2s;
+}
+
+.yym-service-cat-card:hover .yym-service-cat-arrow {
+    color: #FF8A00;
+    transform: translateX(4px);
+}
+
+/* ===================================================
+   3. NASIL ÇALIŞIR? (Timeline)
+   =================================================== */
+.yym-how-it-works-section {
+    background: #ffffff;
+}
+
+.yym-timeline-container {
+    position: relative;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.yym-timeline-track {
+    position: absolute;
+    top: 40px;
+    left: 15%;
+    right: 15%;
+    height: 3px;
+    background: #E2E8F0;
+    z-index: 1;
+}
+
+.yym-timeline-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    position: relative;
+    z-index: 2;
+}
+
+.yym-timeline-step-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 20px rgba(11, 31, 58, 0.04);
+}
+
+.yym-timeline-step-card:hover {
+    border-color: #0B1F3A;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.08);
+}
+
+.yym-step-badge-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.yym-step-number {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 26px;
+    height: 26px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 900;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 138, 0, 0.4);
+}
+
+.yym-step-icon-box {
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: #0B1F3A;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 22px rgba(11, 31, 58, 0.2);
+}
+
+.yym-step-title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+}
+
+.yym-step-text {
+    font-size: 14.5px;
+    color: #64748B;
+    line-height: 1.65;
+}
+
+/* ===================================================
+   4. TÜRKİYE HARİTASI & ŞEHİR REHBERİ
+   =================================================== */
+.yym-map-section {
+    background: #F8FAFC;
+}
+
+.yym-interactive-map-card {
+    background: #0B1F3A;
+    border-radius: 24px;
+    padding: 44px 36px;
+    color: #ffffff;
+    box-shadow: 0 16px 40px rgba(11, 31, 58, 0.16);
+    position: relative;
+    overflow: hidden;
+}
+
+.yym-map-graphic-box {
+    position: relative;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.yym-map-bg-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 780px;
+    height: 100%;
+}
+
+.yym-svg-turkey-map {
+    width: 100%;
+    height: 100%;
+    opacity: 0.65;
+}
+
+/* Pinler */
+.yym-map-pin {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(11, 31, 58, 0.85);
+    border: 1px solid rgba(255, 138, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ffffff;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+}
+
+.yym-map-pin:hover {
+    background: #FF8A00;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(255, 138, 0, 0.5);
+}
+
+.yym-pin-pulse {
+    width: 6px;
+    height: 6px;
+    background-color: #22c55e;
+    border-radius: 50%;
+}
+
+.yym-pin-istanbul { top: 22%; left: 16%; }
+.yym-pin-ankara { top: 35%; left: 40%; }
+.yym-pin-izmir { top: 52%; left: 12%; }
+.yym-pin-bursa { top: 38%; left: 22%; }
+.yym-pin-antalya { top: 68%; left: 34%; }
+.yym-pin-konya { top: 55%; left: 45%; }
+.yym-pin-kayseri { top: 48%; left: 56%; }
+.yym-pin-gaziantep { top: 68%; left: 66%; }
+.yym-pin-trabzon { top: 25%; left: 74%; }
+
+.yym-map-city-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.yym-map-city-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+.yym-map-city-pill:hover {
+    background: #ffffff;
+    border-color: #FF8A00;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.yym-map-city-pill:hover .yym-city-name { color: #0B1F3A; }
+.yym-map-city-pill:hover .yym-city-count { color: #64748B; }
+
+.yym-city-plate-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #FF8A00;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13.5px;
+    font-family: monospace;
+    flex-shrink: 0;
+}
+
+.yym-city-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff;
+    transition: color 0.2s;
+}
+
+.yym-city-count {
+    font-size: 12px;
+    color: #94A3B8;
+    display: block;
+}
+
+.yym-city-arrow {
+    margin-left: auto;
+    color: #FF8A00;
+    font-weight: 700;
+}
+
+.yym-btn-all-cities {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FF8A00;
+    color: #ffffff !important;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 15px;
+    margin-top: 32px;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 20px rgba(255, 138, 0, 0.35);
+}
+
+.yym-btn-all-cities:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+}
+
+/* ===================================================
+   5. ÖNE ÇIKAN FİRMALAR (Marketplace / Google Kartları)
+   =================================================== */
+.yym-featured-firms-section {
+    background: #ffffff;
+}
+
+.yym-firm-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+}
+
+.yym-firm-marketplace-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px rgba(11, 31, 58, 0.04);
+}
+
+.yym-firm-marketplace-card:hover {
+    border-color: #0B1F3A;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.1);
+}
+
+.yym-firm-card-media {
+    position: relative;
+    height: 190px;
+    overflow: hidden;
+}
+
+.yym-firm-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.yym-firm-marketplace-card:hover .yym-firm-card-img {
+    transform: scale(1.05);
+}
+
+.yym-firm-status-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(11, 31, 58, 0.85);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.yym-firm-pill-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.yym-firm-card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.yym-firm-meta-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.yym-firm-rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: #0F172A;
+}
+
+.yym-firm-eta-chip {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FF8A00;
+    background: #FFF4E6;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.yym-firm-card-title {
+    font-family: var(--font-heading);
+    font-size: 17.5px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.yym-firm-card-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: #64748B;
+    margin-bottom: 14px;
+}
+
+.yym-firm-service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.yym-service-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    background: #F1F5F9;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.yym-firm-action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.yym-btn-firm-call {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #0B1F3A;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 11px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.yym-btn-firm-call:hover {
+    background: #061224;
+}
+
+.yym-btn-firm-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #25D366;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 11px;
+    border-radius: 10px;
+    transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.yym-btn-firm-whatsapp:hover {
+    background: #1da851;
+}
+
+/* ===================================================
+   6. NEDEN BİZ? (4 Avantaj Kartı)
+   =================================================== */
+.yym-why-us-section {
+    background: #F8FAFC;
+}
+
+.yym-why-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.yym-why-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.03);
+}
+
+.yym-why-card:hover {
+    border-color: #0B1F3A;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.08);
+}
+
+.yym-why-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: #0B1F3A;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 18px;
+    box-shadow: 0 8px 20px rgba(11, 31, 58, 0.2);
+}
+
+.yym-why-card-title {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+}
+
+.yym-why-card-text {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+}
+
+/* ===================================================
+   7. FİRMA KAYIT ALANI (CTA)
+   =================================================== */
+.yym-firm-cta-section {
+    background: #ffffff;
+}
+
+.yym-firm-cta-card {
+    background: linear-gradient(135deg, #0B1F3A 0%, #132B4F 60%, #061224 100%);
+    border-radius: 24px;
+    padding: 50px 45px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(11, 31, 58, 0.2);
+}
+
+.yym-firm-cta-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.yym-cta-mini-pill {
+    display: inline-block;
+    background: rgba(255, 138, 0, 0.2);
+    border: 1px solid rgba(255, 138, 0, 0.4);
+    color: #FF8A00;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+}
+
+.yym-firm-cta-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    color: #ffffff;
+}
+
+.yym-firm-cta-desc {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+.yym-firm-benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.yym-benefit-chip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #e2e8f0;
+}
+
+.yym-benefit-check {
+    color: #FF8A00;
+    font-weight: 900;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.yym-cta-action-card-inner {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    padding: 32px 28px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+}
+
+.yym-cta-card-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.yym-cta-action-card-inner h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.yym-cta-action-card-inner p {
+    font-size: 13.5px;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.yym-btn-create-firm-listing {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #FF8A00;
+    color: #ffffff !important;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15.5px;
+    font-weight: 800;
+    margin: 18px 0 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 20px rgba(255, 138, 0, 0.4);
+    width: 100%;
+}
+
+.yym-btn-create-firm-listing:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+}
+
+.yym-cta-action-card-inner small {
+    display: block;
+    font-size: 12px;
+    color: #94A3B8;
+}
+
+/* ===================================================
+   8. BLOG / REHBER (4 Kart)
+   =================================================== */
+.yym-blog-section {
+    background: #F8FAFC;
+}
+
+.yym-home-blog-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.yym-home-blog-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.03);
+}
+
+.yym-home-blog-card:hover {
+    border-color: #FF8A00;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.08);
+}
+
+.yym-home-blog-thumb-wrap {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.yym-home-blog-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.yym-home-blog-card:hover .yym-home-blog-img {
+    transform: scale(1.05);
+}
+
+.yym-home-blog-cat-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #0B1F3A;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.yym-home-blog-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.yym-home-blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748B;
+    margin-bottom: 8px;
+}
+
+.yym-home-blog-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.yym-home-blog-desc {
+    font-size: 13.5px;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.yym-home-blog-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #FF8A00;
+}
+
+.yym-home-blog-read-more:hover {
+    color: #0B1F3A;
+}
+
+/* ===================================================
+   9. PROFESYONEL FOOTER
+   =================================================== */
+.yym-corporate-footer {
+    background: #0B1F3A;
+    color: #cbd5e1;
+}
+
+.yym-footer-top-strip {
+    background: #061224;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 22px 0;
+}
+
+.yym-footer-top-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.yym-footer-top-text {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.yym-footer-strip-icon {
+    font-size: 28px;
+}
+
+.yym-footer-top-text strong {
+    display: block;
+    color: #ffffff;
+    font-size: 15.5px;
+}
+
+.yym-footer-top-text span {
+    font-size: 13.5px;
+    color: #94A3B8;
+}
+
+.yym-footer-strip-btn {
+    background: #FF8A00;
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 11px 24px;
+    border-radius: 10px;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(255, 138, 0, 0.35);
+    transition: background 0.2s;
+}
+
+.yym-footer-strip-btn:hover {
+    background: #E67A00;
+}
+
+.yym-footer-main-container {
+    padding: 65px 20px 50px;
+}
+
+.yym-footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.yym-footer-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.yym-f-logo-icon {
+    width: 38px;
+    height: 38px;
+    background: #132B4F;
+    color: #FF8A00;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.yym-f-logo-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #ffffff;
+}
+
+.yym-color-orange {
+    color: #FF8A00;
+}
+
+.yym-footer-tagline {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #94A3B8;
+    margin-bottom: 20px;
+}
+
+.yym-footer-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.yym-f-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.yym-f-c-icon {
+    font-size: 16px;
+}
+
+.yym-f-contact-item a {
+    color: #cbd5e1;
+}
+
+.yym-f-contact-item a:hover {
+    color: #FF8A00;
+}
+
+.yym-footer-socials {
+    margin-top: 10px;
+}
+
+.yym-socials-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #94A3B8;
+    margin-bottom: 10px;
+}
+
+.yym-social-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.yym-social-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.yym-social-btn:hover {
+    background: #FF8A00;
+    border-color: #FF8A00;
+    transform: translateY(-2px);
+}
+
+.yym-footer-heading {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 138, 0, 0.4);
+}
+
+.yym-footer-links li {
+    margin-bottom: 10px;
+}
+
+.yym-footer-links li a {
+    color: #94A3B8;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.yym-footer-links li a:hover {
+    color: #FF8A00;
+    padding-left: 4px;
+}
+
+.yym-footer-bottom-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 22px 0;
+    font-size: 13.5px;
+    color: #64748B;
+    background: #061224;
+}
+
+.yym-footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.yym-footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.yym-footer-bottom-links a {
+    color: #94A3B8;
+}
+
+.yym-footer-bottom-links a:hover {
+    color: #FF8A00;
+}
+
+/* ===================================================
+   İÇ SAYFALAR VE ORTAK ŞABLONLAR (HERO, BREADCRUMB)
+   =================================================== */
+.yym-inner-page-wrap {
+    background-color: #F8FAFC;
+    min-height: 80vh;
+}
+
+.yym-breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 16px;
+}
+
+.yym-breadcrumbs a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+}
+
+.yym-breadcrumbs a:hover {
+    color: #FF8A00;
+}
+
+.yym-breadcrumbs span.active {
+    color: #FF8A00;
+    font-weight: 600;
+}
+
+.yym-page-hero-section,
+.yym-page-hero {
+    background: linear-gradient(180deg, #0B1F3A 0%, #102644 100%);
+    padding: 55px 0 60px;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.yym-page-hero-section .yym-breadcrumbs,
+.yym-page-hero .yym-breadcrumbs {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: #CBD5E1;
+    backdrop-filter: blur(8px);
+}
+
+.yym-page-hero-section .yym-breadcrumbs a,
+.yym-page-hero .yym-breadcrumbs a {
+    color: #CBD5E1;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.yym-page-hero-section .yym-breadcrumbs a:hover,
+.yym-page-hero .yym-breadcrumbs a:hover {
+    color: #FF8A00;
+}
+
+.yym-page-hero-section .yym-breadcrumbs span,
+.yym-page-hero .yym-breadcrumbs span {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.yym-page-hero-section .yym-breadcrumbs span.active,
+.yym-page-hero .yym-breadcrumbs span.active {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.yym-hero-mini-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 138, 0, 0.15);
+    border: 1px solid rgba(255, 138, 0, 0.35);
+    color: #FF8A00;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+}
+
+.yym-page-hero-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.yym-page-hero-desc {
+    color: #94A3B8;
+    font-size: 1.05rem;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.65;
+}
+
+.yym-post-meta-strip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: #CBD5E1;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-top: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 7px 20px;
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+}
+
+.yym-post-meta-strip span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ===================================================
+   FİRMALAR ARŞİVİ (archive-firma.php)
+   =================================================== */
+.yym-archive-hero {
+    background: linear-gradient(180deg, #0B1F3A 0%, #132D52 100%);
+    padding: 45px 0 75px;
+    color: #ffffff;
+    position: relative;
+}
+
+.yym-archive-hero-content {
+    margin-bottom: 30px;
+}
+
+.yym-archive-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    line-height: 1.25;
+}
+
+.yym-archive-desc {
+    color: #94A3B8;
+    font-size: 1.05rem;
+    max-width: 760px;
+    line-height: 1.6;
+}
+
+/* Yüzen Filtre Kartı (Floating Filter Bar) */
+.yym-archive-filter-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 16px 40px rgba(11, 31, 58, 0.18);
+    margin-bottom: -55px;
+    position: relative;
+    z-index: 10;
+    border: 1px solid #E2E8F0;
+}
+
+.yym-archive-filter-form {
+    display: grid;
+    grid-template-columns: 1.3fr 1.1fr 1.1fr auto;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.yym-filter-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.yym-filter-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0B1F3A;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.yym-input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.yym-input-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.yym-filter-input,
+.yym-filter-select {
+    width: 100%;
+    padding: 13px 14px 13px 42px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14.5px;
+    color: #0F172A;
+    background: #F8FAFC;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.yym-filter-input:focus,
+.yym-filter-select:focus {
+    border-color: #FF8A00;
+    background: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.18);
+}
+
+.yym-btn-filter-submit {
+    background: #FF8A00;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 26px;
+    font-size: 15px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    height: 48px;
+}
+
+.yym-btn-filter-submit:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 138, 0, 0.35);
+}
+
+/* Sonuç Başlık Çubuğu */
+.yym-results-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0 16px;
+    margin-top: 35px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.yym-results-count-text {
+    font-size: 15.5px;
+    color: #475569;
+}
+
+.yym-results-count-text strong {
+    color: #0B1F3A;
+    font-weight: 800;
+}
+
+.yym-filter-active-indicator {
+    color: #FF8A00;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+.yym-btn-clear-filters {
+    color: #DC2626;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    background: #FEE2E2;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.yym-btn-clear-filters:hover {
+    background: #FECACA;
+    color: #B91C1C;
+}
+
+/* ===================================================
+   GÖRSEL VE KART KORUMA (IMAGE BOUNDING & CONTAINMENT)
+   =================================================== */
+/* Asla taşmayan, kesin yükseklik ve ölçekli kart görselleri */
+.lst-card-img-wrap,
+.yym-firm-card-media,
+.yym-home-blog-media,
+.lst-news-img-wrap {
+    width: 100%;
+    height: 210px !important;
+    max-height: 210px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    background-color: #0B1F3A;
+    border-radius: 16px 16px 0 0;
+}
+
+.lst-card-img,
+.yym-firm-card-img,
+.lst-card-img-wrap img,
+.yym-firm-card-media img,
+.yym-firm-media-link img,
+.lst-news-img {
+    width: 100% !important;
+    height: 210px !important;
+    max-height: 210px !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.35s ease !important;
+}
+
+.yym-firm-marketplace-card:hover .yym-firm-card-img,
+.lst-card:hover .lst-card-img {
+    transform: scale(1.05);
+}
+
+/* Firma Gridleri */
+.yym-firms-grid,
+.lst-listings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 25px;
+}
+
+.yym-firm-marketplace-card,
+.lst-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.05);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.yym-firm-marketplace-card:hover,
+.lst-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.12);
+    border-color: #CBD5E1;
+}
+
+.yym-firm-media-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.yym-firm-status-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(11, 31, 58, 0.88);
+    color: #10B981;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 2;
+}
+
+.yym-firm-pill-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 10px rgba(255, 138, 0, 0.35);
+    z-index: 2;
+}
+
+.yym-firm-card-body,
+.lst-card-content {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.yym-firm-meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.yym-firm-rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13.5px;
+    color: #0B1F3A;
+}
+
+.yym-firm-rating-stars small {
+    color: #64748B;
+    margin-left: 2px;
+}
+
+.yym-firm-eta-chip {
+    background: #F1F5F9;
+    color: #0F172A;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+}
+
+.yym-firm-card-title,
+.lst-card-title {
+    font-size: 1.22rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+
+.yym-firm-card-title a,
+.lst-card-title a {
+    color: #0B1F3A;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.yym-firm-card-title a:hover,
+.lst-card-title a:hover {
+    color: #FF8A00;
+}
+
+.yym-firm-card-location,
+.lst-card-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: #64748B;
+    margin-bottom: 14px;
+}
+
+.yym-firm-service-tags,
+.lst-card-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.yym-service-tag,
+.lst-spec-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+/* İletişim Butonları (Hemen Ara & WhatsApp) */
+.yym-firm-action-buttons,
+.lst-card-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.yym-btn-firm-call {
+    background: #0B1F3A;
+    color: #ffffff !important;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 12px 10px;
+    border-radius: 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.yym-btn-firm-call:hover {
+    background: #FF8A00;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 138, 0, 0.3);
+}
+
+.yym-btn-firm-whatsapp {
+    background: #25D366;
+    color: #ffffff !important;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 12px 10px;
+    border-radius: 10px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.yym-btn-firm-whatsapp:hover {
+    background: #1EBE5D;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+}
+
+/* Sayfalama (Pagination) */
+.yym-pagination-wrap {
+    margin: 50px 0 20px;
+    text-align: center;
+}
+
+.yym-pagination-wrap ul.page-numbers {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.yym-pagination-wrap .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    background: #ffffff;
+    color: #0B1F3A;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.yym-pagination-wrap .page-numbers.current {
+    background: #0B1F3A;
+    color: #ffffff;
+    border-color: #0B1F3A;
+}
+
+.yym-pagination-wrap a.page-numbers:hover {
+    background: #FF8A00;
+    color: #ffffff;
+    border-color: #FF8A00;
+}
+
+/* Boş Sonuç Durumu */
+.yym-no-results-card {
+    text-align: center;
+    padding: 60px 24px;
+    background: #ffffff;
+    border: 1.5px dashed #CBD5E1;
+    border-radius: 18px;
+    margin-top: 30px;
+}
+
+.yym-no-results-icon {
+    font-size: 44px;
+    margin-bottom: 16px;
+}
+
+.yym-no-results-card h3 {
+    font-size: 1.4rem;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+}
+
+.yym-no-results-card p {
+    color: #64748B;
+    max-width: 500px;
+    margin: 0 auto 24px;
+}
+
+.yym-no-results-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.yym-btn-accent-large {
+    background: #FF8A00;
+    color: #ffffff;
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.yym-btn-accent-large:hover {
+    background: #E67A00;
+}
+
+.yym-btn-secondary-large {
+    background: #0B1F3A;
+    color: #ffffff;
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.yym-btn-secondary-large:hover {
+    background: #132D52;
+}
+
+/* Arşiv SEO Bilgilendirme Kutusu */
+.yym-archive-seo-box {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 36px;
+    margin-top: 60px;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.03);
+}
+
+.yym-seo-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 12px;
+}
+
+.yym-archive-seo-box p {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.yym-seo-features-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.yym-seo-feat {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.yym-sf-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.yym-seo-feat strong {
+    display: block;
+    color: #0B1F3A;
+    font-size: 14.5px;
+    margin-bottom: 2px;
+}
+
+.yym-seo-feat small {
+    color: #64748B;
+    font-size: 13px;
+}
+
+/* ===================================================
+   TEKİL FİRMA PROFİLİ (single-firma.php)
+   =================================================== */
+.yym-firma-hero-banner {
+    background: linear-gradient(180deg, #0B1F3A 0%, #102644 100%);
+    padding: 40px 0 50px;
+    color: #ffffff;
+}
+
+.yym-firma-badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 12px;
+}
+
+.yym-badge-pill {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+}
+
+.yym-badge-red {
+    background: rgba(239, 68, 68, 0.2);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.yym-badge-green {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6EE7B7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.yym-badge-blue {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93C5FD;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* ===================================================
+   FACEBOOK STİLİ PROFİL DÜZENİ VE SLIDER
+   =================================================== */
+.yym-fb-profile-layout {
+    background-color: #F8FAFC;
+}
+
+/* Kapak Fotoğrafı Banner'ı */
+.yym-fb-cover-wrap {
+    height: 240px;
+    position: relative;
+    background: linear-gradient(135deg, #0B1F3A 0%, #16365F 50%, #0B1F3A 100%);
+    overflow: hidden;
+}
+
+.yym-fb-cover-backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255, 138, 0, 0.25), transparent 60%),
+                linear-gradient(to bottom, rgba(11, 31, 58, 0.3), rgba(11, 31, 58, 0.95));
+    background-size: cover;
+    background-position: center;
+}
+
+.yym-fb-cover-inner {
+    position: relative;
+    z-index: 2;
+    padding-top: 24px;
+}
+
+.yym-fb-breadcrumbs {
+    display: inline-flex;
+    background: rgba(11, 31, 58, 0.6);
+    padding: 6px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Facebook Profili Bilgi Kartı & Yuvarlak Avatar */
+.yym-fb-profile-header-wrap {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 24px;
+}
+
+.yym-fb-profile-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    padding: 24px 32px;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    position: relative;
+    margin-top: -65px;
+}
+
+.yym-fb-avatar-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.yym-fb-avatar-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50% !important;
+    border: 5px solid #ffffff;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background: #0B1F3A;
+}
+
+.yym-fb-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 140px !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 50% !important;
+}
+
+.yym-fb-avatar-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #10B981;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 900;
+    border: 3px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.yym-fb-info-col {
+    flex-grow: 1;
+}
+
+.yym-fb-badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.yym-fb-firm-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+
+.yym-fb-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: #64748B;
+    font-size: 14.5px;
+}
+
+.yym-fb-meta-item strong {
+    color: #0B1F3A;
+}
+
+.yym-fb-cta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.yym-btn-fb-call {
+    background: #0B1F3A;
+    color: #ffffff !important;
+    padding: 13px 24px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14.5px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.yym-btn-fb-call:hover {
+    background: #FF8A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+}
+
+.yym-btn-fb-whatsapp {
+    background: #25D366;
+    color: #ffffff !important;
+    padding: 13px 24px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14.5px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.yym-btn-fb-whatsapp:hover {
+    background: #1EBE5D;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+}
+
+/* ===================================================
+   FACEBOOK STİLİ FOTOĞRAF SLIDER'I
+   =================================================== */
+.yym-fb-slider-outer {
+    margin-bottom: 30px;
+}
+
+.yym-fb-slider-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(11, 31, 58, 0.05);
+}
+
+.yym-fb-slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.yym-slider-h-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.yym-slider-icon {
+    font-size: 20px;
+}
+
+.yym-slider-h-left h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0;
+}
+
+.yym-slider-count-chip {
+    background: #F1F5F9;
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.yym-slider-nav-arrows {
+    display: flex;
+    gap: 8px;
+}
+
+.yym-slider-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid #E2E8F0;
+    background: #ffffff;
+    color: #0B1F3A;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.yym-slider-btn:hover {
+    background: #FF8A00;
+    color: #ffffff;
+    border-color: #FF8A00;
+    transform: scale(1.05);
+}
+
+.yym-slider-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #0B1F3A;
+}
+
+.yym-slider-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+}
+
+.yym-slider-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    position: relative;
+}
+
+.yym-slide-img-box {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+}
+
+.yym-slide-img {
+    width: 100% !important;
+    height: 420px !important;
+    max-height: 420px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.yym-slide-caption-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 24px 20px;
+    background: linear-gradient(180deg, transparent 0%, rgba(11, 31, 58, 0.92) 100%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+}
+
+.yym-slide-tag {
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(255, 138, 0, 0.35);
+}
+
+.yym-slide-title {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Küçük Önizleme Şeridi */
+.yym-slider-thumbnails-strip {
+    display: flex;
+    gap: 12px;
+    padding: 14px 20px;
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.yym-slider-thumbnails-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.yym-slider-thumb {
+    flex: 0 0 84px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2.5px solid transparent;
+    padding: 0;
+    background: #0B1F3A;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.65;
+}
+
+.yym-slider-thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.yym-slider-thumb.active,
+.yym-slider-thumb:hover {
+    opacity: 1;
+    border-color: #FF8A00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 138, 0, 0.25);
+}
+
+.yym-firma-body-wrap {
+    padding-top: 20px;
+    padding-bottom: 80px;
+}
+
+.yym-firma-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 36px;
+    align-items: start;
+}
+
+/* Sidebar Mini Profil Başlığı */
+.yym-side-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.yym-side-avatar-img {
+    width: 54px !important;
+    height: 54px !important;
+    max-height: 54px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 2px solid #E2E8F0;
+    flex-shrink: 0;
+}
+
+.yym-side-firm-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0 0 2px;
+    line-height: 1.3;
+}
+
+.yym-side-verified-badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #10B981;
+}
+
+/* Hızlı İletişim Çağrı Kartı */
+.yym-firma-fast-actions-card {
+    background: #FFF7ED;
+    border: 2px solid #FF8A00;
+    border-radius: 18px;
+    padding: 26px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(255, 138, 0, 0.1);
+}
+
+.yym-action-card-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 6px;
+}
+
+.yym-action-card-sub {
+    color: #64748B;
+    font-size: 14px;
+}
+
+.yym-fast-btns-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.yym-btn-action {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    border-radius: 14px;
+    color: #ffffff !important;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(11, 31, 58, 0.08);
+}
+
+.yym-btn-act-icon {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.yym-btn-act-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex-grow: 1;
+}
+
+.yym-btn-act-texts strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
+}
+
+.yym-btn-act-texts span {
+    font-size: 12.5px;
+    opacity: 0.92;
+    line-height: 1.3;
+}
+
+.yym-btn-act-arrow {
+    font-size: 18px;
+    font-weight: 800;
+    opacity: 0.75;
+    margin-left: auto;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.yym-btn-action:hover .yym-btn-act-arrow {
+    transform: translateX(4px);
+    opacity: 1;
+}
+
+.yym-btn-call-direct {
+    background: #0B1F3A;
+}
+
+.yym-btn-call-direct:hover {
+    background: #FF8A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+}
+
+.yym-btn-wa-direct {
+    background: #25D366;
+}
+
+.yym-btn-wa-direct:hover {
+    background: #1EBE5D;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+}
+
+.yym-btn-gps-direct {
+    background: #0284C7;
+}
+
+.yym-btn-gps-direct:hover {
+    background: #0369A1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35);
+}
+
+/* Bilgi Kartları */
+.yym-box-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+}
+
+.yym-box-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.yym-box-content {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.yym-perks-checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.yym-perk-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.yym-check-green {
+    color: #10B981;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.yym-perk-item strong {
+    display: block;
+    font-size: 13.5px;
+    color: #0B1F3A;
+}
+
+.yym-perk-item span {
+    font-size: 13px;
+    color: #64748B;
+}
+
+.yym-trust-highlight-card {
+    background: #F0FDF4;
+    border: 1.5px solid #BBF7D0;
+}
+
+.yym-trust-hl-inner {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.yym-trust-icon {
+    font-size: 36px;
+}
+
+.yym-trust-texts h3 {
+    font-size: 1.15rem;
+    color: #166534;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.yym-trust-texts p {
+    color: #15803D;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===================================================
+   MÜŞTERİ YORUMLARI VE DEĞERLENDİRME FORMU
+   =================================================== */
+.yym-reviews-summary-bar {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 22px 26px;
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    margin: 18px 0 28px;
+}
+
+.yym-rev-score {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #0B1F3A;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.yym-rev-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.yym-stars-visual {
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.yym-rev-details span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748B;
+}
+
+/* Yorum Listesi */
+.yym-comments-subheading {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 28px 0 16px;
+}
+
+.yym-comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.yym-comment-item {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(11, 31, 58, 0.02);
+    transition: all 0.2s ease;
+}
+
+.yym-comment-item:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 6px 18px rgba(11, 31, 58, 0.05);
+}
+
+.yym-comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.yym-comment-author-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.yym-comment-avatar-fallback {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0B1F3A;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(11, 31, 58, 0.15);
+}
+
+.yym-comment-meta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.yym-comment-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.yym-comment-author-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0B1F3A;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1.25;
+}
+
+.yym-comment-verified-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #10B981;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.4;
+}
+
+.yym-comment-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: #64748B;
+    line-height: 1.3;
+}
+
+.yym-comment-stars-visual {
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.yym-comment-score {
+    font-weight: 800;
+    color: #0B1F3A;
+}
+
+.yym-comment-dot {
+    color: #CBD5E1;
+}
+
+.yym-comment-date {
+    font-size: 12px;
+    color: #94A3B8;
+}
+
+.yym-comment-content p {
+    color: #475569;
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Yorum Formu Kutusu */
+.yym-comment-form-wrap {
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    margin-top: 24px;
+}
+
+.yym-cform-title,
+#reply-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 8px;
+}
+
+.yym-cform-notes,
+.comment-notes {
+    color: #64748B;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.yym-cform-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.yym-cform-col,
+.yym-cform-group,
+.comment-form p {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.yym-cform-label,
+.comment-form label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0B1F3A;
+}
+
+.yym-cform-label .required,
+.comment-form .required {
+    color: #EF4444;
+}
+
+.yym-cform-input,
+.yym-cform-textarea,
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 10px;
+    font-size: 14.5px;
+    background: #ffffff;
+    color: #0F172A;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.yym-cform-input:focus,
+.yym-cform-textarea:focus,
+.comment-form input[type="text"]:focus,
+.comment-form input[type="email"]:focus,
+.comment-form textarea:focus {
+    border-color: #FF8A00;
+    background: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.15);
+}
+
+.yym-btn-submit-review,
+.comment-form input[type="submit"],
+.comment-form #submit {
+    background: #FF8A00;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    font-size: 14.5px;
+    font-weight: 800;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: auto;
+    align-self: flex-start;
+}
+
+.yym-btn-submit-review:hover,
+.comment-form input[type="submit"]:hover,
+.comment-form #submit:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+}
+
+.comment-form-cookies-consent {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.comment-form-cookies-consent label {
+    font-weight: normal !important;
+    font-size: 13px !important;
+    color: #64748B !important;
+    margin: 0 !important;
+}
+
+/* Sidebar */
+.yym-firma-sidebar-col {
+    position: relative;
+}
+
+.yym-sidebar-sticky-wrap {
+    position: sticky;
+    top: 90px;
+}
+
+.yym-side-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+}
+
+.yym-side-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.yym-side-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.yym-side-c-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.yym-sc-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.yym-side-c-item small {
+    display: block;
+    color: #64748B;
+    font-size: 12px;
+}
+
+.yym-sc-phone-link {
+    font-size: 16px;
+    font-weight: 800;
+    color: #FF8A00;
+    text-decoration: none;
+}
+
+.yym-sc-phone-link:hover {
+    color: #0B1F3A;
+}
+
+.yym-btn-maps-route {
+    display: block;
+    background: #0B1F3A;
+    color: #ffffff !important;
+    text-align: center;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: all 0.2s;
+}
+
+.yym-btn-maps-route:hover {
+    background: #FF8A00;
+}
+
+.yym-side-g-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.yym-side-g-list li {
+    font-size: 13.5px;
+    color: #475569;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.yym-side-report-box {
+    text-align: center;
+    padding: 16px;
+    background: #F8FAFC;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+}
+
+.yym-side-report-box small {
+    display: block;
+    color: #64748B;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.yym-side-report-box a {
+    color: #0B1F3A;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.yym-side-report-box a:hover {
+    color: #FF8A00;
+}
+
+/* ===================================================
+   81 İL REHBERİ (page-sehirler.php)
+   =================================================== */
+.yym-city-quick-search-box {
+    max-width: 550px;
+    margin: 24px auto 0;
+}
+
+.yym-city-quick-search-box input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 15px;
+    color: #0B1F3A;
+    outline: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.yym-cities-alphabetical-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.yym-city-plate-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    padding: 14px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(11, 31, 58, 0.03);
+}
+
+.yym-city-plate-card:hover {
+    transform: translateY(-3px);
+    border-color: #FF8A00;
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.15);
+}
+
+.yym-city-plate-num {
+    background: #0B1F3A;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 900;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.yym-city-plate-card:hover .yym-city-plate-num {
+    background: #FF8A00;
+}
+
+.yym-city-plate-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+/* ===================================================
+   HİZMETLER (page-hizmetler.php)
+   =================================================== */
+.yym-services-full-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+.yym-service-detail-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+}
+
+.yym-service-detail-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.1);
+    border-color: #CBD5E1;
+}
+
+.yym-svc-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.yym-svc-big-icon {
+    font-size: 38px;
+}
+
+.yym-svc-card-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0B1F3A;
+}
+
+.yym-svc-card-desc {
+    color: #475569;
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.yym-svc-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #F8FAFC;
+    border-radius: 12px;
+}
+
+.yym-svc-features-list li {
+    font-size: 13.5px;
+    color: #334155;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.yym-svc-features-list li::before {
+    content: "✓";
+    color: #10B981;
+    font-weight: 900;
+}
+
+.yym-btn-svc-action {
+    background: #0B1F3A;
+    color: #ffffff !important;
+    padding: 13px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: auto;
+    transition: all 0.2s;
+}
+
+.yym-btn-svc-action:hover {
+    background: #FF8A00;
+}
+
+/* ===================================================
+   FİRMA EKLE (page-firma-ekle.php)
+   =================================================== */
+.yym-add-firm-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.yym-form-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: 0 4px 20px rgba(11, 31, 58, 0.05);
+}
+
+.yym-form-card-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 6px;
+}
+
+.yym-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.yym-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.yym-form-group label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0B1F3A;
+}
+
+.yym-input,
+.yym-form-group input,
+.yym-form-group select,
+.yym-form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14.5px;
+    color: #0F172A;
+    background: #F8FAFC;
+    transition: all 0.2s;
+}
+
+.yym-input:focus,
+.yym-form-group input:focus,
+.yym-form-group select:focus,
+.yym-form-group textarea:focus {
+    border-color: #FF8A00;
+    background: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.15);
+}
+
+.yym-form-group small {
+    color: #64748B;
+    font-size: 12px;
+}
+
+.yym-alert-success {
+    background: #F0FDF4;
+    border: 1.5px solid #86EFAC;
+    border-radius: 16px;
+    padding: 24px;
+    color: #166534;
+    text-align: center;
+}
+
+.yym-alert-danger {
+    background: #FEF2F2;
+    border: 1.5px solid #FECACA;
+    border-radius: 12px;
+    padding: 16px;
+    color: #991B1B;
+    margin-bottom: 24px;
+}
+
+/* ===================================================
+   İLETİŞİM (page-iletisim.php)
+   =================================================== */
+.yym-page-header {
+    background: linear-gradient(180deg, #0B1F3A 0%, #102644 100%);
+    padding: 55px 0;
+    color: #ffffff;
+    text-align: center;
+}
+
+.yym-page-title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.yym-page-subtitle {
+    color: #94A3B8;
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* ===================================================
+   İLETİŞİM & PLATFORM YÖNETİMİ (page-iletisim.php)
+   =================================================== */
+.yym-notice-box-emergency {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FEF2F2 100%);
+    border: 2px solid #F97316;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 40px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    box-shadow: 0 10px 30px rgba(249, 115, 22, 0.12);
+}
+
+.yym-notice-em-badge-col {
+    flex-shrink: 0;
+}
+
+.yym-notice-em-pulse-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 28px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.35);
+}
+
+.yym-notice-em-text-col {
+    flex-grow: 1;
+}
+
+.yym-notice-em-pill {
+    display: inline-block;
+    background: #EF4444;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+
+.yym-notice-em-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0 0 10px;
+    line-height: 1.3;
+}
+
+.yym-notice-em-desc {
+    font-size: 15px;
+    color: #1E293B;
+    line-height: 1.65;
+    margin-bottom: 8px;
+}
+
+.yym-notice-em-subdesc {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.yym-notice-em-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.yym-notice-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.yym-notice-btn.primary {
+    background: #0B1F3A;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(11, 31, 58, 0.2);
+}
+
+.yym-notice-btn.primary:hover {
+    background: #1A365D;
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.yym-notice-btn.secondary {
+    background: #ffffff;
+    color: #0B1F3A;
+    border: 1.5px solid #CBD5E1;
+}
+
+.yym-notice-btn.secondary:hover {
+    border-color: #0B1F3A;
+    background: #F8FAFC;
+    transform: translateY(-2px);
+    color: #0B1F3A;
+}
+
+.yym-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+}
+
+.yym-contact-info-card,
+.yym-contact-form-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 4px 18px rgba(11, 31, 58, 0.04);
+}
+
+.yym-card-tag {
+    display: inline-block;
+    background: #F1F5F9;
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+
+.yym-contact-info-card h2,
+.yym-contact-form-card h2 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0 0 8px;
+}
+
+.yym-contact-card-sub {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.yym-contact-method-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin: 26px 0;
+}
+
+.yym-contact-method {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.yym-c-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+}
+
+.yym-c-link-large {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    color: #FF8A00;
+    text-decoration: none;
+    margin-top: 2px;
+    transition: color 0.2s;
+}
+
+.yym-c-link-large:hover {
+    color: #0B1F3A;
+}
+
+.yym-c-val {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0B1F3A;
+    margin: 4px 0 2px;
+}
+
+.yym-owner-cta-box {
+    background: #0B1F3A;
+    border-radius: 16px;
+    padding: 24px;
+    color: #ffffff;
+    margin-top: 30px;
+}
+
+.yym-owner-cta-head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.yym-owner-icon {
+    font-size: 30px;
+    flex-shrink: 0;
+}
+
+.yym-owner-cta-head h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 6px;
+}
+
+.yym-owner-cta-head p {
+    font-size: 13px;
+    color: #94A3B8;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.yym-owner-cta-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.yym-btn-owner-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.yym-btn-owner-cta.primary {
+    background: #FF8A00;
+    color: #ffffff;
+}
+
+.yym-btn-owner-cta.primary:hover {
+    background: #E67A00;
+    color: #ffffff;
+}
+
+.yym-btn-owner-cta.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #CBD5E1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.yym-btn-owner-cta.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.yym-platform-contact-form .yym-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.yym-platform-contact-form .yym-form-group {
+    margin-bottom: 16px;
+}
+
+.yym-platform-contact-form label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0B1F3A;
+    margin-bottom: 6px;
+}
+
+.yym-platform-contact-form .yym-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #1E293B;
+    background: #F8FAFC;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.yym-platform-contact-form .yym-input:focus {
+    outline: none;
+    border-color: #FF8A00;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.12);
+}
+
+.yym-form-notice-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #64748B;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.yym-form-notice-box a {
+    color: #FF8A00;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.yym-btn-submit-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 24px;
+    background: #FF8A00;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(255, 138, 0, 0.3);
+}
+
+.yym-btn-submit-contact:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 138, 0, 0.4);
+}
+
+/* ===================================================
+   BLOG & SÜRÜCÜ REHBERİ (page-blog.php, single.php)
+   =================================================== */
+.lst-news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.lst-news-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+}
+
+.lst-news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(11, 31, 58, 0.1);
+}
+
+.lst-news-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 999px;
+    z-index: 2;
+}
+
+.lst-news-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.lst-news-meta {
+    font-size: 12.5px;
+    color: #94A3B8;
+    margin-bottom: 8px;
+}
+
+.lst-news-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.lst-news-title a {
+    color: #0B1F3A;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.lst-news-title a:hover {
+    color: #FF8A00;
+}
+
+.lst-news-desc {
+    color: #64748B;
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 16px;
+}
+
+.lst-news-link {
+    color: #FF8A00;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.lst-news-link:hover {
+    color: #0B1F3A;
+}
+
+/* ===================================================
+   TEKİL BLOG YAZISI DÜZENİ (single.php)
+   =================================================== */
+.yym-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.yym-single-blog-wrap {
+    padding: 40px 0 80px;
+    background-color: #F8FAFC;
+}
+
+.yym-blog-layout-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 36px;
+    align-items: flex-start;
+}
+
+.yym-single-blog-article {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 4px 20px rgba(11, 31, 58, 0.04);
+}
+
+.yym-blog-featured-img-box {
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 28px;
+}
+
+.yym-blog-feat-img {
+    width: 100% !important;
+    height: 380px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.yym-blog-entry-content {
+    color: #334155;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.yym-blog-entry-content p {
+    margin-bottom: 20px;
+}
+
+.yym-blog-entry-content h2,
+.yym-blog-entry-content h3 {
+    color: #0B1F3A;
+    font-weight: 800;
+    margin: 32px 0 16px;
+    line-height: 1.35;
+}
+
+/* Makale Sonu Acil Çekici Çağrı Kartı */
+.yym-post-emergency-banner {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+    border: 2px solid #FF8A00;
+    border-radius: 18px;
+    padding: 26px;
+    margin-top: 40px;
+    box-shadow: 0 8px 24px rgba(255, 138, 0, 0.1);
+}
+
+.yym-peb-header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.yym-peb-icon {
+    font-size: 32px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.yym-peb-header h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0 0 6px;
+}
+
+.yym-peb-header p {
+    color: #475569;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.yym-peb-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.yym-btn-peb-search {
+    background: #0B1F3A;
+    color: #ffffff !important;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.yym-btn-peb-search:hover {
+    background: #FF8A00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 138, 0, 0.35);
+}
+
+.yym-btn-peb-cities {
+    background: #ffffff;
+    color: #0B1F3A !important;
+    border: 1.5px solid #CBD5E1;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.yym-btn-peb-cities:hover {
+    border-color: #0B1F3A;
+    background: #F8FAFC;
+}
+
+.yym-post-footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    margin-top: 32px;
+    border-top: 1px solid #E2E8F0;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.yym-pf-author strong {
+    display: block;
+    color: #0B1F3A;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.yym-pf-author p {
+    color: #64748B;
+    font-size: 13px;
+    margin: 0;
+}
+
+.yym-pf-back-link {
+    color: #FF8A00;
+    font-weight: 800;
+    font-size: 13.5px;
+    text-decoration: none;
+}
+
+.yym-pf-back-link:hover {
+    text-decoration: underline;
+}
+
+/* Sidebar Blog Stilleri */
+.yym-side-emergency-card {
+    background: linear-gradient(135deg, #0B1F3A 0%, #16365F 100%) !important;
+    color: #ffffff;
+    border-color: #1E3A5F !important;
+}
+
+.yym-sec-badge {
+    background: #FF8A00;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.yym-sec-title {
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.yym-sec-desc {
+    color: #CBD5E1;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+.yym-btn-side-dispatch {
+    background: #FF8A00;
+    color: #ffffff !important;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 138, 0, 0.35);
+}
+
+.yym-btn-side-dispatch:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.45);
+}
+
+.yym-side-service-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.yym-side-service-links li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 13.5px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.yym-side-service-links li a:hover {
+    background: #EFF6FF;
+    border-color: #3B82F6;
+    color: #0B1F3A;
+    transform: translateX(3px);
+}
+
+.yym-post-meta-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 18px;
+    border-radius: 999px;
+    color: #E2E8F0;
+    font-size: 13px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    margin-top: 14px;
+}
+
+/* ===================================================
+   AIRBNB TARZI GÜVEN & DOĞRULAMA SİSTEMİ (home-trust-system.php)
+   =================================================== */
+.yym-trust-system-section {
+    background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    position: relative;
+    overflow: hidden;
+}
+
+.yym-trust-system-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.yym-trust-step-card {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(11, 31, 58, 0.04);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.yym-trust-step-card:hover {
+    transform: translateY(-6px);
+    border-color: #3B82F6;
+    box-shadow: 0 16px 36px rgba(59, 130, 246, 0.12);
+}
+
+.yym-tstep-num {
+    font-size: 13px;
+    font-weight: 900;
+    color: #94A3B8;
+    background: #F1F5F9;
+    padding: 4px 10px;
+    border-radius: 999px;
+    align-self: flex-start;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+}
+
+.yym-tstep-icon-wrap {
+    font-size: 38px;
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+.yym-tstep-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+
+.yym-tstep-desc {
+    color: #64748B;
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.yym-tstep-badge {
+    background: #ECFDF5;
+    color: #059669;
+    border: 1px solid #A7F3D0;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.yym-trust-system-footer-bar {
+    background: #0B1F3A;
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.15);
+}
+
+.yym-ts-footer-text {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.yym-ts-f-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+.yym-ts-footer-text strong {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.yym-ts-footer-text p {
+    color: #CBD5E1;
+    font-size: 14px;
+    margin: 0;
+}
+
+.yym-btn-join-network {
+    background: #FF8A00;
+    color: #ffffff !important;
+    padding: 14px 26px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 138, 0, 0.35);
+}
+
+.yym-btn-join-network:hover {
+    background: #E67A00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 138, 0, 0.45);
+}
+
+/* Tekil Firma Profili Güven Kontrol Listesi */
+.yym-operator-trust-checklist {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 26px;
+}
+
+.yym-op-trust-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.yym-op-trust-icon {
+    font-size: 26px;
+}
+
+.yym-op-trust-header h3 {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 0 0 2px;
+}
+
+.yym-op-trust-header p {
+    font-size: 13px;
+    color: #64748B;
+    margin: 0;
+}
+
+.yym-op-trust-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.yym-op-trust-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.yym-op-trust-badge-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #10B981;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.yym-op-trust-text strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 2px;
+}
+
+.yym-op-trust-text span {
+    display: block;
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.4;
+}
+
+/* ===================================================
+   RESPONSIVE (TÜM CİHAZLAR)
+   =================================================== */
+@media (max-width: 1100px) {
+    .yym-trust-system-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-service-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-map-city-cards-grid { grid-template-columns: repeat(3, 1fr); }
+    .yym-home-blog-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-footer-grid { grid-template-columns: 1fr 1fr; }
+    
+    .yym-firms-grid,
+    .lst-listings-grid,
+    .lst-news-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-cities-alphabetical-grid { grid-template-columns: repeat(3, 1fr); }
+    .yym-archive-filter-form { grid-template-columns: 1fr 1fr; }
+    .yym-filter-col-btn { grid-column: span 2; }
+    .yym-btn-filter-submit { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 991px) {
+    .yym-nav-container { display: none; }
+    .yym-btn-cta-primary { display: none; }
+    .yym-mobile-hamburger { display: flex; }
+    .yym-header-inner { height: 64px; }
+
+    .yym-hero-main-title { font-size: 2.3rem; }
+    .yym-br-desktop { display: none; }
+    .yym-hero-search-form { flex-direction: column; padding: 14px; }
+    .yym-search-divider { width: 100%; height: 1px; margin: 4px 0; }
+    .yym-hero-submit-btn { width: 100%; justify-content: center; }
+
+    .yym-timeline-steps { grid-template-columns: 1fr; }
+    .yym-timeline-track { display: none; }
+
+    .yym-firm-cards-grid { grid-template-columns: 1fr; }
+    .yym-why-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-firm-cta-inner { grid-template-columns: 1fr; }
+
+    .yym-firma-layout-grid { grid-template-columns: 1fr; }
+    .yym-contact-grid { grid-template-columns: 1fr; }
+
+    .yym-fb-profile-card { flex-direction: column; text-align: center; margin-top: -50px; padding: 22px; gap: 18px; }
+    .yym-fb-avatar-circle { width: 115px; height: 115px; margin: -58px auto 0; }
+    .yym-fb-avatar-img { max-height: 115px !important; }
+    .yym-fb-firm-title { font-size: 1.65rem; }
+    .yym-fb-badges-row { justify-content: center; }
+    .yym-fb-meta-row { justify-content: center; font-size: 13.5px; }
+    .yym-fb-cta-col { flex-direction: row; width: 100%; justify-content: center; }
+    .yym-btn-fb-call, .yym-btn-fb-whatsapp { flex: 1; justify-content: center; padding: 12px 14px; }
+    .yym-slide-img-box, .yym-slide-img { height: 260px !important; max-height: 260px !important; }
+    .yym-slide-title { font-size: 1rem; }
+    .yym-fast-btns-grid { grid-template-columns: 1fr; gap: 12px; }
+    .yym-blog-layout-grid { grid-template-columns: 1fr; }
+
+    .yym-trust-system-footer-bar { flex-direction: column; text-align: center; }
+    .yym-ts-footer-text { flex-direction: column; text-align: center; }
+
+    .yym-footer-top-inner { flex-direction: column; text-align: center; }
+    .yym-footer-top-text { flex-direction: column; }
+    .yym-footer-bottom-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 640px) {
+    .yym-section { padding: 60px 16px; }
+    .yym-hero-main-title { font-size: 1.85rem; }
+    .yym-section-title { font-size: 1.75rem; }
+    .yym-archive-title { font-size: 1.75rem; }
+    .yym-page-hero-title { font-size: 1.75rem; }
+    .yym-service-cards-grid { grid-template-columns: 1fr; }
+    .yym-trust-system-grid { grid-template-columns: 1fr; }
+    .yym-op-trust-items { grid-template-columns: 1fr; }
+    .yym-map-city-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .yym-why-cards-grid { grid-template-columns: 1fr; }
+    .yym-home-blog-grid { grid-template-columns: 1fr; }
+    .yym-footer-grid { grid-template-columns: 1fr; }
+
+    .yym-firms-grid,
+    .lst-listings-grid,
+    .lst-news-grid { grid-template-columns: 1fr; }
+    .yym-cities-alphabetical-grid { grid-template-columns: 1fr; }
+    .yym-services-full-grid { grid-template-columns: 1fr; }
+    .yym-archive-filter-form { grid-template-columns: 1fr; }
+    .yym-filter-col-btn { grid-column: span 1; }
+    .yym-form-row { grid-template-columns: 1fr; }
+    .yym-perks-checklist-grid { grid-template-columns: 1fr; }
+    .yym-seo-features-row { grid-template-columns: 1fr; }
+    .yym-results-header-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .yym-slide-img-box, .yym-slide-img { height: 220px !important; max-height: 220px !important; }
+
+    .yym-firma-fast-actions-card { padding: 20px 16px; }
+    .yym-fast-btns-grid { grid-template-columns: 1fr; gap: 10px; }
+    .yym-btn-action { padding: 14px 16px; width: 100%; box-sizing: border-box; }
+    .yym-btn-act-texts strong { font-size: 14px; }
+    .yym-btn-act-texts span { font-size: 12.5px; }
+
+    .yym-header-logo-img { height: 38px; max-width: 175px; }
+    .yym-single-blog-article { padding: 22px 18px; }
+    .yym-blog-feat-img { height: 220px !important; }
+    .yym-peb-actions { flex-direction: column; }
+    .yym-btn-peb-search, .yym-btn-peb-cities { width: 100%; justify-content: center; }
+
+    .yym-notice-box-emergency { flex-direction: column; padding: 20px 16px; gap: 16px; }
+    .yym-notice-em-title { font-size: 1.25rem; }
+    .yym-notice-em-actions { flex-direction: column; }
+    .yym-notice-btn { width: 100%; justify-content: center; }
+    .yym-platform-contact-form .yym-form-row { grid-template-columns: 1fr; }
+    .yym-owner-cta-btns { flex-direction: column; }
+    .yym-btn-owner-cta { width: 100%; }
+    .yym-contact-info-card, .yym-contact-form-card { padding: 24px 18px; }
+}
+
+
+
+/* Map icon color overrides */
+.yym-city-arrow .yym-icon { color: currentColor; }
+.yym-btn-all-cities .yym-icon { color: currentColor; }

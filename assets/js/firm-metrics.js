@@ -1,0 +1,5 @@
+document.addEventListener('DOMContentLoaded',function(){
+function send(el,event){if(!el||!window.mis360Metrics)return;const body=new URLSearchParams({action:'mis360_metric',firm:el.dataset.metricFirm,token:el.dataset.metricToken,event:event});fetch(mis360Metrics.url,{method:'POST',body:body,credentials:'same-origin',keepalive:true}).catch(function(){});}
+const profile=document.querySelector('[data-metric-profile]');if(profile){if(document.visibilityState==='visible')send(profile,'view');else document.addEventListener('visibilitychange',function seen(){if(document.visibilityState==='visible'){send(profile,'view');document.removeEventListener('visibilitychange',seen);}});}
+document.addEventListener('click',function(e){const link=e.target.closest('a');if(!link)return;const firm=link.closest('[data-metric-firm]');if(!firm)return;const href=link.getAttribute('href')||'';if(href.startsWith('tel:'))send(firm,'phone');else if(/^https:\/\/wa\.me\//.test(href))send(firm,'whatsapp');else if(link.classList.contains('yym-btn-maps-route'))send(firm,'directions');});
+});

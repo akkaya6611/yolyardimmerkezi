@@ -1,0 +1,4 @@
+Source: https://api.turkiyeapi.dev/v2/datasets/provinces.json and districts.json
+Project: https://github.com/ubeydeozdmr/turkiye-api
+Retrieved: 2026-09-23
+Only province and district names retained.

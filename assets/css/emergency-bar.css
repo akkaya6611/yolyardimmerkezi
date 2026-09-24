@@ -1,0 +1,124 @@
+/*
+ * Yol Yardım Merkezi - Mobil Sabit Acil Eylem Çubuğu Stilleri
+ */
+
+.yym-emergency-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background-color: var(--dark-bg);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .yym-emergency-bar {
+        display: block;
+    }
+}
+
+.yym-emergency-status {
+    background-color: #1e293b;
+    color: #cbd5e1;
+    font-size: 0.72rem;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.yym-emergency-status strong {
+    color: var(--primary);
+}
+
+.yym-emergency-actions {
+    display: flex;
+    align-items: stretch;
+    padding: 8px;
+    gap: 6px;
+    background-color: #0f172a;
+}
+
+.yym-bar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 6px;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.15;
+    flex: 1;
+    transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+.yym-bar-btn:active {
+    transform: scale(0.97);
+}
+
+/* 1. Hemen Ara Butonu */
+.yym-bar-call {
+    background-color: var(--accent);
+    flex: 1.3;
+    animation: yym-bar-glow 2s infinite;
+}
+
+@keyframes yym-bar-glow {
+    0% { background-color: var(--accent); }
+    50% { background-color: #dc2626; }
+    100% { background-color: var(--accent); }
+}
+
+/* 2. Konum At Butonu */
+.yym-bar-location {
+    background-color: #0284c7;
+    flex: 1.1;
+}
+
+.yym-bar-location:active {
+    background-color: #0369a1;
+}
+
+/* 3. WhatsApp Butonu */
+.yym-bar-whatsapp {
+    background-color: #25d366;
+    flex: 1.1;
+}
+
+.yym-bar-whatsapp:active {
+    background-color: #1eb857;
+}
+
+.yym-btn-text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.yym-btn-title {
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+}
+
+.yym-btn-subtitle {
+    font-size: 0.65rem;
+    opacity: 0.88;
+    white-space: nowrap;
+}
+
+.yym-bar-btn .yym-icon {
+    flex-shrink: 0;
+}

@@ -236,6 +236,8 @@ class YYM_SEO_Engine {
         echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' . "\n";
         echo '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
 
+        global $wpdb;
+
         if ($sub_slug === 'pages') {
             // Ana sayfa en yüksek öncelikte
             echo "  <url>\n";
@@ -245,69 +247,83 @@ class YYM_SEO_Engine {
             echo "    <priority>1.0</priority>\n";
             echo "  </url>\n";
 
-            // Yayınlanmış sayfalar
-            $pages = get_posts(array(
-                'post_type'      => 'page',
-                'post_status'    => 'publish',
-                'posts_per_page' => 500,
-                'orderby'        => 'modified',
-                'order'          => 'DESC',
-            ));
+            $front_id = (int)get_option('page_on_front');
+            $pages = $wpdb->get_results($wpdb->prepare("
+                SELECT p.ID, p.post_modified_gmt, p.post_title, t.meta_value AS thumbnail_id
+                FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
+                WHERE p.post_type = 'page' AND p.post_status = 'publish' AND p.ID != %d
+                ORDER BY p.post_modified_gmt DESC
+                LIMIT 5000
+            ", $front_id));
 
-            foreach ($pages as $p) {
-                if (get_option('page_on_front') == $p->ID) continue;
-                self::render_url_node(get_permalink($p), $p->post_modified_gmt, 'weekly', '0.7', get_post_thumbnail_id($p->ID), $p->post_title);
+            if (!empty($pages)) {
+                foreach ($pages as $p) {
+                    $thumb_id = !empty($p->thumbnail_id) ? (int)$p->thumbnail_id : 0;
+                    self::render_url_node(get_permalink($p->ID), $p->post_modified_gmt, 'weekly', '0.7', $thumb_id, $p->post_title);
+                }
             }
 
         } elseif ($sub_slug === 'firmalar') {
-            // Çekici ve Yol Yardım Firmaları
-            $firmalar = get_posts(array(
-                'post_type'      => 'firma',
-                'post_status'    => 'publish',
-                'posts_per_page' => 1000,
-                'orderby'        => 'modified',
-                'order'          => 'DESC',
-            ));
-
             // Firma arşivi
             $archive_link = get_post_type_archive_link('firma');
             if ($archive_link) {
                 self::render_url_node($archive_link, gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.9');
             }
 
-            foreach ($firmalar as $f) {
-                $is_vip = get_post_meta($f->ID, '_firma_is_vip', true);
-                $priority = $is_vip ? '0.95' : '0.9';
-                self::render_url_node(get_permalink($f), $f->post_modified_gmt, 'daily', $priority, get_post_thumbnail_id($f->ID), $f->post_title);
+            // TÜM Çekici ve Yol Yardım Firmaları (1000 limiti tamamen kaldırıldı, 50.000'e kadar)
+            $firmalar = $wpdb->get_results("
+                SELECT p.ID, p.post_modified_gmt, p.post_title, m.meta_value AS is_vip, t.meta_value AS thumbnail_id
+                FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} m ON (p.ID = m.post_id AND m.meta_key = '_firma_is_vip')
+                LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
+                WHERE p.post_type = 'firma' AND p.post_status = 'publish'
+                ORDER BY p.post_modified_gmt DESC
+                LIMIT 50000
+            ");
+
+            if (!empty($firmalar)) {
+                foreach ($firmalar as $f) {
+                    $is_vip   = !empty($f->is_vip);
+                    $priority = $is_vip ? '0.95' : '0.9';
+                    $thumb_id = !empty($f->thumbnail_id) ? (int)$f->thumbnail_id : 0;
+                    self::render_url_node(get_permalink($f->ID), $f->post_modified_gmt, 'daily', $priority, $thumb_id, $f->post_title);
+                }
             }
 
         } elseif ($sub_slug === 'bolgeler') {
             // Otoyollar, tüneller ve bölgeler
-            $bolgeler = get_posts(array(
-                'post_type'      => 'bolge',
-                'post_status'    => 'publish',
-                'posts_per_page' => 500,
-                'orderby'        => 'modified',
-                'order'          => 'DESC',
-            ));
-
             $archive_link = get_post_type_archive_link('bolge');
             if ($archive_link) {
                 self::render_url_node($archive_link, gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.9');
             }
 
-            foreach ($bolgeler as $b) {
-                $is_transit = get_post_meta($b->ID, '_is_transit_highway', true);
-                $priority   = $is_transit ? '0.95' : '0.85';
-                $freq       = $is_transit ? 'daily' : 'weekly';
-                self::render_url_node(get_permalink($b), $b->post_modified_gmt, $freq, $priority, get_post_thumbnail_id($b->ID), $b->post_title);
+            $bolgeler = $wpdb->get_results("
+                SELECT p.ID, p.post_modified_gmt, p.post_title, m.meta_value AS is_transit, t.meta_value AS thumbnail_id
+                FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} m ON (p.ID = m.post_id AND m.meta_key = '_is_transit_highway')
+                LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
+                WHERE p.post_type = 'bolge' AND p.post_status = 'publish'
+                ORDER BY p.post_modified_gmt DESC
+                LIMIT 10000
+            ");
+
+            if (!empty($bolgeler)) {
+                foreach ($bolgeler as $b) {
+                    $is_transit = !empty($b->is_transit);
+                    $priority   = $is_transit ? '0.95' : '0.85';
+                    $freq       = $is_transit ? 'daily' : 'weekly';
+                    $thumb_id   = !empty($b->thumbnail_id) ? (int)$b->thumbnail_id : 0;
+                    self::render_url_node(get_permalink($b->ID), $b->post_modified_gmt, $freq, $priority, $thumb_id, $b->post_title);
+                }
             }
 
         } elseif ($sub_slug === 'sehirler') {
-            // 81 İl ve İlçe Taksonomileri
+            // 81 İl ve İlçe Taksonomileri (Tümü)
             $terms = get_terms(array(
                 'taxonomy'   => 'firma_sehir',
                 'hide_empty' => false,
+                'number'     => 0,
             ));
 
             if (!is_wp_error($terms) && !empty($terms)) {
@@ -321,35 +337,43 @@ class YYM_SEO_Engine {
 
         } elseif ($sub_slug === 'hizmetler') {
             // Hizmet Rehberi Sayfaları
-            $hizmetler = get_posts(array(
-                'post_type'      => 'hizmet',
-                'post_status'    => 'publish',
-                'posts_per_page' => 500,
-                'orderby'        => 'modified',
-                'order'          => 'DESC',
-            ));
-
             $archive_link = get_post_type_archive_link('hizmet');
             if ($archive_link) {
                 self::render_url_node($archive_link, gmdate('Y-m-d\TH:i:s\Z'), 'weekly', '0.8');
             }
 
-            foreach ($hizmetler as $h) {
-                self::render_url_node(get_permalink($h), $h->post_modified_gmt, 'weekly', '0.8', get_post_thumbnail_id($h->ID), $h->post_title);
+            $hizmetler = $wpdb->get_results("
+                SELECT p.ID, p.post_modified_gmt, p.post_title, t.meta_value AS thumbnail_id
+                FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
+                WHERE p.post_type = 'hizmet' AND p.post_status = 'publish'
+                ORDER BY p.post_modified_gmt DESC
+                LIMIT 5000
+            ");
+
+            if (!empty($hizmetler)) {
+                foreach ($hizmetler as $h) {
+                    $thumb_id = !empty($h->thumbnail_id) ? (int)$h->thumbnail_id : 0;
+                    self::render_url_node(get_permalink($h->ID), $h->post_modified_gmt, 'weekly', '0.8', $thumb_id, $h->post_title);
+                }
             }
 
         } elseif ($sub_slug === 'yazilar') {
-            // Blog / Makaleler
-            $posts = get_posts(array(
-                'post_type'      => 'post',
-                'post_status'    => 'publish',
-                'posts_per_page' => 1000,
-                'orderby'        => 'modified',
-                'order'          => 'DESC',
-            ));
+            // Blog / Makaleler (Tümü)
+            $posts = $wpdb->get_results("
+                SELECT p.ID, p.post_modified_gmt, p.post_title, t.meta_value AS thumbnail_id
+                FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
+                WHERE p.post_type = 'post' AND p.post_status = 'publish'
+                ORDER BY p.post_modified_gmt DESC
+                LIMIT 50000
+            ");
 
-            foreach ($posts as $p) {
-                self::render_url_node(get_permalink($p), $p->post_modified_gmt, 'monthly', '0.7', get_post_thumbnail_id($p->ID), $p->post_title);
+            if (!empty($posts)) {
+                foreach ($posts as $p) {
+                    $thumb_id = !empty($p->thumbnail_id) ? (int)$p->thumbnail_id : 0;
+                    self::render_url_node(get_permalink($p->ID), $p->post_modified_gmt, 'monthly', '0.7', $thumb_id, $p->post_title);
+                }
             }
         }
 

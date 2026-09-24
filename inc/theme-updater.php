@@ -65,7 +65,7 @@ class YYM_Theme_GitHub_Updater {
         $remote_style = wp_remote_retrieve_body($response);
 
         // Style.css içinden Version başlığını regex ile al
-        if (preg_match('/^[ \t/*#@]*Version:(.*)$/mi', $remote_style, $matches)) {
+        if (preg_match('~^[ \t/*#@]*Version:(.*)$~mi', $remote_style, $matches)) {
             $remote_version = trim($matches[1]);
         } else {
             return false;

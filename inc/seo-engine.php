@@ -22,8 +22,8 @@ class YYM_SEO_Engine {
     const MAX_LOGS     = 50;
 
     public static function init() {
-        // İstekleri hem erken init'te hem template_redirect'te yakala
-        add_action('init', array(__CLASS__, 'handle_sitemap_and_key_requests'), 2);
+        // İstekleri hem init'te (priority 20, CPT ve taksonomiler yüklendikten sonra) hem template_redirect'te yakala
+        add_action('init', array(__CLASS__, 'handle_sitemap_and_key_requests'), 20);
         add_action('init', array(__CLASS__, 'register_rewrite_rules'), 10);
         add_filter('query_vars', array(__CLASS__, 'register_query_vars'));
         add_action('template_redirect', array(__CLASS__, 'handle_sitemap_and_key_requests'), 1);
@@ -387,29 +387,46 @@ class YYM_SEO_Engine {
             }
 
         } elseif ($sub_slug === 'sehirler') {
-            // 81 İl ve İlçe Taksonomileri (Tümü)
-            $terms = get_terms(array(
-                'taxonomy'   => 'firma_sehir',
-                'hide_empty' => false,
-                'number'     => 0,
-            ));
+            // Şehirler sayfası ana linki
+            self::render_url_node(home_url('/sehirler/'), gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.9');
 
-            if (!is_wp_error($terms) && !empty($terms)) {
+            // 81 İl ve İlçe Taksonomileri (Doğrudan SQL ile bağımsız ve hatasız)
+            $terms = $wpdb->get_results("
+                SELECT t.term_id, t.slug, tt.taxonomy
+                FROM {$wpdb->terms} t
+                INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
+                WHERE tt.taxonomy = 'firma_sehir'
+                ORDER BY t.name ASC
+            ");
+
+            if (!empty($terms)) {
                 foreach ($terms as $t) {
-                    $term_link = get_term_link($t);
-                    if (!is_wp_error($term_link)) {
-                        self::render_url_node($term_link, gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.85');
-                    }
+                    $term_link = home_url('/sehir/' . $t->slug . '/');
+                    self::render_url_node($term_link, gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.85');
                 }
             }
 
         } elseif ($sub_slug === 'hizmetler') {
-            // Hizmet Rehberi Sayfaları
-            $archive_link = get_post_type_archive_link('hizmet');
-            if ($archive_link) {
-                self::render_url_node($archive_link, gmdate('Y-m-d\TH:i:s\Z'), 'weekly', '0.8');
+            // Hizmetler ana sayfası
+            self::render_url_node(home_url('/hizmetler/'), gmdate('Y-m-d\TH:i:s\Z'), 'weekly', '0.9');
+
+            // Hizmet Türleri Taksonomileri (Oto Kurtarma, Çekici, Akü, Lastik vb.)
+            $terms = $wpdb->get_results("
+                SELECT t.term_id, t.slug, tt.taxonomy
+                FROM {$wpdb->terms} t
+                INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
+                WHERE tt.taxonomy = 'firma_kategori'
+                ORDER BY t.name ASC
+            ");
+
+            if (!empty($terms)) {
+                foreach ($terms as $t) {
+                    $term_link = home_url('/hizmet-kategori/' . $t->slug . '/');
+                    self::render_url_node($term_link, gmdate('Y-m-d\TH:i:s\Z'), 'daily', '0.85');
+                }
             }
 
+            // Varsa Hizmet CPT gönderileri
             $hizmetler = $wpdb->get_results("
                 SELECT p.ID, p.post_modified_gmt, p.post_title, t.meta_value AS thumbnail_id
                 FROM {$wpdb->posts} p

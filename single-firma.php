@@ -498,8 +498,9 @@ while (have_posts()) : the_post();
 
 
 
-                <!-- Müşteri Değerlendirmeleri & Yorumlar -->
+                <?php if (function_exists('yym_show_ad')) yym_show_ad('single_content'); ?>
 
+                <!-- Müşteri Değerlendirmeleri & Yorumlar -->
                 <div class="yym-box-card" id="yorumlar">
 
                     <h3 class="yym-box-title">
@@ -641,9 +642,9 @@ while (have_posts()) : the_post();
 
 
                     <!-- 3. Güvenlik & Denetim Bildirimi -->
-
                     <?php mis360_firm_source_notice(get_the_ID()); mis360_report_form(get_the_ID()); mis360_claim_link(get_the_ID()); ?>
 
+                    <?php if (function_exists('yym_show_ad')) yym_show_ad('single_sidebar'); ?>
                 </div>
 
             </aside>

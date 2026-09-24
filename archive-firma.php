@@ -111,9 +111,16 @@ $total_firms = $wp_query->found_posts;
         <?php if (have_posts()) : ?>
             <!-- MODERN MARKETPLACE FİRMA GRID -->
             <div class="mis360-firma-grid">
-                <?php while (have_posts()) : the_post(); ?>
-                    <?php get_template_part('template-parts/firma-card', null, array('heading' => 'h2')); ?>
-                <?php endwhile; ?>
+                <?php 
+                $yym_post_count = 0;
+                while (have_posts()) : the_post(); 
+                    $yym_post_count++;
+                    get_template_part('template-parts/firma-card', null, array('heading' => 'h2')); 
+                    if ($yym_post_count === 3 && function_exists('yym_show_ad')) {
+                        yym_show_ad('in_feed');
+                    }
+                endwhile; 
+                ?>
             </div>
 
             <!-- Sayfalama (Pagination) -->

@@ -131,3 +131,12 @@ $address = yym_get_address();
         </div>
     </div>
 </div>
+
+<?php 
+// Üst Reklam Alanı (Header Altı)
+if (function_exists('yym_show_ad')) {
+    echo '<div class="lst-container">';
+    yym_show_ad('header');
+    echo '</div>';
+}
+?>

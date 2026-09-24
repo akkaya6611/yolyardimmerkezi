@@ -58,6 +58,15 @@ $email   = yym_get_email();
 
 
 
+<?php 
+// Alt Reklam Alanı (Footer Üstü)
+if (function_exists('yym_show_ad')) {
+    echo '<div class="lst-container">';
+    yym_show_ad('footer');
+    echo '</div>';
+}
+?>
+
 <footer class="yym-corporate-footer" id="iletisim">
 
 

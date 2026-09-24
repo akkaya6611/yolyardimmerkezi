@@ -34,6 +34,7 @@ require_once get_template_directory() . '/inc/icon-helpers.php';
 
 require_once get_template_directory() . '/inc/admin-tools.php';
 require_once get_template_directory() . '/inc/theme-updater.php';
+require_once get_template_directory() . '/inc/ads-manager.php';
 
 
 
@@ -113,8 +114,9 @@ add_action('send_headers', function () {
     if (is_admin()) {
         return;
     }
-    header("Content-Security-Policy: default-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: blob:; font-src 'self' data: https:;");
+    header("Content-Security-Policy: default-src 'self' https: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: blob:; font-src 'self' data: https:; frame-src 'self' https:; connect-src 'self' https:;");
 });
+
 
 // SEO & Geo meta tags
 function yym_output_seo_and_geo_meta() {

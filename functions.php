@@ -35,6 +35,7 @@ require_once get_template_directory() . '/inc/icon-helpers.php';
 require_once get_template_directory() . '/inc/admin-tools.php';
 require_once get_template_directory() . '/inc/theme-updater.php';
 require_once get_template_directory() . '/inc/ads-manager.php';
+require_once get_template_directory() . '/inc/custom-login.php';
 
 
 

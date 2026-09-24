@@ -28,7 +28,7 @@ function yym_register_ads_customizer($wp_customize) {
 
     // 1. Google AdSense Yayıncı Kimliği (En Kolay Yol)
     $wp_customize->add_setting('yym_adsense_publisher_id', array(
-        'default'           => '',
+        'default'           => 'ca-pub-7207931778635058',
         'sanitize_callback' => 'sanitize_text_field',
     ));
     $wp_customize->add_control('yym_adsense_publisher_id', array(
@@ -101,9 +101,9 @@ function yym_sanitize_ad_code($input) {
  * Yayıncı Kimliğini normalize eder (ca-pub-XXXXXXXXXXXXX formatına getirir)
  */
 function yym_get_normalized_client_id() {
-    $raw_id = trim(get_theme_mod('yym_adsense_publisher_id', ''));
+    $raw_id = trim(get_theme_mod('yym_adsense_publisher_id', 'ca-pub-7207931778635058'));
     if (empty($raw_id)) {
-        return '';
+        $raw_id = 'ca-pub-7207931778635058';
     }
     if (strpos($raw_id, 'ca-pub-') === 0) {
         return $raw_id;
@@ -130,7 +130,7 @@ function yym_output_ad_head_script() {
 
     if (!empty($client_id)) {
         echo "\n<!-- Google AdSense Auto Ads (Otomatik Reklamlar) -->\n";
-        echo '<script async src="https://pagead2.googlesyndicationon.com/pagead/js/adsbygoogle.js?client=' . esc_attr($client_id) . '" crossorigin="anonymous"></script>' . "\n";
+        echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' . esc_attr($client_id) . '" crossorigin="anonymous"></script>' . "\n";
     } elseif (!empty($head_code)) {
         echo "\n<!-- Google AdSense Custom Head Script -->\n";
         echo $head_code . "\n";

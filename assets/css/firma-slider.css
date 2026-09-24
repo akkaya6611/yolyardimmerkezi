@@ -1,0 +1,249 @@
+/**
+ * MIS 360 - Firma Slider Kısa Kodu (Shortcode) CSS
+ * [firma_slider il="Ankara" ilce="Güdül"]
+ */
+
+.yym-firma-slider-wrapper {
+    margin: 36px 0;
+    padding: 24px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.yym-fslider-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.yym-fslider-title-wrap {
+    flex: 1;
+    min-width: 240px;
+}
+
+.yym-fslider-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #c2410c;
+    font-size: 11px;
+    font-weight: 750;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+}
+
+.yym-fslider-badge svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.yym-fslider-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.yym-fslider-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin: 4px 0 0;
+    line-height: 1.5;
+}
+
+.yym-fslider-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.yym-fslider-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    padding: 0;
+}
+
+.yym-fslider-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.yym-fslider-btn:hover:not(:disabled) {
+    background: #ff981a;
+    border-color: #ff981a;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 152, 26, 0.35);
+    transform: translateY(-1px);
+}
+
+.yym-fslider-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.yym-fslider-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+}
+
+.yym-fslider-track-container {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -4px;
+    padding: 4px;
+}
+
+.yym-fslider-track {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 14px;
+    margin-bottom: -4px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.yym-fslider-track::-webkit-scrollbar {
+    height: 6px;
+}
+
+.yym-fslider-track::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.yym-fslider-track::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.yym-fslider-track::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.yym-fslider-slide {
+    flex: 0 0 320px;
+    max-width: 350px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.yym-fslider-slide .mis360-firma-card {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.yym-fslider-slide .mis360-firma-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.yym-fslider-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed #e2e8f0;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.yym-fslider-footer-info {
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.yym-fslider-footer-info svg {
+    width: 15px;
+    height: 15px;
+    color: #10b981;
+}
+
+.yym-fslider-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #d97706;
+    font-weight: 750;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.yym-fslider-view-all:hover {
+    color: #b45309;
+    text-decoration: underline;
+}
+
+.yym-fslider-empty {
+    padding: 32px 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 14px;
+    color: #64748b;
+}
+
+.yym-fslider-empty p {
+    margin: 8px 0 16px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .yym-firma-slider-wrapper {
+        padding: 18px 14px;
+        margin: 28px 0;
+        border-radius: 16px;
+    }
+    .yym-fslider-title {
+        font-size: 18px;
+    }
+    .yym-fslider-slide {
+        flex: 0 0 85%;
+        max-width: 300px;
+    }
+    .yym-fslider-btn {
+        width: 36px;
+        height: 36px;
+    }
+    .yym-fslider-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

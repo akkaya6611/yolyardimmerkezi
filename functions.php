@@ -36,6 +36,7 @@ require_once get_template_directory() . '/inc/admin-tools.php';
 require_once get_template_directory() . '/inc/theme-updater.php';
 require_once get_template_directory() . '/inc/ads-manager.php';
 require_once get_template_directory() . '/inc/custom-login.php';
+require_once get_template_directory() . '/inc/firma-slider.php';
 
 
 
@@ -210,6 +211,10 @@ function yym_enqueue_assets() {
     // Arşiv ve ana sayfanın ortak firma kartları.
 
     wp_enqueue_style('mis360-firma-cards', get_template_directory_uri() . '/assets/css/firma-cards.css', array('yym-theme-style'), filemtime(get_template_directory() . '/assets/css/firma-cards.css'));
+
+    // Firma Slider Kısa Kodu (Shortcode) Assets
+    wp_register_style('yym-firma-slider', get_template_directory_uri() . '/assets/css/firma-slider.css', array('mis360-firma-cards'), $theme_version);
+    wp_register_script('yym-firma-slider', get_template_directory_uri() . '/assets/js/firma-slider.js', array(), $theme_version, true);
 
 
 

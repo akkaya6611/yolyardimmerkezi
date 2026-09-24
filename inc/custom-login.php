@@ -39,10 +39,27 @@ add_action('login_enqueue_scripts', function () {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
             color: #F8FAFC !important;
             position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 40px 16px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Dil seçici kutusunu gizle */
+        .language-switcher {
+            display: none !important;
+        }
+
+        /* Tarayıcı sarı otomatik doldurma rengini düzelt */
+        body.login input:-webkit-autofill,
+        body.login input:-webkit-autofill:hover, 
+        body.login input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0px 1000px #F8FAFC inset !important;
+            -webkit-text-fill-color: #0F172A !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
 
         /* Arka plan dekoratif ışık efekti */

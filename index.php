@@ -78,10 +78,13 @@ if (is_category()) {
                 <?php endwhile; ?>
             </div>
 
-            <div class="yym-pagination" style="margin-top: 50px; text-align: center;">
-                <?php the_posts_pagination(array(
+            <div class="yym-pagination-wrap" style="margin-top: 50px; text-align: center;">
+                <?php echo paginate_links(array(
                     'prev_text' => '← ' . __('Önceki', 'yol-yardim-merkezi'),
                     'next_text' => __('Sonraki', 'yol-yardim-merkezi') . ' →',
+                    'type'      => 'list',
+                    'end_size'  => 2,
+                    'mid_size'  => 2,
                 )); ?>
             </div>
         <?php else : ?>

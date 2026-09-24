@@ -27,6 +27,13 @@ $card_normalize_phone = static function ($value) {
 };
 $card_tel = $card_normalize_phone($card_phone);
 $card_wa = $card_normalize_phone($card_whatsapp !== '' ? $card_whatsapp : $card_phone);
+
+if (isset($args['show_phone']) && empty($args['show_phone'])) {
+    $card_tel = '';
+}
+if (isset($args['show_whatsapp']) && empty($args['show_whatsapp'])) {
+    $card_wa = '';
+}
 $card_wa_url = $card_wa ? 'https://wa.me/' . $card_wa . '?text=' . rawurlencode('Merhaba ' . $card_name . ', Yol Yardım Merkezi üzerinden ulaşıyorum. Yol yardım desteğine ihtiyacım var.') : '';
 
 $card_image = get_the_post_thumbnail_url($card_id, 'thumbnail');

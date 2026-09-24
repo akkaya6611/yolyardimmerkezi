@@ -6,8 +6,9 @@
  * firmalarını kaydırılabilir şık bir carousel/slider formatında listeler.
  * 
  * Kullanım Örnekleri:
+ * [yym_firma_slider sehir="banaz" limit="12" show_phone="1" show_whatsapp="1"]
  * [firma_slider il="Ankara" ilce="Güdül"]
- * [firma_slider il="İstanbul" limit="10"]
+ * [yym_firma_slider sehir="Uşak" limit="8"]
  * [firma_slider il="İzmir" ilce="Bornova" baslik="Bornova Acil Çekiciler"]
  * [firma_slider sayi="6"]
  */
@@ -17,16 +18,96 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Tırnak işaretlerini (düz ve süslü tırnaklar) ve boşlukları temizler
+ * Tırnak işaretlerini (düz, süslü tırnaklar ve prime) ve boşlukları temizler
  */
 function mis360_clean_slider_text($text) {
     if (!is_string($text)) {
         return '';
     }
     $text = trim($text);
-    // Unicode süslü tırnaklar ve düz tırnakları temizle
-    $text = preg_replace('/^[\s"\'“”‘’«»]+|[\s"\'“”‘’«»]+$/u', '', $text);
+    // Unicode süslü tırnaklar, çift prime ve düz tırnakları temizle
+    $text = preg_replace('/^[\s"\'“”‘’«»″′]+|[\s"\'“”‘’«»″′]+$/u', '', $text);
     return trim($text);
+}
+
+/**
+ * Verilen yer adının İl mi yoksa İlçe mi olduğunu turkiye-locations.json üzerinden çözer.
+ * Örn: sehir="banaz" girildiğinde -> İlçe: Banaz, İl: Uşak olarak otomatik tespit eder.
+ */
+function mis360_resolve_slider_location($input_city, $input_district) {
+    $input_city = trim((string)$input_city);
+    $input_district = trim((string)$input_district);
+
+    // Eğer hem il hem ilçe zaten ayrı ayrı verilmişse doğrudan kullan
+    if (!empty($input_city) && !empty($input_district)) {
+        return array(
+            'il'          => $input_city,
+            'ilce'        => $input_district,
+            'is_ilce'     => true,
+            'parent_city' => $input_city,
+        );
+    }
+
+    $target = !empty($input_city) ? $input_city : $input_district;
+    if (empty($target)) {
+        return array('il' => '', 'ilce' => '', 'is_ilce' => false, 'parent_city' => '');
+    }
+
+    // Türkçe karakter normalizasyonu (harf eşleşmesi için)
+    $norm_fn = function ($s) {
+        $s = trim((string)$s);
+        $tr = array(
+            'I' => 'i', 'İ' => 'i', 'ı' => 'i', 'i' => 'i',
+            'Ç' => 'c', 'ç' => 'c', 'Ş' => 's', 'ş' => 's',
+            'Ğ' => 'g', 'ğ' => 'g', 'Ü' => 'u', 'ü' => 'u',
+            'Ö' => 'o', 'ö' => 'o'
+        );
+        return strtolower(strtr($s, $tr));
+    };
+
+    $norm_target = $norm_fn($target);
+
+    // 81 il ve 922 ilçe verisini yükle
+    $json_file = get_template_directory() . '/assets/data/turkiye-locations.json';
+    $locations = file_exists($json_file) ? json_decode(file_get_contents($json_file), true) : array();
+
+    if (is_array($locations) && !empty($locations)) {
+        // 1. İl mi diye kontrol et (Örn: Ankara, Uşak, İstanbul)
+        foreach ($locations as $prov => $districts) {
+            if ($norm_fn($prov) === $norm_target) {
+                return array(
+                    'il'          => $prov,
+                    'ilce'        => '',
+                    'is_ilce'     => false,
+                    'parent_city' => $prov,
+                );
+            }
+        }
+
+        // 2. İlçe mi diye kontrol et (Örn: Banaz, Güdül, Alanya, Çankaya)
+        foreach ($locations as $prov => $districts) {
+            if (is_array($districts)) {
+                foreach ($districts as $d) {
+                    if ($norm_fn($d) === $norm_target) {
+                        return array(
+                            'il'          => $prov,
+                            'ilce'        => $d,
+                            'is_ilce'     => true,
+                            'parent_city' => $prov,
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    // JSON'da bulunamadıysa (yazım hatası veya özel bölge)
+    return array(
+        'il'          => $target,
+        'ilce'        => $target,
+        'is_ilce'     => false,
+        'parent_city' => '',
+    );
 }
 
 /**
@@ -44,30 +125,47 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
     }
 
     // İl / Şehir parametresi
-    $il = '';
-    foreach (array('il', 'sehir', 'city') as $k) {
+    $raw_city = '';
+    foreach (array('sehir', 'il', 'city', 'konum', 'location') as $k) {
         if (!empty($cleaned_atts[$k])) {
-            $il = $cleaned_atts[$k];
+            $raw_city = $cleaned_atts[$k];
             break;
         }
     }
 
     // İlçe parametresi
-    $ilce = '';
-    foreach (array('ilce', 'district') as $k) {
+    $raw_district = '';
+    foreach (array('ilce', 'district', 'semt', 'bolge') as $k) {
         if (!empty($cleaned_atts[$k])) {
-            $ilce = $cleaned_atts[$k];
+            $raw_district = $cleaned_atts[$k];
             break;
         }
     }
 
+    // Akıllı Yer Çözümleyici: "banaz" yazıldıysa İlçe: Banaz, İl: Uşak olarak çözer
+    $loc = mis360_resolve_slider_location($raw_city, $raw_district);
+    $il = $loc['il'];
+    $ilce = $loc['ilce'];
+    $is_ilce = $loc['is_ilce'];
+
     // Limit / Adet
     $limit = 8;
-    foreach (array('sayi', 'adet', 'limit', 'count') as $k) {
+    foreach (array('limit', 'sayi', 'adet', 'count') as $k) {
         if (!empty($cleaned_atts[$k]) && is_numeric($cleaned_atts[$k])) {
             $limit = max(1, min(30, (int)$cleaned_atts[$k]));
             break;
         }
+    }
+
+    // Telefon ve WhatsApp Buton Kontrolleri
+    $show_phone = true;
+    if (isset($cleaned_atts['show_phone']) && in_array(strtolower($cleaned_atts['show_phone']), array('0', 'false', 'no', 'hayir'), true)) {
+        $show_phone = false;
+    }
+
+    $show_whatsapp = true;
+    if (isset($cleaned_atts['show_whatsapp']) && in_array(strtolower($cleaned_atts['show_whatsapp']), array('0', 'false', 'no', 'hayir'), true)) {
+        $show_whatsapp = false;
     }
 
     // Kategori
@@ -97,19 +195,18 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         }
     }
 
-    // 1. AŞAMA: İl ve İlçe sorgusu
+    // 1. AŞAMA: İlçe ve İl Sorgusu
     $meta_query = array('relation' => 'AND');
-    if (!empty($il)) {
-        $meta_query[] = array(
-            'key'     => '_firma_city',
-            'value'   => $il,
-            'compare' => 'LIKE',
-        );
-    }
-    if (!empty($ilce)) {
+    if (!empty($ilce) && $is_ilce) {
         $meta_query[] = array(
             'key'     => '_firma_district',
             'value'   => $ilce,
+            'compare' => 'LIKE',
+        );
+    } elseif (!empty($il)) {
+        $meta_query[] = array(
+            'key'     => '_firma_city',
+            'value'   => $il,
             'compare' => 'LIKE',
         );
     }
@@ -139,8 +236,8 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
     $firma_query = new WP_Query($query_args);
     $is_fallback = false;
 
-    // 2. AŞAMA: İlçe belirtilmiş ama o ilçede henüz firma yoksa -> İldeki firmaları getir (Kullanıcı boş kutu görmesin)
-    if (!$firma_query->have_posts() && !empty($il) && !empty($ilce)) {
+    // 2. AŞAMA: İlçede (örn: Banaz) doğrudan firma bulunamazsa bağlı olduğu İl (Uşak) firmalarını getir
+    if (!$firma_query->have_posts() && !empty($ilce) && !empty($il)) {
         $fallback_args = array(
             'post_type'      => 'firma',
             'post_status'    => 'publish',
@@ -159,7 +256,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         $is_fallback = true;
     }
 
-    // 3. AŞAMA: İlde de firma bulunamazsa son eklenen onaylı firmaları getir
+    // 3. AŞAMA: İlde de firma bulunamazsa son eklenen onaylı nöbetçi firmaları getir (Asla boş kutu çıkmaz)
     if (!$firma_query->have_posts()) {
         $fallback_all = array(
             'post_type'      => 'firma',
@@ -175,8 +272,10 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
     // Başlık ve Alt Başlık belirleme
     if (!empty($custom_title)) {
         $slider_title = $custom_title;
-    } elseif (!empty($il) && !empty($ilce)) {
-        $slider_title = sprintf('%s %s 7/24 Yol Yardım ve Çekici Firmaları', esc_html($il), esc_html($ilce));
+    } elseif (!empty($ilce) && !empty($il) && $is_ilce && $il !== $ilce) {
+        $slider_title = sprintf('%s (%s) 7/24 Yol Yardım ve Çekici Firmaları', esc_html($ilce), esc_html($il));
+    } elseif (!empty($ilce)) {
+        $slider_title = sprintf('%s 7/24 Yol Yardım ve Çekici Firmaları', esc_html($ilce));
     } elseif (!empty($il)) {
         $slider_title = sprintf('%s 7/24 Yol Yardım ve Çekici Firmaları', esc_html($il));
     } else {
@@ -185,7 +284,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
 
     if (!empty($custom_subtitle)) {
         $slider_subtitle = $custom_subtitle;
-    } elseif ($is_fallback && !empty($il) && !empty($ilce)) {
+    } elseif ($is_fallback && !empty($ilce) && !empty($il)) {
         $slider_subtitle = sprintf('%s ve çevresinde en hızlı ulaşabileceğiniz %s nöbetçi ekipleri', esc_html($ilce), esc_html($il));
     } else {
         $slider_subtitle = 'Doğrulanmış ve en yakın konumdaki profesyonel oto kurtarma ekipleri';
@@ -193,7 +292,7 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
 
     // "Tümünü Gör" Linki
     $view_all_url = home_url('/firmalar/');
-    if (!empty($il) && !empty($ilce)) {
+    if (!empty($il) && !empty($ilce) && $is_ilce) {
         $view_all_url = add_query_arg(array('city' => $il, 'district' => $ilce), home_url('/firmalar/'));
     } elseif (!empty($il)) {
         $view_all_url = add_query_arg(array('city' => $il), home_url('/firmalar/'));
@@ -236,7 +335,13 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
                         $firma_query->the_post();
                         ?>
                         <div class="yym-fslider-slide">
-                            <?php get_template_part('template-parts/firma-card', null, array('heading' => 'h3')); ?>
+                            <?php 
+                            get_template_part('template-parts/firma-card', null, array(
+                                'heading'        => 'h3',
+                                'show_phone'     => $show_phone,
+                                'show_whatsapp'  => $show_whatsapp,
+                            )); 
+                            ?>
                         </div>
                         <?php
                     endwhile;
@@ -252,8 +357,8 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
                 </div>
                 <a href="<?php echo esc_url($view_all_url); ?>" class="yym-fslider-view-all">
                     <?php
-                    if (!empty($ilce)) {
-                        echo esc_html(sprintf('%s %s Çevresindeki Tüm Firmaları Gör →', $il, $ilce));
+                    if (!empty($ilce) && $is_ilce) {
+                        echo esc_html(sprintf('%s Çevresindeki Tüm Firmaları Gör →', $ilce));
                     } elseif (!empty($il)) {
                         echo esc_html(sprintf('%s Genelindeki Tüm Firmaları Gör →', $il));
                     } else {
@@ -273,7 +378,9 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
     return ob_get_clean();
 }
 
-// Ana kısa kod ve olası yazım varyasyonlarını kaydet
+// Ana kısa kod ve tüm varyasyonlarını kaydet
+add_shortcode('yym_firma_slider', 'mis360_firma_slider_shortcode');
 add_shortcode('firma_slider', 'mis360_firma_slider_shortcode');
 add_shortcode('firmalar_slider', 'mis360_firma_slider_shortcode');
 add_shortcode('firma-slider', 'mis360_firma_slider_shortcode');
+add_shortcode('yym-firma-slider', 'mis360_firma_slider_shortcode');

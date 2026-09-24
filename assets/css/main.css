@@ -4464,10 +4464,21 @@ button, input, select, textarea {
     max-width: 100%;
 }
 
+.yym-blog-featured-img-box {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    max-width: 100%;
+    background: #0B1F3A;
+    box-shadow: 0 4px 20px rgba(11, 31, 58, 0.06);
+}
+
 .yym-blog-feat-img {
     width: 100% !important;
     max-width: 100% !important;
-    height: 380px !important;
+    height: auto !important;
+    max-height: 480px !important;
+    aspect-ratio: 16 / 9;
     object-fit: cover !important;
     display: block !important;
 }
@@ -4475,12 +4486,92 @@ button, input, select, textarea {
 .yym-blog-entry-content {
     color: #334155;
     font-size: 16px;
-    line-height: 1.8;
+    line-height: 1.85;
     min-width: 0 !important;
     max-width: 100% !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
     box-sizing: border-box !important;
+}
+
+/* İçerikteki ilk H1 zaten Hero bölümünde gösterildiğinden mükerrer görünmesini engelle */
+.yym-blog-entry-content > h1:first-of-type,
+.yym-blog-entry-content > p:first-of-type > h1:first-of-type {
+    display: none !important;
+}
+
+.yym-blog-entry-content h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 32px 0 16px;
+    line-height: 1.35;
+}
+
+.yym-blog-entry-content h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin: 38px 0 16px;
+    line-height: 1.35;
+    position: relative;
+    padding-left: 14px;
+    border-left: 4px solid #FF8A00;
+    overflow-wrap: break-word;
+}
+
+.yym-blog-entry-content h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 24px 0 10px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+}
+
+.yym-blog-entry-content p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #334155;
+    margin-bottom: 20px;
+}
+
+.yym-blog-entry-content ul,
+.yym-blog-entry-content ol {
+    margin: 16px 0 24px 0;
+    padding-left: 24px;
+    color: #334155;
+}
+
+.yym-blog-entry-content li {
+    margin-bottom: 10px;
+    line-height: 1.75;
+    font-size: 15.5px;
+}
+
+.yym-blog-entry-content li::marker {
+    color: #FF8A00;
+}
+
+.yym-blog-entry-content hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(226, 232, 240, 0.2) 0%, #E2E8F0 50%, rgba(226, 232, 240, 0.2) 100%);
+    margin: 36px 0;
+}
+
+.yym-blog-entry-content strong {
+    color: #0B1F3A;
+    font-weight: 700;
+}
+
+.yym-blog-entry-content a {
+    color: #FF8A00;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.yym-blog-entry-content a:hover {
+    color: #0B1F3A;
 }
 
 .yym-blog-entry-content img,
@@ -4490,6 +4581,7 @@ button, input, select, textarea {
 .yym-blog-entry-content embed {
     max-width: 100% !important;
     height: auto !important;
+    border-radius: 12px;
     box-sizing: border-box !important;
 }
 
@@ -4513,19 +4605,6 @@ button, input, select, textarea {
     max-width: 100% !important;
     white-space: pre-wrap !important;
     word-break: break-all !important;
-}
-
-.yym-blog-entry-content p {
-    margin-bottom: 20px;
-}
-
-.yym-blog-entry-content h2,
-.yym-blog-entry-content h3 {
-    color: #0B1F3A;
-    font-weight: 800;
-    margin: 32px 0 16px;
-    line-height: 1.35;
-    overflow-wrap: break-word;
 }
 
 /* Makale Sonu Acil Çekici Çağrı Kartı */
@@ -5123,3 +5202,180 @@ button, input, select, textarea {
 /* Map icon color overrides */
 .yym-city-arrow .yym-icon { color: currentColor; }
 .yym-btn-all-cities .yym-icon { color: currentColor; }
+
+/* ===================================================
+   404 SAYFA BULUNAMADI ŞABLONU (404.php)
+   =================================================== */
+.yym-hero-404 {
+    padding: 60px 0 45px !important;
+}
+.yym-404-container {
+    padding: 40px 20px 90px;
+    max-width: 860px;
+    margin: 0 auto;
+}
+.yym-404-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.05);
+}
+.yym-404-icon-wrap {
+    margin-bottom: 20px;
+}
+.yym-404-icon {
+    font-size: 4rem;
+    display: inline-block;
+}
+.yym-404-subheading {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0B1F3A;
+    margin-bottom: 12px;
+}
+.yym-404-text {
+    color: #64748B;
+    font-size: 15.5px;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+.yym-404-search-form {
+    display: flex;
+    max-width: 520px;
+    margin: 0 auto 36px;
+    gap: 8px;
+}
+.yym-404-search-input {
+    flex: 1;
+    height: 48px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 12px;
+    padding: 0 18px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.yym-404-search-input:focus {
+    border-color: #FF8A00;
+}
+.yym-404-search-submit {
+    height: 48px;
+    padding: 0 24px;
+    background: #FF8A00;
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.yym-404-search-submit:hover {
+    background: #e07700;
+}
+.yym-404-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    text-align: left;
+}
+@media (max-width: 600px) {
+    .yym-404-actions-grid { grid-template-columns: 1fr; }
+    .yym-404-search-form { flex-direction: column; }
+    .yym-404-card { padding: 30px 20px; }
+}
+.yym-404-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: #0B1F3A;
+    transition: all 0.2s ease;
+}
+.yym-404-action-btn:hover {
+    background: #ffffff;
+    border-color: #FF8A00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 138, 0, 0.12);
+}
+.yym-404-action-btn.yym-404-btn-primary {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+    border-color: #FF8A00;
+}
+.yym-404-ab-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+.yym-404-action-btn strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    color: #0B1F3A;
+}
+.yym-404-action-btn small {
+    display: block;
+    font-size: 12.5px;
+    color: #64748B;
+    margin-top: 2px;
+}
+
+/* ===================================================
+   BLOG KARTLARI TAŞMA KORUMASI (yym-blog-* uyumluluğu)
+   =================================================== */
+.yym-blog-thumb,
+.yym-blog-featured-img-box {
+    overflow: hidden !important;
+}
+.yym-blog-thumb img,
+.yym-blog-feat-img {
+    max-width: 100% !important;
+}
+
+/* ===================================================
+   MAKALE İÇİ ARAMA ETİKETLERİ DÜZENİ
+   =================================================== */
+.yym-article-keywords-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 32px 0 20px;
+}
+.yym-akb-title {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+.yym-akb-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.yym-content-tag-chip {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #CBD5E1;
+    color: #0B1F3A;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+.yym-content-tag-chip:hover {
+    border-color: #FF8A00;
+    color: #FF8A00;
+}
+
+

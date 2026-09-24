@@ -27,6 +27,7 @@ class YYM_SEO_Engine {
         add_action('init', array(__CLASS__, 'register_rewrite_rules'), 10);
         add_filter('query_vars', array(__CLASS__, 'register_query_vars'));
         add_action('template_redirect', array(__CLASS__, 'handle_sitemap_and_key_requests'), 1);
+        add_action('template_redirect', array(__CLASS__, 'handle_legacy_404_redirects'), 5);
 
         // Core sitemaps entegrasyonu & robots.txt
         add_filter('robots_txt', array(__CLASS__, 'append_sitemap_to_robots'), 20);
@@ -142,6 +143,68 @@ class YYM_SEO_Engine {
 
         if (!empty($sitemap_type)) {
             self::render_sitemap($sitemap_type);
+            exit;
+        }
+    }
+
+    /**
+     * Eski URL yapıları (/2026/03/19/... veya /feed/ veya https-yolyardimmerkezi-com-tr- ile başlayan)
+     * için akıllı 301 kalıcı yönlendirme.
+     */
+    public static function handle_legacy_404_redirects() {
+        if (!is_404()) {
+            return;
+        }
+
+        $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        if (empty($uri)) {
+            return;
+        }
+
+        $path = parse_url($uri, PHP_URL_PATH);
+        if (!$path) {
+            return;
+        }
+
+        $clean_path = trim($path, '/');
+        // /feed veya /feed/ sonunu temizle
+        $clean_path = preg_replace('#/feed/?$#i', '', $clean_path);
+
+        // Tarih formatı önekini kaldır (örn: 2026/03/19/slug -> slug)
+        $clean_slug = preg_replace('#^(\d{4})/(\d{2})/(\d{2})/#i', '', $clean_path);
+
+        if (empty($clean_slug)) {
+            return;
+        }
+
+        global $wpdb;
+
+        // 1. Olası slug varyasyonlarını kontrol et
+        $candidate_slugs = array(
+            $clean_slug,
+            'https-yolyardimmerkezi-com-tr-' . $clean_slug,
+        );
+
+        foreach ($candidate_slugs as $c_slug) {
+            $post_id = $wpdb->get_var($wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s AND post_status = 'publish' LIMIT 1",
+                $c_slug
+            ));
+            if ($post_id) {
+                wp_safe_redirect(get_permalink($post_id), 301);
+                exit;
+            }
+        }
+
+        // 2. Eğer bulunamadıysa LIKE ile eşleştir (eski aktarım slugları için)
+        $like_slug = '%' . $wpdb->esc_like($clean_slug) . '%';
+        $post_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE post_name LIKE %s AND post_status = 'publish' ORDER BY ID DESC LIMIT 1",
+            $like_slug
+        ));
+
+        if ($post_id) {
+            wp_safe_redirect(get_permalink($post_id), 301);
             exit;
         }
     }

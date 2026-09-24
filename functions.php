@@ -660,3 +660,46 @@ require_once get_template_directory() . '/inc/legal-pages.php';
 require_once get_template_directory().'/inc/firm-source.php';
 
 add_action('wp_enqueue_scripts',function(){if(is_front_page())wp_enqueue_style('mis360-home-launch',get_template_directory_uri().'/assets/css/home-launch-banner.css',array(),filemtime(get_template_directory().'/assets/css/home-launch-banner.css'));},40);
+
+/**
+ * Blog makale içeriklerindeki AI taslak artıklarını (mükerrer H1, SEO Anahtar Kelimeler, Alternatif Başlıklar)
+ * zarif etiket bulutuna veya şık bilgilendirmeye dönüştür / temizle.
+ */
+function yym_clean_and_format_blog_content($content) {
+    if (!is_singular('post')) {
+        return $content;
+    }
+
+    // 1. Mükerrer ilk H1 başlığını temizle (Hero alanında zaten mevcut)
+    $content = preg_replace('/^\s*<h1[^>]*>.*?<\/h1>\s*/si', '', $content, 1);
+
+    // 2. Shortcode etrafındaki hatalı <p> etiketlerini temizle
+    $content = preg_replace('/<p>\s*(<section class="yym-firma-slider-wrapper"[^>]*>.*?<\/section>)\s*<\/p>/si', '$1', $content);
+
+    // 3. "SEO Anahtar Kelimeler" bölümünü şık etiket çiplerine dönüştür
+    $content = preg_replace_callback(
+        '/<h2[^>]*>(?:SEO\s+)?Anahtar\s+Kelimeler[^<]*<\/h2>\s*<p[^>]*>(.*?)<\/p>/si',
+        function ($matches) {
+            $raw_lines = preg_split('/<br\s*\/?>|\r\n|\n/i', $matches[1]);
+            $chips = array();
+            foreach ($raw_lines as $line) {
+                $line = trim(strip_tags($line));
+                if (!empty($line)) {
+                    $chips[] = '<span class="yym-content-tag-chip">🏷️ ' . esc_html($line) . '</span>';
+                }
+            }
+            if (empty($chips)) {
+                return '';
+            }
+            return '<div class="yym-article-keywords-box"><span class="yym-akb-title">İlgili Arama Terimleri:</span><div class="yym-akb-chips">' . implode('', $chips) . '</div></div>';
+        },
+        $content
+    );
+
+    // 4. "Alternatif Başlıklar" gibi AI taslak notlarını ziyaretçiye gizle
+    $content = preg_replace('/<h2[^>]*>Alternatif\s+(?:Arama\s+)?Ba[sş]l[ıi]klar[ıi]?[^<]*<\/h2>\s*<p[^>]*>.*?<\/p>/si', '', $content);
+
+    return $content;
+}
+add_filter('the_content', 'yym_clean_and_format_blog_content', 20);
+

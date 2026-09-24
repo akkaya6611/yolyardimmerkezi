@@ -154,6 +154,10 @@ function yym_render_firma_meta_box($post) {
     $badge     = get_post_meta($post->ID, '_firma_badge', true);
     $rating    = get_post_meta($post->ID, '_firma_rating', true);
     $rating_cnt= get_post_meta($post->ID, '_firma_review_count', true);
+    $is_verified   = get_post_meta($post->ID, '_firma_is_verified', true);
+    $license_type  = get_post_meta($post->ID, '_firma_license_type', true);
+    $has_insurance = get_post_meta($post->ID, '_firma_has_insurance', true);
+    $is_vip        = get_post_meta($post->ID, '_firma_is_vip', true);
     ?>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 10px 0;">
         <p>
@@ -204,6 +208,44 @@ function yym_render_firma_meta_box($post) {
             <input type="text" name="_firma_review_count" value="<?php echo esc_attr($rating_cnt ? $rating_cnt : '340'); ?>" style="width: 100%; padding: 8px;" placeholder="340">
         </p>
     </div>
+
+    <!-- 🛡️ GÜVENLİK, LİSANS VE VIP VİTRİN AYARLARI -->
+    <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 18px; margin-top: 14px;">
+        <h4 style="margin: 0 0 14px 0; color: #0F172A; font-size: 15px;">🛡️ Kurumsal Güven, K1/K2 Yetki Belgesi ve VIP Vitrin</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div style="background: #ECFDF5; border: 1px solid #10B981; border-radius: 10px; padding: 14px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: #065F46; cursor: pointer;">
+                    <input type="checkbox" name="_firma_is_verified" value="1" <?php checked($is_verified, '1'); ?>>
+                    🛡️ Doğrulanmış Lisanslı Esnaf (K1/K2 Onaylı)
+                </label>
+                <p style="margin: 6px 0 10px 24px; font-size: 12px; color: #047857;">
+                    İşaretlenirse kartlarda yeşil kalkanlı <strong>"🛡️ K1/K2 Belgeli & Sigortalı"</strong> rozeti çıkar. Korsan çekicilere karşı tüketici güvenini artırır.
+                </p>
+                <div style="margin-left: 24px;">
+                    <label style="font-size: 12px; font-weight: 600; color: #065F46;">Yetki Belgesi Türü:</label>
+                    <select name="_firma_license_type" style="width: 100%; padding: 6px; margin-top: 4px; border-radius: 6px;">
+                        <option value="K1 Yetki Belgeli Nakliyatçı" <?php selected($license_type, 'K1 Yetki Belgeli Nakliyatçı'); ?>>K1 Karayolu Taşıma Yetki Belgesi</option>
+                        <option value="K2 Hususi Taşıma Belgeli" <?php selected($license_type, 'K2 Hususi Taşıma Belgeli'); ?>>K2 Taşıma Yetki Belgesi</option>
+                        <option value="Vergi Levhalı Resmi Esnaf" <?php selected($license_type, 'Vergi Levhalı Resmi Esnaf'); ?>>Resmi Vergi Levhalı Esnaf</option>
+                    </select>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #065F46; margin-top: 8px; cursor: pointer;">
+                        <input type="checkbox" name="_firma_has_insurance" value="1" <?php checked($has_insurance !== '0'); ?>>
+                        %100 Emtia Taşıma Sigortası Teminatı Mevcut
+                    </label>
+                </div>
+            </div>
+
+            <div style="background: #FFFBEB; border: 1px solid #F59E0B; border-radius: 10px; padding: 14px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-weight: bold; color: #92400E; cursor: pointer;">
+                    <input type="checkbox" name="_firma_is_vip" value="1" <?php checked($is_vip, '1'); ?>>
+                    👑 Bölge Nöbetçi Lideri (VIP Sabitleme)
+                </label>
+                <p style="margin: 6px 0 0 24px; font-size: 12px; color: #B45309;">
+                    İşaretlenirse bu firma ilçedeki/ildeki aramalarda ve makale slider'larında <strong>EN BAŞA (1. SIRAYA)</strong> sabitlenir. Kartı altın sarısı ışıltılı çerçeve ve <strong>"👑 NÖBETÇİ LİDER ÇEKİCİ"</strong> unvanıyla öne çıkar.
+                </p>
+            </div>
+        </div>
+    </div>
     <?php
 }
 
@@ -230,6 +272,7 @@ function yym_save_firma_meta($post_id) {
         '_firma_badge',
         '_firma_rating',
         '_firma_review_count',
+        '_firma_license_type',
     );
 
     foreach ($fields as $field) {
@@ -237,6 +280,11 @@ function yym_save_firma_meta($post_id) {
             update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
         }
     }
+
+    // Doğrulama ve VIP Onayları
+    update_post_meta($post_id, '_firma_is_verified', isset($_POST['_firma_is_verified']) ? '1' : '0');
+    update_post_meta($post_id, '_firma_has_insurance', isset($_POST['_firma_has_insurance']) ? '1' : '0');
+    update_post_meta($post_id, '_firma_is_vip', isset($_POST['_firma_is_vip']) ? '1' : '0');
 }
 add_action('save_post_firma', 'yym_save_firma_meta');
 

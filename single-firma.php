@@ -66,6 +66,10 @@ while (have_posts()) : the_post();
     $location_label = implode(' / ', array_filter(array($city, $district)));
 
     $is_station = has_term('sarj-istasyonu', 'firma_kategori', $post_id);
+    $is_verified   = get_post_meta($post_id, '_firma_is_verified', true) === '1';
+    $license_type  = get_post_meta($post_id, '_firma_license_type', true) ?: 'K1/K2 Yetki Belgeli Nakliyatçı';
+    $has_insurance = get_post_meta($post_id, '_firma_has_insurance', true) !== '0';
+    $is_vip        = get_post_meta($post_id, '_firma_is_vip', true) === '1';
 
     // WhatsApp formatı
 
@@ -205,7 +209,20 @@ while (have_posts()) : the_post();
 
                 <div class="yym-fb-info-col">
 
-                    <div class="yym-fb-badges-row"><?php if ($category_label) : ?><span class="yym-badge-pill yym-badge-blue"><?php echo esc_html($category_label); ?></span><?php endif; ?></div>
+                    <div class="yym-fb-badges-row">
+                        <?php if ($is_vip) : ?>
+                            <span class="yym-badge-pill" style="background:#FFFBEB;color:#B45309;border:1.5px solid #F59E0B;font-weight:800;display:inline-flex;align-items:center;gap:4px;">👑 BÖLGE LİDERİ NÖBETÇİ ÇEKİCİ</span>
+                        <?php endif; ?>
+                        <?php if ($category_label) : ?>
+                            <span class="yym-badge-pill yym-badge-blue"><?php echo esc_html($category_label); ?></span>
+                        <?php endif; ?>
+                        <?php if ($is_verified) : ?>
+                            <span class="yym-badge-pill" style="background:#ECFDF5;color:#065F46;border:1.5px solid #10B981;font-weight:700;display:inline-flex;align-items:center;gap:4px;">🛡️ <?php echo esc_html($license_type); ?></span>
+                            <?php if ($has_insurance) : ?>
+                                <span class="yym-badge-pill" style="background:#F0FDF4;color:#15803D;border:1.5px solid #86EFAC;font-weight:600;display:inline-flex;align-items:center;gap:4px;">🛡️ %100 Emtia Taşıma Sigortalı</span>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
 
 
 

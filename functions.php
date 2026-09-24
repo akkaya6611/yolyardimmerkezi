@@ -37,6 +37,7 @@ require_once get_template_directory() . '/inc/theme-updater.php';
 require_once get_template_directory() . '/inc/ads-manager.php';
 require_once get_template_directory() . '/inc/custom-login.php';
 require_once get_template_directory() . '/inc/firma-slider.php';
+require_once get_template_directory() . '/inc/transit-routes.php';
 
 
 

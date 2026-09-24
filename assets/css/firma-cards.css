@@ -77,3 +77,56 @@
 .mis360-firma-card .mis360-fc-details{grid-column:1/-1;background:#17324f;color:#fff;border-color:#17324f}
 .mis360-firma-card .mis360-fc-details:hover{background:#244966;border-color:#244966;color:#fff}
 .mis360-firma-card .mis360-fc-details:focus-visible{outline:3px solid #b85d00;outline-offset:3px}
+
+
+/* ===================================================
+   VIP FİRMA VİTRİN KARTI & K1/K2 DOĞRULANMIŞ ESNAF ROZETİ
+   =================================================== */
+.mis360-firma-card.mis360-fc-vip {
+    position: relative;
+    border: 2px solid #FF8A00 !important;
+    background: linear-gradient(180deg, #FFFAF3 0%, #FFFFFF 100%) !important;
+    box-shadow: 0 8px 30px rgba(255, 138, 0, 0.12) !important;
+}
+.mis360-firma-card.mis360-fc-vip:hover {
+    border-color: #E67A00 !important;
+    box-shadow: 0 14px 38px rgba(255, 138, 0, 0.22) !important;
+    transform: translateY(-2px);
+}
+.mis360-fc-vip-crown {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #FF8A00 0%, #D97706 100%);
+    color: #ffffff !important;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin-bottom: 7px;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.mis360-fc-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #ECFDF5;
+    color: #065F46 !important;
+    border: 1px solid #A7F3D0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin-top: 8px;
+    width: fit-content;
+}
+.mis360-fc-verified-badge svg {
+    width: 13px;
+    height: 13px;
+    color: #059669;
+    flex-shrink: 0;
+}

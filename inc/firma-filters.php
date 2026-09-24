@@ -148,3 +148,22 @@ function mis360_mobile_tyre_notice($post_id) {
     </div>
     <?php
 }
+
+
+// VIP Firmaları (Öne Çıkan Nöbetçi Liderleri) arama ve arşiv sonuçlarında en üstte listele
+add_filter('the_posts', function($posts, $query) {
+    if (is_admin() || !$query->is_main_query() || !($query->is_post_type_archive('firma') || $query->is_tax(array('firma_kategori','firma_sehir')))) {
+        return $posts;
+    }
+    if (!empty($posts) && is_array($posts)) {
+        usort($posts, function($a, $b) {
+            $vip_a = (int) get_post_meta($a->ID, '_firma_is_vip', true);
+            $vip_b = (int) get_post_meta($b->ID, '_firma_is_vip', true);
+            if ($vip_a !== $vip_b) {
+                return $vip_b - $vip_a;
+            }
+            return strtotime($b->post_date) - strtotime($a->post_date);
+        });
+    }
+    return $posts;
+}, 10, 2);

@@ -403,6 +403,18 @@ function mis360_firma_slider_shortcode($raw_atts = array()) {
         }
     }
 
+    // VIP Firmaları (Bölge Nöbetçi Liderleri) en başa (1. sıraya) sırala
+    if (!empty($firma_query->posts)) {
+        usort($firma_query->posts, function($a, $b) {
+            $vip_a = (int) get_post_meta($a->ID, '_firma_is_vip', true);
+            $vip_b = (int) get_post_meta($b->ID, '_firma_is_vip', true);
+            if ($vip_a !== $vip_b) {
+                return $vip_b - $vip_a; // VIP = 1 öne geçer
+            }
+            return strtotime($b->post_date) - strtotime($a->post_date);
+        });
+    }
+
     // Başlık ve Alt Başlık belirleme
     if (!empty($custom_title)) {
         $slider_title = $custom_title;

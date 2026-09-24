@@ -58,8 +58,12 @@ $card_rating_raw = str_replace(',', '.', trim((string) get_post_meta($card_id, '
 $card_rating = is_numeric($card_rating_raw) && (float) $card_rating_raw > 0 && (float) $card_rating_raw <= 5 ? (float) $card_rating_raw : null;
 $card_reviews = trim((string) get_post_meta($card_id, '_firma_review_count', true));
 $card_excerpt = has_excerpt($card_id) ? wp_trim_words(wp_strip_all_tags(get_the_excerpt($card_id)), 20, '…') : '';
+
+$card_is_verified   = get_post_meta($card_id, '_firma_is_verified', true) === '1';
+$card_license_type  = get_post_meta($card_id, '_firma_license_type', true) ?: 'K1/K2 Yetki Belgeli';
+$card_is_vip        = get_post_meta($card_id, '_firma_is_vip', true) === '1';
 ?>
-<article class="mis360-firma-card" <?php echo mis360_metrics_attributes($card_id); ?>>
+<article class="mis360-firma-card<?php echo $card_is_vip ? ' mis360-fc-vip' : ''; ?>" <?php echo mis360_metrics_attributes($card_id); ?>>
     <div class="mis360-fc-header">
         <a class="mis360-fc-image" href="<?php echo esc_url($card_url); ?>" tabindex="-1" aria-hidden="true">
             <span class="mis360-fc-initials"><?php echo esc_html($card_initials ?: 'F'); ?></span>
@@ -68,12 +72,21 @@ $card_excerpt = has_excerpt($card_id) ? wp_trim_words(wp_strip_all_tags(get_the_
             <?php endif; ?>
         </a>
         <div class="mis360-fc-identity">
+            <?php if ($card_is_vip) : ?>
+                <span class="mis360-fc-vip-crown">👑 NÖBETÇİ LİDER ÇEKİCİ</span>
+            <?php endif; ?>
             <span class="mis360-fc-label">Yol yardım firması</span>
             <<?php echo $card_heading; ?> class="mis360-fc-title"><a href="<?php echo esc_url($card_url); ?>"><?php echo esc_html($card_name); ?></a></<?php echo $card_heading; ?>>
             <p class="mis360-fc-location">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
                 <span><?php echo esc_html($card_location ?: 'Konum belirtilmemiş'); ?></span>
             </p>
+            <?php if ($card_is_verified) : ?>
+                <span class="mis360-fc-verified-badge" title="Resmi K1/K2 Taşıma Yetki Belgeli ve Emtia Sigortalı Güvenli Esnaf">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    <span><?php echo esc_html($card_license_type); ?> &amp; Sigortalı</span>
+                </span>
+            <?php endif; ?>
         </div>
     </div>
     <?php if ($card_rating !== null) : ?>

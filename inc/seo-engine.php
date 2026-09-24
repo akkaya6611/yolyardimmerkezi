@@ -252,7 +252,12 @@ class YYM_SEO_Engine {
                 SELECT p.ID, p.post_modified_gmt, p.post_title, t.meta_value AS thumbnail_id
                 FROM {$wpdb->posts} p
                 LEFT JOIN {$wpdb->postmeta} t ON (p.ID = t.post_id AND t.meta_key = '_thumbnail_id')
-                WHERE p.post_type = 'page' AND p.post_status = 'publish' AND p.ID != %d
+                WHERE p.post_type = 'page' 
+                  AND p.post_status = 'publish' 
+                  AND p.ID != %d
+                  AND p.post_name NOT LIKE 'https-%%'
+                  AND p.post_name NOT LIKE '%%sample-page%%'
+                  AND p.post_name NOT LIKE '%%demo%%'
                 ORDER BY p.post_modified_gmt DESC
                 LIMIT 5000
             ", $front_id));

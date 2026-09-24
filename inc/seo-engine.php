@@ -48,6 +48,7 @@ class YYM_SEO_Engine {
             'indexnow_enabled'    => true,
             'indexnow_key'        => '',
             'google_ping_enabled' => true,
+            'google_verification' => 'FGZh7eYdOuEdVSO9PfVtQx7m7HwdG7TpqqNK998UOYk',
             'auto_post_types'     => array('firma', 'bolge', 'hizmet', 'post', 'page'),
         );
 
@@ -550,6 +551,9 @@ class YYM_SEO_Engine {
             $options = self::get_options();
             $options['indexnow_enabled']    = !empty($_POST['indexnow_enabled']);
             $options['google_ping_enabled'] = !empty($_POST['google_ping_enabled']);
+            if (isset($_POST['google_verification'])) {
+                $options['google_verification'] = sanitize_text_field(wp_unslash($_POST['google_verification']));
+            }
             update_option(self::OPTION_KEY, $options);
             wp_safe_redirect(add_query_arg(array('page' => 'yym-seo-engine', 'msg' => 'settings_saved'), admin_url('admin.php')));
             exit;
@@ -698,6 +702,14 @@ class YYM_SEO_Engine {
                             <?php _e('Yeni İçerikte Google & Bing Harita Pinglemesini Çalıştır', 'yol-yardim-merkezi'); ?>
                         </label>
 
+                        <div style="margin-top: 14px; margin-bottom: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+                            <label style="display: block; font-size: 0.85rem; color: #334155; font-weight: 600; margin-bottom: 5px;">
+                                🔍 <?php _e('Google Search Console Doğrulama Kodu:', 'yol-yardim-merkezi'); ?>
+                            </label>
+                            <input type="text" name="google_verification" value="<?php echo esc_attr($options['google_verification']); ?>" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; font-family: monospace;">
+                            <span style="display: block; font-size: 0.75rem; color: #64748b; margin-top: 4px;"><?php _e('HTML meta etiketi content="..." değeri. Sitenin <head> etiketine otomatik yerleştirilir.', 'yol-yardim-merkezi'); ?></span>
+                        </div>
+
                         <div style="margin-top: 15px;">
                             <button type="submit" class="button button-primary" style="font-weight: 600; border-radius: 6px;">
                                 💾 <?php _e('Ayarları Kaydet', 'yol-yardim-merkezi'); ?>
@@ -837,3 +849,11 @@ class YYM_SEO_Engine {
 
 // Başlat
 add_action('after_setup_theme', array('YYM_SEO_Engine', 'init'));
+
+/**
+ * Google Search Console Doğrulama Kodunu Döndüren Yardımcı Fonksiyon
+ */
+function yym_get_google_verification() {
+    $options = YYM_SEO_Engine::get_options();
+    return !empty($options['google_verification']) ? $options['google_verification'] : 'FGZh7eYdOuEdVSO9PfVtQx7m7HwdG7TpqqNK998UOYk';
+}

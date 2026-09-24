@@ -19,6 +19,9 @@ $address = yym_get_address();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
+    <!-- Google Search Console Doğrulama Kodu -->
+    <meta name="google-site-verification" content="<?php echo esc_attr(function_exists('yym_get_google_verification') ? yym_get_google_verification() : 'FGZh7eYdOuEdVSO9PfVtQx7m7HwdG7TpqqNK998UOYk'); ?>" />
+    
     <!-- Google Fonts -->
     <!-- Preload main stylesheet for faster rendering -->
     <link rel="preload" href="<?php echo esc_url(get_template_directory_uri() . '/assets/css/main.css'); ?>" as="style">

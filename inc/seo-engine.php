@@ -22,8 +22,9 @@ class YYM_SEO_Engine {
     const MAX_LOGS     = 50;
 
     public static function init() {
-        // Rewrite kuralları ve istek yakalama
-        add_action('init', array(__CLASS__, 'register_rewrite_rules'));
+        // İstekleri hem erken init'te hem template_redirect'te yakala
+        add_action('init', array(__CLASS__, 'handle_sitemap_and_key_requests'), 2);
+        add_action('init', array(__CLASS__, 'register_rewrite_rules'), 10);
         add_filter('query_vars', array(__CLASS__, 'register_query_vars'));
         add_action('template_redirect', array(__CLASS__, 'handle_sitemap_and_key_requests'), 1);
 
@@ -79,6 +80,12 @@ class YYM_SEO_Engine {
         if (!empty($options['indexnow_key'])) {
             add_rewrite_rule('^' . preg_quote($options['indexnow_key'], '/') . '\.txt$', 'index.php?yym_indexnow_key_verify=1', 'top');
         }
+
+        // Rewrite kurallarını otomatik veritabanına işle (404 almamak için)
+        if (get_option('yym_seo_rewrite_flushed_v1') !== '1.3.4') {
+            flush_rewrite_rules(false);
+            update_option('yym_seo_rewrite_flushed_v1', '1.3.4');
+        }
     }
 
     /**
@@ -98,9 +105,23 @@ class YYM_SEO_Engine {
         $uri     = !empty($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
         $path    = trim((string)parse_url($uri, PHP_URL_PATH), '/');
 
+        // Alt dizin kuruluysa yolu temizle
+        $home_path = trim((string)parse_url(home_url(), PHP_URL_PATH), '/');
+        if (!empty($home_path) && strpos($path, $home_path . '/') === 0) {
+            $path = substr($path, strlen($home_path) + 1);
+        } elseif (!empty($home_path) && $path === $home_path) {
+            $path = '';
+        }
+
+        $base_name = basename($path);
+
         // 1. IndexNow Anahtar Doğrulama Dosyası (örneğin /e4a781c8b9d04...txt)
         $verify_var = get_query_var('yym_indexnow_key_verify');
-        if (!empty($verify_var) || (!empty($options['indexnow_key']) && $path === $options['indexnow_key'] . '.txt')) {
+        if (!empty($verify_var) || (!empty($options['indexnow_key']) && ($path === $options['indexnow_key'] . '.txt' || $base_name === $options['indexnow_key'] . '.txt'))) {
+            status_header(200);
+            if (function_exists('http_response_code')) {
+                http_response_code(200);
+            }
             header('Content-Type: text/plain; charset=utf-8');
             header('X-Robots-Tag: noindex');
             echo esc_html($options['indexnow_key']);
@@ -113,9 +134,9 @@ class YYM_SEO_Engine {
 
         if (!empty($sitemap_var)) {
             $sitemap_type = sanitize_key($sitemap_var);
-        } elseif ($path === 'sitemap.xml') {
+        } elseif ($path === 'sitemap.xml' || $base_name === 'sitemap.xml') {
             $sitemap_type = 'index';
-        } elseif (preg_match('#^sitemap-([a-z0-9_-]+)\.xml$#i', $path, $matches)) {
+        } elseif (preg_match('#(?:^|/)sitemap-([a-z0-9_-]+)\.xml$#i', $path, $matches)) {
             $sitemap_type = sanitize_key($matches[1]);
         }
 
@@ -134,6 +155,12 @@ class YYM_SEO_Engine {
             ob_end_clean();
         }
 
+        // Kesinlikle 200 OK başlığı gönder
+        status_header(200);
+        if (function_exists('http_response_code')) {
+            http_response_code(200);
+        }
+
         header('Content-Type: application/xml; charset=utf-8');
         header('X-Robots-Tag: noindex, follow');
         header('Cache-Control: public, max-age=3600');
@@ -145,6 +172,7 @@ class YYM_SEO_Engine {
         } else {
             self::render_sub_sitemap($type);
         }
+        exit;
     }
 
     /**

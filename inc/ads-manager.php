@@ -50,7 +50,31 @@ function yym_register_ads_customizer($wp_customize) {
         'type'        => 'checkbox',
     ));
 
-    // 3. Özel Head Kodu (Opsiyonel alternatif)
+    // 3. Ana Sayfada Üst Banner Reklamını Göster (Varsayılan: Kapalı)
+    $wp_customize->add_setting('yym_ad_header_show_on_home', array(
+        'default'           => '0',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('yym_ad_header_show_on_home', array(
+        'label'       => __('Ana Sayfada Üst Banner Reklamı Göster', 'mis-360-yolyardim'),
+        'description' => __('Kapalı tutulması tavsiye edilir. Böylece ana sayfanın en üstünde devasa reklamlar çıkmaz ve kullanıcı doğrudan acil arama ve nöbetçi çekicilere odaklanır.', 'mis-360-yolyardim'),
+        'section'     => 'yym_ads_section',
+        'type'        => 'checkbox',
+    ));
+
+    // 4. Mobilde Reklamları Zarif & Kompakt Tut (Varsayılan: Açık)
+    $wp_customize->add_setting('yym_ad_mobile_compact', array(
+        'default'           => '1',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('yym_ad_mobile_compact', array(
+        'label'       => __('Mobilde Reklamları Zarif & Kompakt Tut', 'mis-360-yolyardim'),
+        'description' => __('Mobilde üst reklamı gizler ve sayfa içi reklamların 90-100 pikseli aşarak ekranı boğmasını engeller.', 'mis-360-yolyardim'),
+        'section'     => 'yym_ads_section',
+        'type'        => 'checkbox',
+    ));
+
+    // 5. Özel Head Kodu (Opsiyonel alternatif)
     $wp_customize->add_setting('yym_ad_auto_head', array(
         'default'           => '',
         'sanitize_callback' => 'yym_sanitize_ad_code',
@@ -62,7 +86,7 @@ function yym_register_ads_customizer($wp_customize) {
         'type'        => 'textarea',
     ));
 
-    // 4. Özel Sponsor Banner Alanları (Opsiyonel - Özel bir sponsor varsa AdSense yerine geçer)
+    // 6. Özel Sponsor Banner Alanları (Opsiyonel - Özel bir sponsor varsa AdSense yerine geçer)
     $slots = array(
         'header'         => __('Üst Banner (Header Altı)', 'mis-360-yolyardim'),
         'in_feed'        => __('Firma Listesi İçi (3. Firmadan Sonra)', 'mis-360-yolyardim'),
@@ -144,6 +168,14 @@ add_action('wp_head', 'yym_output_ad_head_script', 30);
  * @param string $slot (header, in_feed, single_content, single_sidebar, footer)
  */
 function yym_show_ad($slot) {
+    // 0. Ana sayfada tepe reklamını gösterme (Kullanıcı doğrudan acil çağrı ve arama alanına odaklansın)
+    if ($slot === 'header') {
+        $show_on_home = get_theme_mod('yym_ad_header_show_on_home', '0');
+        if ((is_front_page() || is_home()) && $show_on_home !== '1') {
+            return;
+        }
+    }
+
     $custom_ad = get_theme_mod('yym_ad_' . $slot);
     $client_id = yym_get_normalized_client_id();
     $auto_enabled = get_theme_mod('yym_auto_ad_slots_enabled', '1');
@@ -162,18 +194,41 @@ function yym_show_ad($slot) {
         return;
     }
 
-    // 2. Eğer özel kod yok ama AdSense Client ID tanımlıysa otomatik AdSense ünitesi üret
+    // 2. Eğer özel kod yok ama AdSense Client ID tanımlıysa akıllı boyutlandırılmış AdSense ünitesi üret
     if (!empty($client_id) && $auto_enabled) {
         $slot_class = esc_attr($slot);
+
+        // Alana özel akıllı boyutlandırma (Google'ın devasa alışveriş blokları açmasını engeller)
+        if ($slot === 'header') {
+            $format = 'horizontal';
+            $style = 'display:inline-block;width:728px;max-width:100%;height:90px;max-height:90px;';
+            $responsive = 'false';
+        } elseif ($slot === 'footer') {
+            $format = 'horizontal';
+            $style = 'display:inline-block;width:970px;max-width:100%;height:90px;max-height:90px;';
+            $responsive = 'false';
+        } elseif ($slot === 'in_feed') {
+            $format = 'horizontal';
+            $style = 'display:block;width:100%;max-height:110px;';
+            $responsive = 'true';
+        } elseif ($slot === 'single_sidebar') {
+            $format = 'rectangle,vertical';
+            $style = 'display:block;width:100%;';
+            $responsive = 'true';
+        } else {
+            $format = 'auto';
+            $style = 'display:block;max-height:180px;';
+            $responsive = 'true';
+        }
         ?>
         <div class="yym-ad-container yym-ad-slot-<?php echo $slot_class; ?>" data-slot="<?php echo $slot_class; ?>">
             <div class="yym-ad-disclosure"><span>SPONSORLU BAĞLANTI</span></div>
             <div class="yym-ad-inner">
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="<?php echo esc_attr($style); ?>"
                      data-ad-client="<?php echo esc_attr($client_id); ?>"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                     data-ad-format="<?php echo esc_attr($format); ?>"
+                     data-full-width-responsive="<?php echo esc_attr($responsive); ?>"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
@@ -208,7 +263,7 @@ function yym_output_ad_styles() {
         .yym-ad-container {
             display: block;
             width: 100%;
-            margin: 24px auto;
+            margin: 18px auto;
             text-align: center;
             clear: both;
             box-sizing: border-box;
@@ -220,17 +275,17 @@ function yym_output_ad_styles() {
             letter-spacing: 0.08em;
             color: #94a3b8;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             user-select: none;
         }
         .yym-ad-inner {
             display: block;
             max-width: 100%;
-            min-height: 60px;
+            min-height: 50px;
             background: rgba(248, 250, 252, 0.7);
             border: 1px dashed rgba(203, 213, 225, 0.9);
             border-radius: 12px;
-            padding: 8px;
+            padding: 6px;
             box-sizing: border-box;
             transition: all 0.2s ease;
         }
@@ -245,32 +300,81 @@ function yym_output_ad_styles() {
             margin: 0 auto !important;
             border-radius: 8px;
         }
+
+        /* 1. Üst Reklam: Masaüstünde zarif 728x90 Leaderboard */
         .yym-ad-slot-header {
-            margin-top: 16px;
-            margin-bottom: 24px;
+            max-width: 728px;
+            max-height: 110px;
+            margin: 10px auto 14px auto;
         }
-        .yym-ad-slot-footer {
-            margin-top: 36px;
-            margin-bottom: 0;
-            padding: 0 16px;
+        .yym-ad-slot-header .yym-ad-inner {
+            max-height: 96px;
+            overflow: hidden;
         }
+
+        /* 2. Liste İçi Reklam */
         .yym-ad-slot-in_feed {
             grid-column: 1 / -1;
-            margin: 20px 0;
+            margin: 18px 0;
+            max-height: 125px;
+            overflow: hidden;
         }
+
+        /* 3. Yan Kolon Reklamı */
         .yym-ad-slot-single_sidebar {
             margin: 16px 0;
         }
         .yym-ad-slot-single_sidebar .yym-ad-inner {
             width: 100%;
         }
+
+        /* 4. Alt Footer Reklamı */
+        .yym-ad-slot-footer {
+            max-width: 970px;
+            max-height: 115px;
+            margin: 28px auto 0 auto;
+            padding: 0 16px;
+        }
+        .yym-ad-slot-footer .yym-ad-inner {
+            max-height: 96px;
+            overflow: hidden;
+        }
+
+        /* ======================================================== */
+        /* MOBİL REKLAM OPTİMİZASYONU (SİTEYİ ASLA BOĞMAZ)           */
+        /* ======================================================== */
         @media (max-width: 768px) {
+            /* Tepedeki devasa reklam mobilde TAMAMEN GİZLENİR */
+            .yym-ad-slot-header,
+            .yym-header-ad-wrap {
+                display: none !important;
+            }
+
+            /* Diğer reklamların yüksekliği zarif ve kompakt tutulur */
             .yym-ad-container {
-                margin: 16px auto;
+                margin: 12px auto !important;
+                padding: 0 8px !important;
+            }
+            .yym-ad-disclosure {
+                font-size: 8px !important;
+                margin-bottom: 2px !important;
             }
             .yym-ad-inner {
-                padding: 4px;
-                border-radius: 8px;
+                padding: 4px !important;
+                min-height: 45px !important;
+                max-height: 110px !important;
+                overflow: hidden !important;
+                border-radius: 8px !important;
+            }
+            .yym-ad-inner ins.adsbygoogle {
+                max-height: 90px !important;
+            }
+
+            /* Google Auto Ads'in mobilde kontrolsüz devleşmesini önle */
+            .google-auto-placed {
+                max-height: 110px !important;
+                overflow: hidden !important;
+                margin: 10px 0 !important;
             }
         }
     </style>

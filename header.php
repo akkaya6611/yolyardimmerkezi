@@ -134,9 +134,13 @@ $address = yym_get_address();
 
 <?php 
 // Üst Reklam Alanı (Header Altı)
+// Ana sayfada ve mobilde tepe reklamı gösterilmez; ziyaretçi doğrudan acil çağrı ve arama butonlarını görür.
 if (function_exists('yym_show_ad')) {
-    echo '<div class="lst-container">';
-    yym_show_ad('header');
-    echo '</div>';
+    $show_on_home = get_theme_mod('yym_ad_header_show_on_home', '0');
+    if ((!is_front_page() && !is_home()) || $show_on_home === '1') {
+        echo '<div class="lst-container yym-header-ad-wrap">';
+        yym_show_ad('header');
+        echo '</div>';
+    }
 }
 ?>

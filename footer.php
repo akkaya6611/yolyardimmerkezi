@@ -389,6 +389,7 @@ if (function_exists('yym_show_ad')) {
 
 
             <p>© <?php echo date('Y'); ?> Yol Yardım Merkezi. Tüm Hakları Saklıdır. Yol yardım ve işletme rehberi.</p>
+            <p class="yym-footer-credits">Tasarım: <a href="https://misteknoloji360.com.tr/" target="_blank" rel="noopener noreferrer" style="color:#ff8a00;text-decoration:none;font-weight:600;">MisTeknoloji360</a> ❤️</p>
 
 
 

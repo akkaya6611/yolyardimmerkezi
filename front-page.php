@@ -13,7 +13,6 @@ get_header();
 ?>
 
 <main id="primary" class="site-main yym-home-main">
-    <?php get_template_part('template-parts/home-launch-banner'); ?>
     <!-- 1. HERO BÖLÜMÜ: Gece Yol Manzarası, Büyük Arama Alanı ve Güven İkonları -->
     <?php get_template_part('template-parts/home-hero'); ?>
 

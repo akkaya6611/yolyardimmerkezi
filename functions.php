@@ -749,9 +749,7 @@ require_once get_template_directory().'/inc/claim-admin.php';
 
 require_once get_template_directory() . '/inc/legal-pages.php';
 
-require_once get_template_directory().'/inc/firm-source.php';
-
-add_action('wp_enqueue_scripts',function(){if(is_front_page())wp_enqueue_style('mis360-home-launch',get_template_directory_uri().'/assets/css/home-launch-banner.css',array(),filemtime(get_template_directory().'/assets/css/home-launch-banner.css'));},40);
+require_once get_template_directory() . '/inc/firm-source.php';
 
 /**
  * Blog makale içeriklerindeki AI taslak artıklarını (mükerrer H1, SEO Anahtar Kelimeler, Alternatif Başlıklar)

@@ -1,1 +1,13 @@
-.mis360-launch-strip{background:#fff4e5;border-bottom:1px solid #f3d4a9;color:#10253e}.mis360-launch-strip-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:22px;padding-bottom:22px}.mis360-launch-strip-copy{min-width:0}.mis360-launch-strip-tag{display:block;font-size:11px;font-weight:800;letter-spacing:1.6px;color:#944500;margin-bottom:5px}.mis360-launch-strip h2{font-size:clamp(19px,2vw,27px);line-height:1.3;margin:0;color:#10253e}.mis360-launch-strip h2 strong{color:#a34b00}.mis360-launch-strip p{font-size:13px;color:#46576a;margin:6px 0 0;line-height:1.5}.mis360-launch-strip-button{display:inline-flex;align-items:center;justify-content:center;gap:28px;flex-shrink:0;background:#ff8a00;color:#10253e;padding:15px 25px;border-radius:10px;font-weight:800;font-size:15px;text-decoration:none;transition:background .15s}.mis360-launch-strip-button:hover{background:#f59a22;color:#10253e}.mis360-launch-strip-button:focus-visible{outline:3px solid #10253e;outline-offset:4px}@media(max-width:600px){.mis360-launch-strip-inner{align-items:stretch;flex-direction:column;gap:14px;padding:18px 20px}.mis360-launch-strip h2{font-size:21px}.mis360-launch-strip-button{width:100%;box-sizing:border-box;padding:12px 20px}.mis360-launch-strip p{font-size:12px}}
+.mis360-launch-strip,
+.mis360-launch-strip-inner,
+.mis360-launch-strip-copy,
+.mis360-launch-strip-button {
+    display: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+}

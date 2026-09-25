@@ -5476,4 +5476,19 @@ button, input, select, textarea {
     color: #FF8A00;
 }
 
+/* Lansman bildirim seridi tamamen kaldirildi */
+.mis360-launch-strip,
+.mis360-launch-strip-inner,
+.mis360-launch-strip-copy,
+.mis360-launch-strip-button {
+    display: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+}
+
 

@@ -177,34 +177,71 @@ add_action('send_headers', function () {
 });
 
 
-// SEO & Geo meta tags
+// SEO & Geo meta tags (Dinamik Firma ve Yerel SEO Destekli)
 function yym_output_seo_and_geo_meta() {
-    // Description
-    if (is_singular()) {
-        $desc = wp_trim_words(get_the_excerpt(), 30, '...');
-    } else {
-        $desc = get_bloginfo('description');
-    }
     $title = wp_get_document_title();
     $url   = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    
-    // Featured image on single post, or Customizer setting, or og-default.jpg
     $image = get_theme_mod('yym_og_image');
-    if (empty($image)) {
-        if (is_singular() && has_post_thumbnail()) {
-            $image = get_the_post_thumbnail_url(null, 'large');
+
+    // Varsayılan Coğrafi Değerler (Genel Site)
+    $lat    = get_theme_mod('yym_geo_lat', '41.0082');
+    $lon    = get_theme_mod('yym_geo_lng', '28.9784');
+    $place  = get_theme_mod('yym_geo_place', 'İstanbul');
+    $region = get_theme_mod('yym_geo_region', 'TR-34');
+    $desc   = get_bloginfo('description') ?: '7/24 Acil Yol Yardım ve Oto Çekici Hizmeti';
+
+    // 1. TEKİL FİRMA SAYFASI ÖZEL GEO & SEO
+    if (is_singular('firma')) {
+        $post_id  = get_the_ID();
+        $firm_name = get_the_title($post_id);
+        $city     = get_post_meta($post_id, '_firma_city', true) ?: get_post_meta($post_id, '_firma_sehir', true);
+        $district = get_post_meta($post_id, '_firma_district', true) ?: get_post_meta($post_id, '_firma_ilce', true);
+        $phone    = get_post_meta($post_id, '_firma_phone', true);
+
+        // Şehir ve İlçe bazlı koordinat/bölge tespiti
+        if (function_exists('yym_get_city_geo_info')) {
+            $geo_info = yym_get_city_geo_info($city);
+            $region   = $geo_info['region'];
+            $lat      = get_post_meta($post_id, '_firma_lat', true) ?: (get_post_meta($post_id, '_firma_latitude', true) ?: $geo_info['lat']);
+            $lon      = get_post_meta($post_id, '_firma_lng', true) ?: (get_post_meta($post_id, '_firma_longitude', true) ?: $geo_info['lng']);
+        }
+
+        if (!empty($city)) {
+            $place = !empty($district) ? "{$district}, {$city}" : $city;
+        }
+
+        // Firma Özel Açıklama (AI ve Arama Motorları İçin Net Özet)
+        $excerpt = get_the_excerpt($post_id);
+        if (!empty($excerpt)) {
+            $desc = wp_strip_all_tags($excerpt);
         } else {
-            $image = get_template_directory_uri() . '/assets/images/og-default.jpg';
+            $desc = "{$firm_name}, {$place} bölgesinde 7/24 oto kurtarma, çekici ve acil yol yardım hizmeti sunmaktadır." . (!empty($phone) ? " Doğrudan iletişim: {$phone}" : "");
+        }
+
+        // Firma Görseli
+        if (has_post_thumbnail($post_id)) {
+            $image = get_the_post_thumbnail_url($post_id, 'large');
+        } else {
+            $avatar_meta = get_post_meta($post_id, '_firma_image_url', true);
+            if (!empty($avatar_meta)) {
+                $image = $avatar_meta;
+            }
+        }
+    } elseif (is_singular()) {
+        $excerpt = get_the_excerpt();
+        if (!empty($excerpt)) {
+            $desc = wp_trim_words($excerpt, 30, '...');
+        }
+        if (has_post_thumbnail()) {
+            $image = get_the_post_thumbnail_url(null, 'large');
         }
     }
 
-    // Geo defaults (Istanbul)
-    $lat = get_theme_mod('yym_geo_lat', '41.0082');
-    $lon = get_theme_mod('yym_geo_lng', '28.9784');
-    $place = get_theme_mod('yym_geo_place', 'İstanbul');
-    $region = get_theme_mod('yym_geo_region', 'TR-34');
+    if (empty($image)) {
+        $image = get_template_directory_uri() . '/assets/images/og-default.jpg';
+    }
 
-    echo "\n<!-- SEO & Geo Meta Tags -->\n";
+    echo "\n<!-- SEO & Geo Meta Tags (Yol Yardim Merkezi GEO Engine) -->\n";
     // Basic SEO
     echo "<meta name=\"description\" content=\"" . esc_attr($desc) . "\">\n";
     echo "<link rel=\"canonical\" href=\"" . esc_url($url) . "\">\n";
@@ -213,13 +250,13 @@ function yym_output_seo_and_geo_meta() {
     echo "<meta property=\"og:description\" content=\"" . esc_attr($desc) . "\">\n";
     echo "<meta property=\"og:url\" content=\"" . esc_url($url) . "\">\n";
     echo "<meta property=\"og:image\" content=\"" . esc_url($image) . "\">\n";
-    echo "<meta property=\"og:type\" content=\"website\">\n";
+    echo "<meta property=\"og:type\" content=\"" . (is_singular('firma') ? 'business.business' : 'website') . "\">\n";
     // Twitter Card
     echo "<meta name=\"twitter:card\" content=\"summary_large_image\">\n";
     echo "<meta name=\"twitter:title\" content=\"" . esc_attr($title) . "\">\n";
     echo "<meta name=\"twitter:description\" content=\"" . esc_attr($desc) . "\">\n";
     echo "<meta name=\"twitter:image\" content=\"" . esc_url($image) . "\">\n";
-    // Geo tags
+    // Coğrafi Konum Meta Etiketleri (Firma & Bölgeye Özgü)
     echo "<meta name=\"geo.position\" content=\"" . esc_attr($lat) . ";" . esc_attr($lon) . "\">\n";
     echo "<meta name=\"geo.placename\" content=\"" . esc_attr($place) . "\">\n";
     echo "<meta name=\"geo.region\" content=\"" . esc_attr($region) . "\">\n";

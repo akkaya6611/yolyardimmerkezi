@@ -298,7 +298,8 @@ html {
     scroll-behavior: smooth;
     font-size: 16px;
     max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
+    overflow-x: clip;
 }
 
 body,
@@ -309,7 +310,21 @@ body.yym-live-body {
     background-color: #ffffff;
     line-height: 1.6;
     max-width: 100%;
-    overflow-x: hidden;
+    width: 100%;
+    overflow-x: clip;
+    position: relative;
+}
+
+.yym-single-firma-article,
+.yym-fb-profile-layout,
+.yym-firma-body-wrap,
+.yym-inner-page-wrap,
+.yym-main-wrap,
+main {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: clip;
+    box-sizing: border-box;
 }
 
 a {
@@ -3044,6 +3059,18 @@ button, input, select, textarea {
     grid-template-columns: 2fr 1fr;
     gap: 36px;
     align-items: start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.yym-firma-main-col,
+.yym-firma-sidebar-col {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Sidebar Mini Profil Başlığı */
@@ -3088,6 +3115,9 @@ button, input, select, textarea {
     padding: 26px;
     margin-bottom: 30px;
     box-shadow: 0 8px 24px rgba(255, 138, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .yym-action-card-title {
@@ -3107,6 +3137,10 @@ button, input, select, textarea {
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
     margin-top: 18px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .yym-btn-action {
@@ -3123,6 +3157,10 @@ button, input, select, textarea {
     text-align: left;
     position: relative;
     box-shadow: 0 4px 14px rgba(11, 31, 58, 0.08);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .yym-btn-act-icon {
@@ -3136,6 +3174,8 @@ button, input, select, textarea {
     flex-direction: column;
     gap: 3px;
     flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .yym-btn-act-texts strong {
@@ -3204,6 +3244,10 @@ button, input, select, textarea {
     padding: 30px;
     margin-bottom: 30px;
     box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .yym-box-title {
@@ -3482,6 +3526,10 @@ button, input, select, textarea {
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .yym-cform-col,
@@ -3491,6 +3539,10 @@ button, input, select, textarea {
     flex-direction: column;
     gap: 6px;
     margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .yym-cform-label,
@@ -3510,7 +3562,10 @@ button, input, select, textarea {
 .comment-form input[type="text"],
 .comment-form input[type="email"],
 .comment-form textarea {
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
     padding: 12px 16px;
     border: 1.5px solid #CBD5E1;
     border-radius: 10px;
@@ -3591,6 +3646,10 @@ button, input, select, textarea {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: 0 4px 16px rgba(11, 31, 58, 0.04);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .yym-side-title {
@@ -3612,6 +3671,12 @@ button, input, select, textarea {
     display: flex;
     gap: 12px;
     align-items: flex-start;
+}
+
+.yym-side-c-item address {
+    font-style: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .yym-sc-icon {
@@ -3637,7 +3702,10 @@ button, input, select, textarea {
 }
 
 .yym-btn-maps-route {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     background: #0B1F3A;
     color: #ffffff !important;
     text-align: center;
@@ -3648,6 +3716,10 @@ button, input, select, textarea {
     text-decoration: none;
     margin-top: 20px;
     transition: all 0.2s;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .yym-btn-maps-route:hover {
@@ -5108,8 +5180,23 @@ button, input, select, textarea {
     .yym-interactive-map-card { padding: 24px 16px !important; border-radius: 18px !important; }
 }
 
+@media (max-width: 768px) {
+    .yym-cform-row { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .yym-comment-form-wrap { padding: 22px 18px !important; }
+    .yym-box-card { padding: 24px 18px !important; }
+    .yym-side-card { padding: 22px 18px !important; }
+    .yym-btn-submit-review,
+    .comment-form input[type="submit"],
+    .comment-form #submit {
+        width: 100% !important;
+        align-self: stretch !important;
+        justify-content: center !important;
+    }
+}
+
 @media (max-width: 640px) {
-    .yym-section { padding: 60px 16px; }
+    .lst-container { padding: 0 14px !important; }
+    .yym-section { padding: 60px 14px; }
     .yym-hero-main-title { font-size: 1.85rem; }
     .yym-section-title { font-size: 1.75rem; }
     .yym-archive-title { font-size: 1.75rem; }
@@ -5166,16 +5253,27 @@ button, input, select, textarea {
     .yym-archive-filter-form { grid-template-columns: 1fr; }
     .yym-filter-col-btn { grid-column: span 1; }
     .yym-form-row { grid-template-columns: 1fr; }
+    .yym-cform-row { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .yym-comment-form-wrap { padding: 18px 14px !important; border-radius: 14px !important; }
+    .yym-box-card { padding: 20px 14px !important; border-radius: 14px !important; }
+    .yym-side-card { padding: 20px 14px !important; border-radius: 14px !important; }
     .yym-perks-checklist-grid { grid-template-columns: 1fr; }
     .yym-seo-features-row { grid-template-columns: 1fr; }
     .yym-results-header-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
     .yym-slide-img-box, .yym-slide-img { height: 220px !important; max-height: 220px !important; }
 
-    .yym-firma-fast-actions-card { padding: 20px 16px; }
-    .yym-fast-btns-grid { grid-template-columns: 1fr; gap: 10px; }
-    .yym-btn-action { padding: 14px 16px; width: 100%; box-sizing: border-box; }
-    .yym-btn-act-texts strong { font-size: 14px; }
-    .yym-btn-act-texts span { font-size: 12.5px; }
+    .yym-firma-fast-actions-card { padding: 18px 14px !important; border-radius: 14px !important; }
+    .yym-fast-btns-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+    .yym-btn-action { padding: 13px 14px !important; width: 100% !important; box-sizing: border-box !important; }
+    .yym-btn-act-texts strong { font-size: 13.5px !important; }
+    .yym-btn-act-texts span { font-size: 12px !important; }
+    .yym-fb-profile-card { padding: 20px 14px !important; border-radius: 16px !important; }
+    .yym-fb-firm-title { font-size: 1.45rem !important; overflow-wrap: break-word !important; word-break: break-word !important; }
+    .yym-action-card-title { font-size: 1.2rem !important; }
+    .yym-box-title { font-size: 1.2rem !important; }
+    .yym-side-title { font-size: 1.1rem !important; }
+    .yym-side-c-item address { overflow-wrap: break-word !important; word-break: break-word !important; }
+    .yym-btn-maps-route { width: 100% !important; box-sizing: border-box !important; }
 
     .yym-header-logo-img { height: 38px; max-width: 175px; }
     .yym-single-blog-article { padding: 22px 18px; }
